@@ -15,6 +15,7 @@
     @apply text-2xl font-extrabold tracking-tight;
 }
 
+
 @screen md {
     .h1 {
         @apply text-5xl;
@@ -98,4 +99,77 @@ input[type="search"]::-webkit-search-results-decoration {
 .no-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+.border-radius-10{
+    border-radius: 10px;
+}
+label{
+    color: #5f5e5e
+}
+.w-50vh{
+    width: 50vw;
+}
+.height-20vh{
+    height: 20vh;
+}
+.min-height-20vh{
+    min-height: 20vh;
+}
+.object-fit{
+    object-fit: cover;
+}
+input:focus{
+    outline: none !important;
+    border: 1px solid rgb(136, 135, 135) !important;
+    --tw-ring-color: none !important;
+}
+.success{
+    color: $success;
+}
+.warning{
+    color: $warning;
+}
+.error{
+    color: $error;
+}
+
+.green{
+    color: $green;
+}
+
+.bg-success{
+    background-color: $success;
+}
+.bg-warning{
+    background-color: $warning;
+}
+.bg-error{
+    background-color: $error;
+}
+
+.bg-green{
+    background-color: $green;
+}
+.bg-blue{
+    background-color: $blue;
+}
+
+
+.link{
+    color: #1a73e8!important;
+}
+.link:hover {
+    font-weight: 500;
+}
+.nav-yellow{
+    background-color: $nav-yellow;
+}
+
+.bg-body{
+    background-color: $gray;
+}
+
+.min-height-50{
+    min-height: 50vh;
 }

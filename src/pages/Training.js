@@ -3,10 +3,9 @@ import React, { useState } from 'react';
 import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 
-// import Banner from '../partials/Banner';
-import FarmerDashboard from '../partials/farmer/FarmerDashboard';
+import CoursesDashboard from '../partials/courses/CoursesDashboard';
 
-function Dashboard() {
+function Training() {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -28,18 +27,16 @@ function Dashboard() {
             {/* Cards */}
             <div className="flex flex-col gap-6">
 
-              <FarmerDashboard/>
+              <CoursesDashboard/>
               
             </div>
 
           </div>
         </main>
 
-        {/* <Banner /> */}
-
       </div>
     </div>
   );
 }
 
-export default Dashboard;
+export default Training;

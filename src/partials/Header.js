@@ -1,18 +1,28 @@
 import React from 'react';
 import SearchModal from './header/SearchModal';
 import Notifications from './header/Notifications';
-import Help from './header/Help';
 import UserMenu from './header/UserMenu';
+import dashboard from '../images/Dashboard.png';
 
 function Header({
   sidebarOpen,
   setSidebarOpen
 }) {
   return (
-    <header className="sticky top-0 bg-white border-b border-gray-200 z-30">
+    <header className="sticky top-0 bg-white border-b border-gray-200 z-30 pt-4 pb-4">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 -mb-px">
-
+          <div className='sm_display_none'>
+            <div className="flex flex-row gap-2">
+              <div>
+                <img src={dashboard} alt="" className='pt-1'/>
+              </div>
+              <div>
+                <p className='text-lg font-medium'>Farmer</p>
+                <p className='text-lg font-medium'>Learning Center</p>
+              </div>
+            </div>
+          </div>
           {/* Header: Left side */}
           <div className="flex">
 
@@ -38,7 +48,6 @@ function Header({
 
             <SearchModal />
             <Notifications />
-            <Help />
             {/*  Divider */}
             <hr className="w-px h-6 bg-gray-200 mx-3" />
             <UserMenu />
