@@ -18,7 +18,7 @@ function TrainerCourses() {
             </div>
         </div>
         <div className="md:w-1/2">
-            <Button type="button" class="bg-blue form-btn rounded-md text-white m-auto text-sm" title="Create a Course"/>
+          <Link to="/trainer/courses/create"><Button type="button" class="bg-blue form-btn rounded-md text-white m-auto text-sm" title="Create a Course"/></Link>
             {/* <input type="text" className="border-radius-10 py-0.5 text-sm border-slate-300 text-slate-500" placeholder="Search a topic" /> */}
         </div>
       </div>

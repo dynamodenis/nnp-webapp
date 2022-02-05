@@ -12,8 +12,6 @@ function Sidebar({
   const location = useLocation();
   const { pathname } = location;
 
-  console.log(pathname)
-
   const trigger = useRef(null);
   const sidebar = useRef(null);
 
@@ -121,12 +119,12 @@ function Sidebar({
               </li>
               
               {/* Market place */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('campaigns') && 'nav-yellow'}`}>
-                <NavLink exact to="/" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('campaigns') && 'hover:text-gray-900'}`}>
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('marketplace') && 'nav-yellow'}`}>
+                <NavLink exact to="/marketplace" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('marketplace') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-600 ${pathname.includes('campaigns') && 'text-gray-500'}`} d="M20 7a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 0120 7zM4 23a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 014 23z" />
-                      <path className={`fill-current text-gray-400 ${pathname.includes('campaigns') && 'text-gray-300'}`} d="M17 23a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 010-2 4 4 0 004-4 1 1 0 012 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1zM7 13a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 110-2 4 4 0 004-4 1 1 0 112 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1z" />
+                      <path className={`fill-current text-gray-600 ${pathname.includes('marketplace') && 'text-gray-500'}`} d="M20 7a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 0120 7zM4 23a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 014 23z" />
+                      <path className={`fill-current text-gray-400 ${pathname.includes('marketplace') && 'text-gray-300'}`} d="M17 23a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 010-2 4 4 0 004-4 1 1 0 012 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1zM7 13a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 110-2 4 4 0 004-4 1 1 0 112 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1z" />
                     </svg>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Market Place</span>
                   </div>
@@ -144,16 +142,16 @@ function Sidebar({
                   </div>
                 </NavLink>
               </li>
-              {/* Tasks */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('tasks') && 'bg-gray-900'}`}>
-                <NavLink exact to="/" className={`block text-gray-200 hover:text-white truncate transition duration-150 ${pathname.includes('tasks') && 'hover:text-gray-200'}`}>
+              {/* users */}
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('users') && 'nav-yellow'}`}>
+                <NavLink exact to="/users" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('users') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-600 ${pathname.includes('tasks') && 'text-indigo-500'}`} d="M8 1v2H3v19h18V3h-5V1h7v23H1V1z" />
-                      <path className={`fill-current text-gray-600 ${pathname.includes('tasks') && 'text-indigo-500'}`} d="M1 1h22v23H1z" />
-                      <path className={`fill-current text-gray-400 ${pathname.includes('tasks') && 'text-indigo-300'}`} d="M15 10.586L16.414 12 11 17.414 7.586 14 9 12.586l2 2zM5 0h14v4H5z" />
+                      <path className={`fill-current text-gray-600 ${pathname.includes('users') && 'text-gray-500'}`} d="M8 1v2H3v19h18V3h-5V1h7v23H1V1z" />
+                      <path className={`fill-current text-gray-600 ${pathname.includes('users') && 'text-gray-500'}`} d="M1 1h22v23H1z" />
+                      <path className={`fill-current text-gray-400 ${pathname.includes('users') && 'text-gray-300'}`} d="M15 10.586L16.414 12 11 17.414 7.586 14 9 12.586l2 2zM5 0h14v4H5z" />
                     </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Tasks</span>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Users</span>
                   </div>
                 </NavLink>
               </li>

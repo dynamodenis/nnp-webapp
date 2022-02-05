@@ -173,3 +173,68 @@ input:focus{
 .min-height-50{
     min-height: 50vh;
 }
+.width-30{
+    width: 30vm;
+}
+
+.view-button{
+    border-radius: 10px !important;
+    border-color: 1px solid $dark-blue !important;
+    border: 1px solid $dark-blue !important;
+    cursor: pointer;
+}
+.view-button:focus{
+    outline: none;
+}
+
+.edit-button{
+    border-radius: 10px !important;
+    border-color: 1px solid $success !important;
+    border: 1px solid $success !important;
+    cursor: pointer;
+}
+.edit-button:focus{
+    outline: none;
+}
+
+.delete-button{
+    border-radius: 10px !important;
+    border-color: 1px solid $error !important;
+    border: 1px solid $error !important;
+    cursor: pointer;
+}
+.delete-button:focus{
+    outline: none;
+}
+
+
+/* -------------------------React Modal ------------------------------- */
+.ReactModal__Overlay {
+    // opacity: 0;
+    // transform: translateX(100px);
+    // transition: all 500ms ease-in-out;
+    background-color:"rgba(31, 30, 30, 0.2)",
+}
+  
+.ReactModal__Overlay--after-open {
+    opacity: 1;
+    transform: translateX(0px);
+    z-index: 10;
+}
+  
+.ReactModal__Overlay--before-close {
+    opacity: 0;
+    transform: translateX(100px);
+}
+  .ReactModal__Html--open,
+  .ReactModal__Body--open {
+    overflow: hidden; /* prevents background page from scrolling when the modal is open */
+  }
+  .ReactModal__Content {
+    background: white;
+    width: 50rem;
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+    box-shadow: 0 0 30px 0 rgba(0, 0, 0, 0.25);
+    overflow-y: auto;
+}

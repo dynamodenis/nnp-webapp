@@ -17,6 +17,11 @@ import Register from './pages/Register';
 import Training from './pages/Training';
 import TrainingDetails from './pages/TrainingDetails';
 import Trainer from './pages/Trainer';
+import CreateCourse from './pages/CreateCourse';
+import Users from './pages/Users';
+import CreateUser from './pages/CreateUser';
+import EditUser from './pages/EditUser';
+import MarketPlace from './pages/vendors/MarketPlace';
 
 function App() {
 
@@ -48,6 +53,21 @@ function App() {
         </Route>
         <Route exact path="/trainer/courses">
           <Trainer/>
+        </Route>
+        <Route exact path="/trainer/courses/create">
+          <CreateCourse/>
+        </Route>
+        <Route exact path="/users">
+          <Users/>
+        </Route>
+        <Route exact path="/users/create">
+          <CreateUser/>
+        </Route>
+        <Route exact path="/users/edit/:id">
+          <EditUser/>
+        </Route>
+        <Route exact path="/marketplace">
+          <MarketPlace/>
         </Route>
       </Switch>
     </>

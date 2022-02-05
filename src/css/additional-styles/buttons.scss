@@ -71,3 +71,73 @@
 .form-btn:focus{
     outline: none;
 }
+
+
+.add-user-btn{
+    display: block;
+    width: 50%;
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    float: right;
+    position: relative;
+
+    @media only screen and (max-width : 768px) {
+        width: 100%;
+    }
+}
+
+.add-user-btn:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $dark-blue;
+    z-index: -1;
+    border-radius: 5px;
+    transform: translateX(0);
+}
+.add-user-btn:active{
+    transform: translateY(5px);
+}
+.add-user-btn:active::before{
+    transform: translateY(0);
+}
+.add-user-btn:focus{
+    outline: none;
+}
+
+.cancel-btn{
+    display: block;
+    width: 85%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    position: relative;
+
+    @media only screen and (max-width : 768px) {
+        width: 90%;
+    }
+}
+
+.cancel-btn:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    z-index: -1;
+    border-radius: 5px;
+    transform: translateX(0);
+}
+.cancel-btn:active{
+    transform: translateY(5px);
+}
+.cancel-btn:active::before{
+    transform: translateY(0);
+}
+.cancel-btn:focus{
+    outline: none;
+}
