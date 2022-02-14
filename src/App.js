@@ -22,6 +22,9 @@ import Users from './pages/Users';
 import CreateUser from './pages/CreateUser';
 import EditUser from './pages/EditUser';
 import MarketPlace from './pages/vendors/MarketPlace';
+import LandingPage from './pages/dashboard/LandingPage';
+
+import Alert from './partials/utils/Alert';
 
 function App() {
 
@@ -35,6 +38,7 @@ function App() {
 
   return (
     <>
+      <Alert/>
       <Switch>
         <Route exact path="/login">
           <Login />
@@ -42,13 +46,20 @@ function App() {
         <Route exact path="/register">
           <Register/>
         </Route>
+        <Route exact path="/">
+          <LandingPage/>
+        </Route>
         <Route exact path="/dashboard">
           <Dashboard />
         </Route>
-        <Route exact path="/training">
+        <Route exact path="/trainings-dashboard/category/:category_id">
           <Training/>
         </Route>
-        <Route exact path="/training/:id">
+        <Route exact path="/trainings-dashboard">
+          <Training/>
+        </Route>
+
+        <Route exact path="/trainings-dashboard/category/:category_id/training/:training_id">
           <TrainingDetails/>
         </Route>
         <Route exact path="/trainer/courses">

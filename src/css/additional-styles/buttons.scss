@@ -141,3 +141,40 @@
 .cancel-btn:focus{
     outline: none;
 }
+
+
+// Explore
+.explore-btn{
+    display: block;
+    width: 85%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    position: relative;
+    border: 2px solid $success;
+
+    @media only screen and (max-width : 768px) {
+        width: 90%;
+    }
+}
+
+.explore-btn:before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #27ae60;
+    z-index: -1;
+    border-radius: 5px;
+    transform: translateX(0);
+}
+.explore-btn:active{
+    transform: translateY(5px);
+}
+.explore-btn:active::before{
+    transform: translateY(0);
+}
+.explore-btn:focus{
+    outline: none;
+}

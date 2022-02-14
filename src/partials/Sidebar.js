@@ -3,6 +3,11 @@ import { NavLink, useLocation } from 'react-router-dom';
 import logo from '../images/logo.jpeg';
 
 // import SidebarLinkGroup from './SidebarLinkGroup';
+import HomeIcon from '@mui/icons-material/Home';
+import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
+import UploadIcon from '@mui/icons-material/Upload';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 function Sidebar({
   sidebarOpen,
@@ -92,28 +97,33 @@ function Sidebar({
               <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">Menu</span>
             </h3>
             <ul className="mt-3">
+              {/* Home */}
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === '/' && 'nav-yellow'}`}>
+                <NavLink exact to="/" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname === '/' && 'hover:text-gray-900'}`}>
+                  <div className="flex items-center">
+                    <HomeIcon className={`fill-current text-gray-400 ${pathname === '/' && '!text-gray-500'}`}/>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Home</span>
+                  </div>
+                </NavLink>
+              </li>
               {/* Dashboard */}
               <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === '/dashboard' && 'nav-yellow'}`}>
                 <NavLink exact to="/dashboard" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname === '/dashboard' && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-400 ${pathname === '/dashboard' && '!text-gray-500'}`} d="M12 0C5.383 0 0 5.383 0 12s5.383 12 12 12 12-5.383 12-12S18.617 0 12 0z" />
-                      <path className={`fill-current text-gray-600 ${pathname === '/dashboard' && 'text-gray-600'}`} d="M12 3c-4.963 0-9 4.037-9 9s4.037 9 9 9 9-4.037 9-9-4.037-9-9-9z" />
-                      <path className={`fill-current text-gray-400 ${pathname === '/dashboard' && 'text-gray-200'}`} d="M12 15c-1.654 0-3-1.346-3-3 0-.462.113-.894.3-1.285L6 6l4.714 3.301A2.973 2.973 0 0112 9c1.654 0 3 1.346 3 3s-1.346 3-3 3z" />
-                    </svg>
+                    <ModelTrainingIcon className={`fill-current text-gray-500 ${pathname === '/dashboard' && '!text-gray-600'}`}/>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">My Training</span>
                   </div>
                 </NavLink>
               </li>
               {/* training */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('training') && 'nav-yellow'}`}>
-                <NavLink exact to="/training" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('training') && 'hover:text-gray-900'}`}>
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('trainings-dashboard') && 'nav-yellow'}`}>
+                <NavLink exact to="/trainings-dashboard" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('trainings-dashboard') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-600 ${pathname.includes('training') && 'text-gray-500'}`} d="M0 20h24v2H0z" />
-                      <path className={`fill-current text-gray-400 ${pathname.includes('training') && 'text-gray-300'}`} d="M4 18h2a1 1 0 001-1V8a1 1 0 00-1-1H4a1 1 0 00-1 1v9a1 1 0 001 1zM11 18h2a1 1 0 001-1V3a1 1 0 00-1-1h-2a1 1 0 00-1 1v14a1 1 0 001 1zM17 12v5a1 1 0 001 1h2a1 1 0 001-1v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1z" />
+                      <path className={`fill-current text-gray-600 ${pathname.includes('trainings-dashboard') && 'text-gray-500'}`} d="M0 20h24v2H0z" />
+                      <path className={`fill-current text-gray-400 ${pathname.includes('trainings-dashboard') && 'text-gray-300'}`} d="M4 18h2a1 1 0 001-1V8a1 1 0 00-1-1H4a1 1 0 00-1 1v9a1 1 0 001 1zM11 18h2a1 1 0 001-1V3a1 1 0 00-1-1h-2a1 1 0 00-1 1v14a1 1 0 001 1zM17 12v5a1 1 0 001 1h2a1 1 0 001-1v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1z" />
                     </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Courses</span>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Trainings</span>
                   </div>
                 </NavLink>
               </li>
@@ -122,10 +132,7 @@ function Sidebar({
               <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('marketplace') && 'nav-yellow'}`}>
                 <NavLink exact to="/marketplace" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('marketplace') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-600 ${pathname.includes('marketplace') && 'text-gray-500'}`} d="M20 7a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 0120 7zM4 23a.75.75 0 01-.75-.75 1.5 1.5 0 00-1.5-1.5.75.75 0 110-1.5 1.5 1.5 0 001.5-1.5.75.75 0 111.5 0 1.5 1.5 0 001.5 1.5.75.75 0 110 1.5 1.5 1.5 0 00-1.5 1.5A.75.75 0 014 23z" />
-                      <path className={`fill-current text-gray-400 ${pathname.includes('marketplace') && 'text-gray-300'}`} d="M17 23a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 010-2 4 4 0 004-4 1 1 0 012 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1zM7 13a1 1 0 01-1-1 4 4 0 00-4-4 1 1 0 110-2 4 4 0 004-4 1 1 0 112 0 4 4 0 004 4 1 1 0 010 2 4 4 0 00-4 4 1 1 0 01-1 1z" />
-                    </svg>
+                    <LocalGroceryStoreIcon className={`fill-current text-gray-500 ${pathname.includes('marketplace') && 'text-gray-600'}`} />
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Market Place</span>
                   </div>
                 </NavLink>
@@ -134,10 +141,7 @@ function Sidebar({
               <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('/trainer/courses') && 'nav-yellow'}`}>
                 <NavLink exact to="/trainer/courses" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/trainer/courses') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-600 ${pathname.includes('/trainer/courses') && 'text-gray-500'}`} d="M14.5 7c4.695 0 8.5 3.184 8.5 7.111 0 1.597-.638 3.067-1.7 4.253V23l-4.108-2.148a10 10 0 01-2.692.37c-4.695 0-8.5-3.184-8.5-7.11C6 10.183 9.805 7 14.5 7z" />
-                      <path className={`fill-current text-gray-400 ${pathname.includes('/trainer/courses') && 'text-gray-300'}`} d="M11 1C5.477 1 1 4.582 1 9c0 1.797.75 3.45 2 4.785V19l4.833-2.416C8.829 16.85 9.892 17 11 17c5.523 0 10-3.582 10-8s-4.477-8-10-8z" />
-                    </svg>
+                    <UploadIcon className={`fill-current text-gray-500 ${pathname.includes('/trainer/courses') && 'text-gray-600'}`}/>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">My Courses/Upload</span>
                   </div>
                 </NavLink>
@@ -146,17 +150,13 @@ function Sidebar({
               <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('users') && 'nav-yellow'}`}>
                 <NavLink exact to="/users" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('users') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-600 ${pathname.includes('users') && 'text-gray-500'}`} d="M8 1v2H3v19h18V3h-5V1h7v23H1V1z" />
-                      <path className={`fill-current text-gray-600 ${pathname.includes('users') && 'text-gray-500'}`} d="M1 1h22v23H1z" />
-                      <path className={`fill-current text-gray-400 ${pathname.includes('users') && 'text-gray-300'}`} d="M15 10.586L16.414 12 11 17.414 7.586 14 9 12.586l2 2zM5 0h14v4H5z" />
-                    </svg>
+                    <PeopleAltIcon className={`fill-current text-gray-500 ${pathname.includes('users') && 'text-gray-600'}`}/>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Users</span>
                   </div>
                 </NavLink>
               </li>
               {/* Inbox */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('inbox') && 'bg-gray-900'}`}>
+              {/* <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('inbox') && 'bg-gray-900'}`}>
                 <NavLink exact to="/" className={`block text-gray-200 hover:text-white truncate transition duration-150 ${pathname.includes('inbox') && 'hover:text-gray-200'}`}>
                   <div className="flex items-center">
                     <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
@@ -166,9 +166,9 @@ function Sidebar({
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Inbox</span>
                   </div>
                 </NavLink>
-              </li>
+              </li> */}
               {/* Calendar */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('calendar') && 'bg-gray-900'}`}>
+              {/* <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('calendar') && 'bg-gray-900'}`}>
                 <NavLink exact to="/" className={`block text-gray-200 hover:text-white truncate transition duration-150 ${pathname.includes('calendar') && 'hover:text-gray-200'}`}>
                   <div className="flex items-center">
                     <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
@@ -178,7 +178,7 @@ function Sidebar({
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Calendar</span>
                   </div>
                 </NavLink>
-              </li>
+              </li> */}
             </ul>
           </div>
         </div>

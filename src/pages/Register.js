@@ -10,12 +10,14 @@ import { Link } from 'react-router-dom';
 
 import { ValidatorForm } from 'react-form-validator-core';
 import TextValidator from '../partials/utils/TextValidator'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 function Register() {
     const form = useRef()
     const [phone, setPhone] = useState("")
-    const [email, setEmail] = useState("")
+    const [mail, setEmail] = useState("")
+    const [name, setName] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
 
@@ -24,6 +26,9 @@ function Register() {
     }
     const changeEmail = event => {
         setEmail(event.target.value)
+    }
+    const changeName = event => {
+        setName(event.target.value)
     }
     const changePassword = event => {
         setPassword(event.target.value)
@@ -66,7 +71,7 @@ function Register() {
 
     const registerUser = (e) =>{
         e.preventDefault()
-        const form = {phone, email,password}
+        const form = {phone, mail,password}
         console.log(form)
     }
 
@@ -89,10 +94,21 @@ function Register() {
                             <label htmlFor="phone" className='text-sm'>Phone Number</label>
                                 <label className="relative block text-sm md:text-base">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                                    {/* <img src={phone} alt="" className="h-5 w-5 fill-slate-300"/> */}
-                                    <i className="fas fa-mobile-alt h-5 w-5 fill-slate-300"></i>
+                                    <i className="fa fa-phone h-5 w-5 fill-slate-100"></i>
                                 </span>
                                 <TextValidator className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3" placeholder="+254700000000" type="text" name="search" value={phone} onChange={changePhone} validators={['required']}
+                                errorMessages={['Phone number is required']}/>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label htmlFor="phone" className='text-sm'>Username</label>
+                                <label className="relative block text-sm md:text-base">
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-2">
+                                    {/* <img src={Vector} alt="" className="h-5 w-5 fill-slate-300"/> */}
+                                    <i className="fa fa-user"></i>
+                                </span>
+                                <TextValidator className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3" placeholder="John Doe" type="text" name="search" value={name} onChange={changeName} validators={['required']}
                                 errorMessages={['Phone number is required']}/>
                             </label>
                         </div>
@@ -103,7 +119,7 @@ function Register() {
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     <img src={Vector} alt="" className="h-5 w-5 fill-slate-300"/>
                                 </span>
-                                <TextValidator className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3" placeholder="example@gmail.com" type="email" name="search" value={email} onChange={changeEmail} />
+                                <TextValidator className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3" placeholder="example@gmail.com" type="email" name="search" value={mail} onChange={changeEmail} />
                             </label>
                         </div>
 
