@@ -1,6 +1,6 @@
 import React,{useState, useRef} from 'react';
 import logo from '../images/logo.jpeg';
-import register from '../images/register.jpeg';
+import register from '../images/login-logo.jpeg';
 import lock from '../images/lock-password.svg';
 import eye from '../images/eye.png';
 import eye_slash from '../images/eye-slash.jpeg';
@@ -78,7 +78,7 @@ function Register() {
     return <>
     <div className='flex flex-row justify-between h-screen'>
         <div className='sm_display_none'>
-            <img src={register} alt="Login" className='h-screen w-50vh object-fit'/>
+            <img src={register} alt="Login" className='h-screen w-50vh'/>
         </div>
         <div className='flex flex-col sm:m-auto border-radius-10 login-form'>
             <div className='login-form-container registration-form-container min-w-full'>

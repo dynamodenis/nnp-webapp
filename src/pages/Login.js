@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import login_pic from '../images/login.jpg';
+import login_pic from '../images/login-logo.jpeg';
 import logo from '../images/logo.jpeg';
 import lock from '../images/lock-password.svg';
 import Button from '../partials/utils/Button';
@@ -121,7 +121,7 @@ function Login(props) {
             </div>
         </div>
         <div className='sm_display_none'>
-            <img src={login_pic} alt="Login" className='h-screen w-50vh object-fit'/>
+            <img src={login_pic} alt="Login" className='h-screen w-50vh'/>
         </div>
     </div>
     </>;
