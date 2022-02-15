@@ -60,6 +60,69 @@ export const login = (credentials) => (dispatch)=>{
     });
 }
 
+// register user
+export const registerUser = (credentials) => (dispatch)=>{
+    // Set Headers
+    const config = {
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    // create the user details to send as json
+    const body =JSON.stringify(credentials)
+    //User Loading
+    dispatch({type: actions_types.USER_LOADING});
+    return apiClient.post('/api/v1/user/user-registration',body,config)
+    .then(res =>{
+        dispatch(createMessage({loginSuccess:'Registration successful.'}))
+        dispatch({
+            type:actions_types.REGISTRATION_SUCCESS,
+            payload:res.data?.data
+        });
+        return "success";
+    })
+    .catch(err=>{
+        console.log("registartion error",err.response)
+        dispatch(returnErrors(err.response?.data,err.response?.status))
+        dispatch({
+            type:actions_types.REGISTRATION_FAIL,
+            payload: err.response?.data
+        });
+    });
+}
+
+
+// verify user
+export const verifyUser = (credentials) => (dispatch)=>{
+    // Set Headers
+    const config = {
+        headers:{
+            'Content-Type':'application/json'
+        }
+    }
+    // create the user details to send as json
+    const body =JSON.stringify(credentials)
+    //User Loading
+    dispatch({type: actions_types.USER_LOADING});
+    return apiClient.post('/api/v1/user/verify-phoneNumber',body,config)
+    .then(res =>{
+        dispatch(createMessage({loginSuccess:'User verification successful.'}))
+        dispatch({
+            type:actions_types.USER_VERIFICATION,
+            payload:res.data?.data
+        });
+        return "success";
+    })
+    .catch(err=>{
+        console.log("registartion error",err.response)
+        dispatch(returnErrors(err.response?.data,err.response?.status))
+        dispatch({
+            type:actions_types.REGISTRATION_FAIL,
+            payload: err.response?.data
+        });
+    });
+}
+
 
 // logout user
 export const logout = () => (dispatch, getState)=>{

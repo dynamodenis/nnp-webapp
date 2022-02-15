@@ -122,7 +122,7 @@ label{
 .object-fit{
     object-fit: cover;
 }
-input:focus{
+input:focus, textarea:focus{
     outline: none !important;
     border: 1px solid rgb(136, 135, 135) !important;
     --tw-ring-color: none !important;
@@ -242,9 +242,49 @@ input:focus{
     overflow-y: auto;
 }
 
-
+.MuiBox-root-9, .MuiBox-root-23, .MuiBox-root-21, .MuiBox-root-29{
+    padding: 0 !important;
+}
 
 
 .width-100-rem{
     width: 100rem;
+}
+
+// CKEditor
+.ck.ck-content ul,
+.ck.ck-content ul li {
+  list-style-type: inherit;
+}
+
+.ck.ck-content ul {
+  /* Default user agent stylesheet, you can change it to your needs. */
+  padding-left: 40px;
+}
+
+.ck.ck-content ol,
+.ck.ck-content ol li {
+  list-style-type: decimal;
+}
+.ck.ck-content ol {
+  /* Default user agent stylesheet, you can change it to your needs. */
+  padding-left: 40px;
+}
+
+.product_file_input{
+    background-color: #E3F2FD;
+    color: black;
+    padding: 0.5rem;
+    font-family: sans-serif;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+.product_img{
+    width: 100px;
+    height: 60px;
+}
+.checkbox_size{
+    width: 14px;
+    height: 14px;
 }

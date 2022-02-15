@@ -1,13 +1,22 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+
 import SearchModal from './header/SearchModal';
 import Notifications from './header/Notifications';
 import UserMenu from './header/UserMenu';
 import dashboard from '../images/Dashboard.png';
 
+// redux
+import {connect} from 'react-redux'
+
 function Header({
   sidebarOpen,
-  setSidebarOpen
+  setSidebarOpen,
+  ...props
 }) {
+  const location = useLocation();
+  const { pathname } = location;
+  const {user} = props
   return (
     <header className="sticky top-0 bg-white border-b border-gray-200 z-30 pt-4 pb-4">
       <div className="px-4 sm:px-6 lg:px-8">
@@ -17,10 +26,42 @@ function Header({
               <div>
                 <img src={dashboard} alt="" className='pt-1'/>
               </div>
-              <div>
-                <p className='text-lg font-medium'>Farmer</p>
-                <p className='text-lg font-medium'>Learning Center</p>
-              </div>
+              {pathname.includes("trainings-dashboard")&&
+                <div>
+                  <p className='text-lg font-medium'>Farmers</p>
+                  <p className='text-lg font-medium'>Learning Center</p>
+                </div>
+              }
+              {pathname === "/dashboard" &&
+                <div>
+                  <p className='text-lg font-medium'>Farmers</p>
+                  <p className='text-lg font-medium'>Learning Center</p>
+                </div>
+              }
+              {pathname.includes("consultancy") &&
+                <div>
+                  <p className='text-lg font-medium'>Available</p>
+                  <p className='text-lg font-medium'>Consultants</p>
+                </div>
+              }
+              {pathname.includes("marketplace") &&
+                <div>
+                  <p className='text-lg font-medium'>Product and services</p>
+                  <p className='text-lg font-medium'>Marketplace</p>
+                </div>
+              }
+              {pathname.includes("trainer") &&
+                <div>
+                  <p className='text-lg font-medium'>Trainers</p>
+                  <p className='text-lg font-medium'>Dashboard</p>
+                </div>
+              }
+              {pathname.includes("users") &&
+                <div>
+                  <p className='text-lg font-medium'>Users</p>
+                  <p className='text-lg font-medium'>Management</p>
+                </div>
+              }
             </div>
           </div>
           {/* Header: Left side */}
@@ -50,7 +91,7 @@ function Header({
             <Notifications />
             {/*  Divider */}
             <hr className="w-px h-6 bg-gray-200 mx-3" />
-            <UserMenu />
+            <UserMenu user={user} />
 
           </div>
 
@@ -60,4 +101,10 @@ function Header({
   );
 }
 
-export default Header;
+// get the state of user isAuthenticated
+const mapStateToProps = state =>({
+  isAuthenticated:state.auth.isAuthenticated,
+  user: state.auth.user
+})
+
+export default connect(mapStateToProps)(Header);

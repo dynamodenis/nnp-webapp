@@ -29,14 +29,14 @@ function Login(props) {
     // On login
     const loginUser = async (e) =>{
         e.preventDefault()
+        const slice_number = phone.slice(-9);
         const body = {
             "id":id,
             "name":name,
             "password":password,
-            "phone":phone,
+            "phone":`254${slice_number}`,
             "prm":prm
         }
-        console.log(body)
 
         try{
             await props.login(body)
@@ -109,7 +109,9 @@ function Login(props) {
                     </div>
                     <div>
                         <div className='btn-container flex flex-row m-auto pt-2'>
-                            <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto" title="Login"/>
+                            {props.isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25'>Loading...</button> :
+                                <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto" title="Login"/>
+                            }
                         </div>
                     </div>
                 </form>

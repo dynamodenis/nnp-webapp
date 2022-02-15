@@ -23,8 +23,12 @@ import CreateUser from './pages/CreateUser';
 import EditUser from './pages/EditUser';
 import MarketPlace from './pages/vendors/MarketPlace';
 import LandingPage from './pages/dashboard/LandingPage';
+import Consultancy from './pages/consultancy/Consultancy';
 
 import Alert from './partials/utils/Alert';
+import OTP from './pages/OTP';
+import Vendors from './pages/vendors_management/Vendors';
+import Smes from './pages/smes_management/Smes';
 
 function App() {
 
@@ -42,6 +46,9 @@ function App() {
       <Switch>
         <Route exact path="/login">
           <Login />
+        </Route>
+        <Route exact path="/verify-user">
+          <OTP/>
         </Route>
         <Route exact path="/register">
           <Register/>
@@ -74,11 +81,23 @@ function App() {
         <Route exact path="/users/create">
           <CreateUser/>
         </Route>
+        <Route exact path="/users/vendor/create">
+          <Vendors/>
+        </Route>
+        <Route exact path="/users/sme/create">
+          <Smes/>
+        </Route>
         <Route exact path="/users/edit/:id">
           <EditUser/>
         </Route>
         <Route exact path="/marketplace">
           <MarketPlace/>
+        </Route>
+        <Route exact path="/consultancy">
+          <Consultancy/>
+        </Route>
+        <Route exact path="/consultancy/create">
+          <Consultancy/>
         </Route>
       </Switch>
     </>

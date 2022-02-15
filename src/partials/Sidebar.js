@@ -8,6 +8,7 @@ import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import UploadIcon from '@mui/icons-material/Upload';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import HelpIcon from '@mui/icons-material/Help';
 
 function Sidebar({
   sidebarOpen,
@@ -83,7 +84,7 @@ function Sidebar({
           {/* Logo */}
           <NavLink exact to="/" className="block">
             <div className='flex flex-row justify-center item-center pt-1'>
-                <img src={logo} alt="" className='w-14 pt-1 pb-1 ml-20'/>
+                <img src={logo} alt="" className='w-14 pt-1 pb-1 m-auto'/>
             </div>
           </NavLink>
         </div>
@@ -137,12 +138,21 @@ function Sidebar({
                   </div>
                 </NavLink>
               </li>
-              {/* Messages */}
+              {/* courses */}
               <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('/trainer/courses') && 'nav-yellow'}`}>
                 <NavLink exact to="/trainer/courses" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/trainer/courses') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <UploadIcon className={`fill-current text-gray-500 ${pathname.includes('/trainer/courses') && 'text-gray-600'}`}/>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">My Courses/Upload</span>
+                  </div>
+                </NavLink>
+              </li>
+              {/* consultancy */}
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('/consultancy') && 'nav-yellow'}`}>
+                <NavLink exact to="/consultancy" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/consultancy') && 'hover:text-gray-900'}`}>
+                  <div className="flex items-center">
+                    <HelpIcon className={`fill-current text-gray-500 ${pathname.includes('/consultancy') && 'text-gray-600'}`}/>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Consultancy</span>
                   </div>
                 </NavLink>
               </li>

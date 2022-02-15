@@ -4,7 +4,8 @@ const initalState = {
     isAuthenticated:localStorage.getItem('isAuthenticated') || false,
     isLoading:false,
     user:localStorage.getItem('user'),
-    loggedIn:{}
+    loggedIn:{},
+    registration:{}
 }
 const auth  = (state=initalState, action)=>{
     switch(action.type){
@@ -22,6 +23,7 @@ const auth  = (state=initalState, action)=>{
                 
             }
         case actions_types.LOGIN_SUCCESS:
+        case actions_types.USER_VERIFICATION:
             localStorage.setItem('Token',action.payload?.token)
             localStorage.setItem('isAuthenticated', true)
             localStorage.setItem('user', JSON.stringify(action.payload))
@@ -35,6 +37,7 @@ const auth  = (state=initalState, action)=>{
         case actions_types.LOGOUT_SUCCESS:
         case actions_types.AUTH_ERROR:
         case actions_types.LOGIN_FAIL:
+        case actions_types.REGISTRATION_FAIL:
             localStorage.removeItem('Token')
             localStorage.removeItem('isAuthenticated')
             localStorage.removeItem('user')
@@ -44,7 +47,14 @@ const auth  = (state=initalState, action)=>{
                 user:null,
                 isAuthenticated:false,
                 isLoading:false,
-                loggedIn:{}
+                loggedIn:{},
+                registration:{}
+            }
+        case actions_types.REGISTRATION_SUCCESS:
+            return {
+                ...state,
+                isLoading:false,
+                registration:action?.payload
             }
         default:
             return state

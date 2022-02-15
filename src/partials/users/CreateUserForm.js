@@ -23,7 +23,7 @@ function CreateUserForm() {
 
   }
   return (
-    <div>
+    <div className="md:pl-8 md:pr-8">
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
             <div className="text-2xl font-medium">
@@ -54,16 +54,20 @@ function CreateUserForm() {
             </div>
 
             <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4 pt-2">
-              <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">Role</label>
-                <div className="pt-2">
-                  <select className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm">
-                    <option>Fresha</option>
-                    <option>Fresha</option>
-                    <option>Fresha</option>
-                    <option>Fresha</option>
-                  </select>
+              <div className="pt-4">
+                <FormControl>
+                <label htmlFor="" className="font-semibold text-sm">User Type</label>
+                <div className="ml-2">
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel value="yes" control={<Radio size="small"/>} label="NNP user" style={{fontSize:"30px"}}/>
+                    <FormControlLabel value="no" control={<Radio size="small"/>} label="General user" />
+                  </RadioGroup>
                 </div>
+                </FormControl>
               </div>
 
               <div className="pt-2">
@@ -75,21 +79,70 @@ function CreateUserForm() {
               </div>
             </div>
 
-            <div className="pt-4">
-              
-              <FormControl>
-              <label htmlFor="" className="font-semibold text-sm">Activate/Deactivate User</label>
-              <div className="ml-2">
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="row-radio-buttons-group"
-                >
-                  <FormControlLabel value="yes" control={<Radio />} label="Yes" />
-                  <FormControlLabel value="no" control={<Radio />} label="No" />
-                </RadioGroup>
+            <div className="pt-2">
+              <label htmlFor="" className="font-semibold text-sm">User Roles</label>
+              <div className="grid md:grid-cols-6 grid-cols-2 gap-4 md:gap-2 pt-4">
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="" className="font-semibold text-sm">Users</label>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="" className="font-semibold text-sm">Marketplace</label>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="" className="font-semibold text-sm">Trainings</label>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="" className="font-semibold text-sm">Consultancy</label>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label htmlFor="" className="font-semibold text-sm">Users</label>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
+                  </div>
+                  <div>
+                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
+                  </div>
+                </div>
               </div>
-              </FormControl>
             </div>
 
             <div className="md:w-28 pt-8 md:float-right ">
@@ -97,7 +150,7 @@ function CreateUserForm() {
                   <Link to="/users">
                   <button type="button" className="bg-blue success-btn rounded-md text-white text-sm">Back</button>
                 </Link>
-                  <Button type="button" class="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save"/>
+                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">Save</button>
               </div>
             </div>
 

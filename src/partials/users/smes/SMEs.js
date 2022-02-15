@@ -15,10 +15,7 @@ import { Link } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 
 // Forms
-import DeleteUserModal from './DeleteUserModal';
-
-
-
+// import DeleteUserModal from './DeleteUserModal';
 
 // Test Table Data
 const columns = [
@@ -78,7 +75,7 @@ const useStyles = makeStyles({
       maxHeight: 440,
     },
 });
-function UsersTable(props) {
+function SMEs(props) {
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -118,16 +115,16 @@ function UsersTable(props) {
         <div className="survey_container">
             <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
                 <div className="">
-                    <input type="text" className="w-full border-radius-10 py-1 text-sm border-slate-300 text-slate-500" placeholder="Search a user" />
+                    <input type="text" className="w-full border-radius-10 py-1 text-sm border-slate-300 text-slate-500" placeholder="Search a SMEs" />
                 </div>
 
                 <div className="w-full md:w-1/2">
-                    <Link to="/users/create">
+                    <Link to="/users/sme/create">
                     <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm">
                         <IconButton style={{ padding: 1.5, color:"white" }} className="text-white">
                             <AddIcon fontSize="small"/>
                         </IconButton>
-                        Add User
+                        Add Smes
                     </button>
                     </Link>
                 </div>
@@ -191,12 +188,12 @@ function UsersTable(props) {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </div>
-            <DeleteUserModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen}/>
+            {/* <DeleteUserModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen}/> */}
             {/* <surveyForm modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
             {/* <SurveyFrom modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
         </div>
     )
 }
 
-export default UsersTable
+export default React.memo(SMEs)
 

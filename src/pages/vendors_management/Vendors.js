@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-import Sidebar from '../partials/Sidebar';
-import Header from '../partials/Header';
-import UserManagement from '../partials/users/UserManagement';
+import Sidebar from '../../partials/Sidebar';
+import Header from '../../partials/Header';
+import CreateVendorForm from '../../partials/users/vendors/CreateVendorForm';
 
-function Users() {
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+function Vendors() {
+
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const location = useLocation();
+    const { pathname } = location;
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -25,9 +30,7 @@ function Users() {
 
             {/* Cards */}
             <div className="flex flex-col gap-6">
-
-              <UserManagement/>
-              
+              {pathname === "/users/vendor/create" && <CreateVendorForm/>}  
             </div>
 
           </div>
@@ -37,4 +40,4 @@ function Users() {
   );
 }
 
-export default Users;
+export default Vendors

@@ -1,27 +1,33 @@
 import React,{useState, useRef} from 'react';
 import logo from '../images/logo.jpeg';
-import register from '../images/login-logo.jpeg';
+import register_logo from '../images/login-logo.jpeg';
 import lock from '../images/lock-password.svg';
 import eye from '../images/eye.png';
 import eye_slash from '../images/eye-slash.jpeg';
 import Vector from '../images/Vector.png';
 import Button from '../partials/utils/Button';
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
 
 import { ValidatorForm } from 'react-form-validator-core';
 import TextValidator from '../partials/utils/TextValidator'
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// Redux
+import {connect} from 'react-redux'
+import {registerUser} from '../redux/actions/auth'
 
 
-function Register() {
+function Register(props) {
+    const history = useHistory();
+    const {registerUser, isLoading, registration} = props
     const form = useRef()
     const [phone, setPhone] = useState("")
     const [mail, setEmail] = useState("")
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [match, setMatch] = useState(true)
 
     const changePhone = event => {
+        
         setPhone(event.target.value)
     }
     const changeEmail = event => {
@@ -34,6 +40,11 @@ function Register() {
         setPassword(event.target.value)
     }
     const changeConfirmPassword = event => {
+        if (event.target.value !== password){
+            setMatch(false)
+        }else {
+            setMatch(true)
+        }
         setConfirmPassword(event.target.value)
     }
 
@@ -69,16 +80,24 @@ function Register() {
         }
     }
 
-    const registerUser = (e) =>{
+    const register = (e) =>{
         e.preventDefault()
-        const form = {phone, mail,password}
+        const slice_number = phone.slice(-9);
+        console.log("07 phone ", slice_number)
+        const form = {phone:`254${slice_number}`, mail,password, name,"sel": 0,"admin": 0,"status": 1,"type": 2}
         console.log(form)
+        registerUser(form).then( res => {
+            console.log("response", res)
+            if(res === "success"){
+                history.push("/verify-user");
+            }     
+        })
     }
 
     return <>
     <div className='flex flex-row justify-between h-screen'>
         <div className='sm_display_none'>
-            <img src={register} alt="Login" className='h-screen w-50vh'/>
+            <img src={register_logo} alt="Login" className='h-screen w-50vh'/>
         </div>
         <div className='flex flex-col sm:m-auto border-radius-10 login-form'>
             <div className='login-form-container registration-form-container min-w-full'>
@@ -88,7 +107,7 @@ function Register() {
                 <div className='flex justify-center item-center pt-1'>
                     <img src={logo} alt="" className='w-20 pt-1 pb-1'/>
                 </div>
-                <ValidatorForm ref={form}  onSubmit={registerUser} autoComplete='off'>
+                <ValidatorForm ref={form}  onSubmit={register} autoComplete='off'>
                     <div className='flex flex-col gap-3 items-center login-fields'>
                         <div>
                             <label htmlFor="phone" className='text-sm'>Phone Number</label>
@@ -151,20 +170,15 @@ function Register() {
                                     <img src={eye_slash} alt="" className="unsee2 h-5 w-5 fill-slate-300 hidden cursor-pointer"/>
                                 </span>
                             </label>
-                        </div>
-
-                        <div className='flex flex-row margin-left--6rem  gap-4'>
-                            <div className='space-x-4'>
-                                <input type="checkbox" name='check' className='appearance-none checked:green '/>
-                            </div>
-                            <div>
-                                <label htmlFor="check" className='text-sm'>Keep me logged in</label>
-                            </div>
+                            { !match && <span className='text-xs error font-bold'>Passwords do not match</span>}
                         </div>
                     </div>
                     <div>
                         <div className='btn-container flex flex-row m-auto pt-2'>
-                            <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto" title="Register"/>
+                            {isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-75'>Loading...</button> :
+                                <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto" title="Register"/>
+                            }
+                            
                         </div>
                     </div>
                 </ValidatorForm>
@@ -178,5 +192,11 @@ function Register() {
     </div>
     </>;
 }
+// get the state of user registered
+const mapStateToProps = state =>({
+    registration:state.auth.registration,
+    isLoading:state.auth.isLoading
+})
 
-export default Register;
+
+export default connect(mapStateToProps, {registerUser})(React.memo(Register));
