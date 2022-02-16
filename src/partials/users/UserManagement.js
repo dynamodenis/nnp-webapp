@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
@@ -13,9 +13,12 @@ import Consultants from "./consultants/Consultants";
 import Vendors from "./vendors/Vendors";
 import SMEs from "./smes/SMEs";
 
+// Redux
+import {connect} from 'react-redux'
+import { loadUserRoles } from '../../redux/actions/users';
 
-
-function UserManagement() {
+function UserManagement(props) {
+  const {loadUserRoles} = props;
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
@@ -26,6 +29,11 @@ function UserManagement() {
   const handleChangeIndex = (index) => {
     setValue(index);
   };
+
+  // get all data
+  useEffect(() => {
+    loadUserRoles()
+  },[])
   return (
     <div>
       <div className="pb-6">
@@ -133,4 +141,4 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default UserManagement;
+export default connect(null, {loadUserRoles})(React.memo(UserManagement));

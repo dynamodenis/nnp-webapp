@@ -24,6 +24,7 @@
     "chartjs-adapter-moment": "^1.0.0",
     "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.29.1",
+    "nprogress": "^0.2.0",
     "postcss": "^8.3.11",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",

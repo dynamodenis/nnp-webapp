@@ -32,8 +32,8 @@ function Alert(props) {
 
     useEffect(()=> {   
         
-        if(Object.keys(message).length > 0 && message?.regionAdded){
-            toast.success(message.regionAdded);
+        if(Object.keys(message).length > 0 && message?.itemAdded){
+            toast.success(message.itemAdded);
         } else if(Object.keys(message).length > 0 && message?.loginSuccess){
             toast.success(message.loginSuccess);
         }

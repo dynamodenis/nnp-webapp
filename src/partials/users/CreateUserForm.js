@@ -1,26 +1,81 @@
 import React,{useRef, useState} from "react";
-
+import eye from '../../images/eye.png';
+import eye_slash from '../../images/eye-slash.jpeg';
 import { ValidatorForm } from 'react-form-validator-core';
 import TextValidator from '../utils/TextValidator'
-import Button from "../utils/Button";
-
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
 import { Link } from 'react-router-dom';
 
-function CreateUserForm() {
+// Redux
+import {connect} from 'react-redux'
+import { addUser } from "../../redux/actions/users";
+
+
+function CreateUserForm(props) {
+  const {user_roles,addUser} = props;
   const form = useRef()
   const [name, setname] = useState("")
+  const [mail, setMail] = useState("")
+  const [role, setRole] = useState("")
+  const [password, setPassword] = useState("")
+  const [phone, setPhone] = useState("")
   
   const changename = event => {
-      setname(event.target.value)
+    setname(event.target.value)
   }
+  const handleChangeRole = event => {
+    setRole(event.target.value)
+  }
+  const handleChangeMail = event => {
+    setMail(event.target.value)
+  }
+  const changePassword = event => {
+    setPassword(event.target.value)
+  }
+  const changePhone = event => {
+    setPhone(event.target.value)
+  }
+
+  const togglePassword = () => {
+    const input = document.getElementsByClassName("myInput")[0]
+    const visibility = document.getElementsByClassName("see")[0]
+    const visibility_off = document.getElementsByClassName("unsee")[0]
+
+    if (input.type ==='password'){
+        input.type = "text"
+        visibility.style.display = "none"
+        visibility_off.style.display = "block"
+    }else {
+        input.type = "password"
+        visibility.style.display = "block"
+        visibility_off.style.display = "none"
+    }
+  }
+
 
   const createCourse = (e) =>{
     e.preventDefault()
+    const slice_number = phone.slice(-9);
 
+    const body = {
+      "name": name,
+      "sel": 0,
+      "admin": 0,
+      "mail": mail,
+      "role": role,
+      "status": 1,
+      "password": password,
+      "phone": `254${slice_number}`,
+      "type": 2
+    }
+    addUser(body).then( res => {
+      if(res === 'success'){
+        setname("")
+        setRole("")
+        setMail("")
+        setPassword("")
+        setPhone("")
+      }
+    })
   }
   return (
     <div className="md:pl-8 md:pr-8">
@@ -39,7 +94,7 @@ function CreateUserForm() {
               <div className="pt-2">
                 <label htmlFor="" className="font-semibold text-sm">Name</label>
                 <div className="pt-2">
-                  <TextValidator className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Course title" type="text" name="search" value={name} onChange={changename} validators={['required']}
+                  <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="John Doe" type="text" name="search" value={name} onChange={changename} validators={['required']}
                   errorMessages={['Name is required']}/>
                 </div>
               </div>
@@ -47,7 +102,7 @@ function CreateUserForm() {
               <div className="pt-2">
                 <label htmlFor="" className="font-semibold text-sm">Phone Number</label>
                 <div className="pt-2">
-                  <TextValidator className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Course title" type="text" name="search" value={name} onChange={changename} validators={['required']}
+                  <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="+254720000000" type="text" name="search" value={phone} onChange={changePhone} validators={['required']}
                   errorMessages={['Phone number is required']}/>
                 </div>
               </div>
@@ -55,92 +110,37 @@ function CreateUserForm() {
 
             <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4 pt-2">
               <div className="pt-4">
-                <FormControl>
-                <label htmlFor="" className="font-semibold text-sm">User Type</label>
-                <div className="ml-2">
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                  >
-                    <FormControlLabel value="yes" control={<Radio size="small"/>} label="NNP user" style={{fontSize:"30px"}}/>
-                    <FormControlLabel value="no" control={<Radio size="small"/>} label="General user" />
-                  </RadioGroup>
+                <label htmlFor="" className="font-semibold text-sm">User Role</label>
+                <div>
+                  <select className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pr-3 text-sm" value={role} onChange={handleChangeRole} required>
+                  {user_roles.map(role => (
+                    <option key={role.id} value={role.id}>
+                      {role.name} - {role.desc}
+                    </option>
+                  ))}
+                  </select>
                 </div>
-                </FormControl>
               </div>
 
               <div className="pt-2">
                 <label htmlFor="" className="font-semibold text-sm">Email Address</label>
                 <div className="pt-2">
-                  <TextValidator className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Course title" type="email" name="search" value={name} onChange={changename} validators={['isEmail']}
+                  <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="exmple@gmail.com" type="email" name="search" value={mail} onChange={handleChangeMail} validators={['isEmail']}
                   errorMessages={['Valid email is required']}/>
                 </div>
               </div>
             </div>
 
-            <div className="pt-2">
-              <label htmlFor="" className="font-semibold text-sm">User Roles</label>
-              <div className="grid md:grid-cols-6 grid-cols-2 gap-4 md:gap-2 pt-4">
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="" className="font-semibold text-sm">Users</label>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="" className="font-semibold text-sm">Marketplace</label>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="" className="font-semibold text-sm">Trainings</label>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="" className="font-semibold text-sm">Consultancy</label>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <label htmlFor="" className="font-semibold text-sm">Users</label>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can view</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can create</span>
-                  </div>
-                  <div>
-                    <input type="checkbox" className="appearance-none checked:bg-blue-500 checkbox_size" /> <span className="text-sm">Can edit</span>
-                  </div>
+            <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4 pt-2">
+              <div className="pt-2">
+                <label htmlFor="" className="font-semibold text-sm">Password</label>
+                <div className="pt-2 relative">
+                  <TextValidator className="myInput text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="exmple@gmail.com" type="password" name="search" value={password} onChange={changePassword} validators={['required']}
+                  errorMessages={['Password is required']}/>
+                  <span className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={togglePassword}>
+                      <img src={eye} alt="" className="see h-5 w-5 fill-slate-300 cursor-pointer"/>
+                      <img src={eye_slash} alt="" className="unsee h-5 w-5 fill-slate-300 hidden cursor-pointer"/>
+                  </span>
                 </div>
               </div>
             </div>
@@ -150,7 +150,10 @@ function CreateUserForm() {
                   <Link to="/users">
                   <button type="button" className="bg-blue success-btn rounded-md text-white text-sm">Back</button>
                 </Link>
+                {props.isLoading ? 
+                  <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
                   <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">Save</button>
+                }
               </div>
             </div>
 
@@ -161,4 +164,11 @@ function CreateUserForm() {
   );
 }
 
-export default CreateUserForm;
+// get the state
+const mapStateToProps = state =>({
+  user_roles:state.users.user_roles,
+  isLoading:state.users.isAdding
+})
+
+
+export default connect(mapStateToProps, {addUser})(React.memo(CreateUserForm));
