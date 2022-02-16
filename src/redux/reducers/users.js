@@ -48,7 +48,6 @@ const users  = (state=initialState, action)=>{
                 user_roles:action.payload.data.roles || [],
             }
         case actions_types.ADD_USER:
-            console.log("added user", action.payload.data?.user)
             return{
                 ...state,
                 users:[...state.users,action.payload.data?.user],

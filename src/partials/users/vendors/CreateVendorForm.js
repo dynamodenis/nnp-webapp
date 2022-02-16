@@ -2,23 +2,71 @@ import React, { useRef, useState } from "react";
 
 import { ValidatorForm } from "react-form-validator-core";
 import TextValidator from "../../utils/TextValidator";
-import Button from "../../utils/Button";
 
 import { Link } from "react-router-dom";
+// redux
+import {connect} from 'react-redux'
+import { addVendor } from "../../../redux/actions/vendors";
 
-
-function CreateVendorForm() {
+function CreateVendorForm(props) {
+  const {addVendor, isLoading} = props;
   const form = useRef();
   const [name, setname] = useState("");
-
+  const [contact, setContact] = useState("");
+  const [tel, setTel] = useState("");
+  const [mail, setMail] = useState("");
+  const [address, setAddress] = useState("");
+  const [town, setTown] = useState("");
+  const [desc, setDesc] = useState("");  
 
   const changename = event => {
     setname(event.target.value);
+  };
+  const changeContact = event => {
+    setContact(event.target.value);
+  };
+  const changeTel = event => {
+    setTel(event.target.value);
+  };
+  const changeMail = event => {
+    setMail(event.target.value);
+  };
+  const changeAddress = event => {
+    setAddress(event.target.value);
+  };
+  const changeTown = event => {
+    setTown(event.target.value);
+  };
+  const changeDesc = event => {
+    setDesc(event.target.value);
   };
 
 
   const createCourse = e => {
     e.preventDefault();
+    const body = {
+      "name":name,
+      "contact":contact,
+      "address1":address,
+      "tel": tel,
+      "mail":mail,
+      "town":town,
+      "suspend":0,
+      "sel":0,
+      "descr":desc
+    }
+    addVendor(body).then(res => {
+      if(res === 'success'){
+        setname("")
+        setContact("")
+        setTel("")
+        setMail("")
+        setAddress("")
+        setTown("")
+        setDesc("")
+      }
+    })
+
   };
 
   return (
@@ -29,7 +77,7 @@ function CreateVendorForm() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 pt-8 justify-between pb-5">
+      <div className="flex flex-col gap-4 pt-3 justify-between pb-5">
         <div>
           <ValidatorForm ref={form} onSubmit={createCourse} autoComplete="off">
             <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
@@ -39,7 +87,7 @@ function CreateVendorForm() {
                 </label>
                 <div className="pt-2">
                     <TextValidator
-                        className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                        className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
                         placeholder="Vendor's name"
                         type="text"
                         name="search"
@@ -56,12 +104,12 @@ function CreateVendorForm() {
                 </label>
                 <div className="pt-2">
                   <TextValidator
-                    className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                    className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
                     placeholder="Vendor's contact name"
                     type="text"
                     name="search"
-                    value={name}
-                    onChange={changename}
+                    value={contact}
+                    onChange={changeContact}
                   />
                 </div>
               </div>
@@ -74,12 +122,12 @@ function CreateVendorForm() {
                 </label>
                 <div className="pt-2">
                     <TextValidator
-                        className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                        className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
                         placeholder="0720000000/+2547200000000"
                         type="text"
                         name="search"
-                        value={name}
-                        onChange={changename}
+                        value={tel}
+                        onChange={changeTel}
                         validators={["required"]}
                         errorMessages={["Contact number is required"]}
                     />
@@ -91,12 +139,12 @@ function CreateVendorForm() {
                 </label>
                 <div className="pt-2">
                   <TextValidator
-                    className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                    className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
                     placeholder="Vendor's contact name"
                     type="email"
                     name="search"
-                    value={name}
-                    onChange={changename}
+                    value={mail}
+                    onChange={changeMail}
                     validators={["isEmail"]}
                     errorMessages={["Valid email is required"]}
                   />
@@ -111,12 +159,12 @@ function CreateVendorForm() {
                 </label>
                 <div className="pt-2">
                     <TextValidator
-                        className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                        className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
                         placeholder="P.0 Box 1234-00100"
                         type="text"
                         name="search"
-                        value={name}
-                        onChange={changename}
+                        value={address}
+                        onChange={changeAddress}
                     />
                 </div>
               </div>
@@ -126,12 +174,12 @@ function CreateVendorForm() {
                 </label>
                 <div className="pt-2">
                   <TextValidator
-                    className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                    className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
                     placeholder="Nairobi, Kenya"
                     type="text"
                     name="search"
-                    value={name}
-                    onChange={changename}
+                    value={town}
+                    onChange={changeTown}
                   />
                 </div>
               </div>
@@ -143,7 +191,7 @@ function CreateVendorForm() {
                   Description
                 </label>
                 <div className="pt-2">
-                  <textarea name="" id="" cols="30" rows="5" className="placeholder:text-slate-400 block bg-white w-full border textarea-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"></textarea>
+                  <textarea name="" id="" cols="30" rows="5" className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border textarea-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" value={desc} onChange={changeDesc}></textarea>
                 </div>
               </div>
             </div>
@@ -156,7 +204,10 @@ function CreateVendorForm() {
                     Back
                   </button>
                 </Link>
-                <Button type="button" class="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save" />
+                {isLoading ? 
+                  <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
+                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">Save</button>
+                }
               </div>
             </div>
           </ValidatorForm>
@@ -166,4 +217,10 @@ function CreateVendorForm() {
   );
 }
 
-export default CreateVendorForm;
+// get the state
+const mapStateToProps = state =>({
+  vendors:state.vendors.vendors,
+  isLoading:state.vendors.isAdding,
+})
+
+export default connect(mapStateToProps,{addVendor})(CreateVendorForm);

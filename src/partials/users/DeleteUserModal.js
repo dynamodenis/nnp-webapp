@@ -5,11 +5,14 @@ import Button from "../utils/Button";
 import Modal from 'react-modal';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
-// import {connect} from 'react-redux'
-// import {deleteUser} from '../../../redux/actions/users'
+
+// Redux
+import {connect} from 'react-redux'
+import {deleteUser} from '../../redux/actions/users'
 
 
 function DeleteUserModal(props) {
+    const {deleteUser,setIsOpen,modalIsOpen} = props;
     const classes = useStyles();
     const [selectId, setSelectId] = useState("");
     const [selectName, setSelectName] = useState("");
@@ -19,8 +22,10 @@ function DeleteUserModal(props) {
     // SUBMIT FORM
     const handleSubmit = event => {
         event.preventDefault();
-        props.deleteUser(selectId).then((res) => {
-            props.setIsOpen(!props.modalIsOpen)  
+        deleteUser(selectId).then((res) => {
+            if(res === "success"){
+                setIsOpen(!modalIsOpen)  
+            }
         })
     }
 
@@ -73,7 +78,10 @@ function DeleteUserModal(props) {
                             {/* <Link to="/users"> */}
                             <button type="button" className="bg-white cancel-btn shadow-slate-500 rounded-md text-gray-600 text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>Cancel</button>
                             {/* </Link> */}
-                            <Button type="button" class="bg-green success-btn rounded-md text-white m-auto text-sm" title="Delete"/>
+                            {props.isLoading ? 
+                                <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
+                                <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Delete">Delete</button>
+                            }
                         </div>
                     </div>
                     
@@ -116,11 +124,11 @@ const useStyles = makeStyles({
     },
 
 });
-// const mapStateToProps = state => {
-//     return{
-//         isLoading: state.users.isDeleting,
-//     }
-// }
+const mapStateToProps = state => {
+    return{
+        isLoading: state.users.isDeleting,
+    }
+}
 // const mapDispatchToProps = dispatch => {
 //     return {
 //         deleteUser: id => {
@@ -129,4 +137,4 @@ const useStyles = makeStyles({
 //     };
 //   };
 
-export default React.memo(DeleteUserModal)
+export default connect(mapStateToProps, {deleteUser})(React.memo(DeleteUserModal))

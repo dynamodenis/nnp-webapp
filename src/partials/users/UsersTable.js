@@ -16,7 +16,10 @@ import AddIcon from '@mui/icons-material/Add';
 
 // Forms
 import DeleteUserModal from './DeleteUserModal';
+import CircularProgressLoader from '../utils/CircularProgressLoader';
 
+// redux
+import {connect} from 'react-redux'
 
 
 
@@ -28,36 +31,6 @@ const columns = [
     { id: 'role', label: 'Role', minWidth: 10},
     { id: '', label: 'Actions', minWidth: 5},
 ];
-function createData(name, number, email, role) {
-    return { name, number, email, role};
-}
-const rows = [
-    createData('India Chan mall', 'IN', 1324171354,"Address","description"),
-    createData('China', 'CN', 1403500365,"Address","Manager"),
-    createData('Italy', 'IT', 60483973,"Address","Manager"),
-    createData('United States', 'US', 327167434,"Address","Manager"),
-    createData('Canada', 'CA', 37602103,"Address","Manager"),
-    createData('Australia', 'AU', 25475400,"Address","Manager"),
-    createData('Germany', 'DE', 83019200,"Address","Manager"),
-    createData('India Chan mall', 'IN', 1324171354,"Address","description"),
-    createData('India Chan mall', 'IN', 1324171354,"Address","description"),
-    createData('China', 'CN', 1403500365,"Address","Manager"),
-    createData('Italy', 'IT', 60483973,"Address","Manager"),
-    createData('United States', 'US', 327167434,"Address","Manager"),
-    createData('Canada', 'CA', 37602103,"Address","Manager"),
-    createData('Australia', 'AU', 25475400,"Address","Manager"),
-    createData('Germany', 'DE', 83019200,"Address","Manager"),
-    createData('India Chan mall', 'IN', 1324171354,"Address","description"),
-    createData('India Chan mall', 'IN', 1324171354,"Address","description"),
-    createData('China', 'CN', 1403500365,"Address","Manager"),
-    createData('Italy', 'IT', 60483973,"Address","Manager"),
-    createData('United States', 'US', 327167434,"Address","Manager"),
-    createData('Canada', 'CA', 37602103,"Address","Manager"),
-    createData('Australia', 'AU', 25475400,"Address","Manager"),
-    createData('Germany', 'DE', 83019200,"Address","Manager"),
-    createData('India Chan mall', 'IN', 1324171354,"Address","description"),
-];
-
 // Tables CSS
 const useStyles = makeStyles({
     '@global': {
@@ -79,6 +52,7 @@ const useStyles = makeStyles({
     },
 });
 function UsersTable(props) {
+    const {isLoading, users,user_roles} = props;
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -114,6 +88,12 @@ function UsersTable(props) {
     useEffect(() => {
         setEdit(edit)
     },[edit])
+
+    // Get role name
+    function getRole(role_item){
+        const selected_role = user_roles.filter(role => role.id = role_item)
+        return selected_role[0].name
+    }
     return (
         <div className="survey_container">
             <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
@@ -132,71 +112,82 @@ function UsersTable(props) {
                     </Link>
                 </div>
             </div>
-            <div className="survey_table pt-4">
-                <TableContainer className={classes.container}>
-                    <Table>
-                        <TableHead>
-                        <TableRow>
-                            {columns.map((column) => (
-                            <TableCell
-                                key={column.id}
-                                align={column.align}
-                                className="bg-transparent"
-                                style={{ minWidth: column.minWidth,backgroundColor:'EEF0F3', color:"rgb(71 85 105)",fontWeight: "600",letterSpacing: "0.0355rem", paddingTop:"10px", paddingBottom:"10px",fontSize:"11pt",zIndex:"1" }}
-                            >
-                                {column.label}
-                            </TableCell>
-                            ))}
-                        </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                            return (
-                            
-                            <TableRow hover role="checkbox" tabIndex={-1} key={index} style={{zIndex:"0"}}>
-                                <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row.name}</TableCell>
-                                <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row.number}</TableCell>
-                                <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row.email}</TableCell>
-                                <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row.role}</TableCell>
-                                <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>
-                                    <Grid container direction="row" alignItems="center" spacing={1}>
-                                        <Grid item >
-                                            <Link to="/users/edit/:id">
-                                                <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => handleSelectUser(row)}>
-                                                    <VisibilityIcon fontSize="small"/>
-                                                </IconButton>
-                                            </Link>
-                                            
-                                        </Grid>
-                                        <Grid item>
-                                            <IconButton style={{ padding: 1, color:"#FF5C5C" }} onClick={()=>deleteItem(row)}>
-                                                <DeleteIcon fontSize="small"/>
-                                            </IconButton>
-                                        </Grid>
-                                    </Grid>
-                                </TableCell>
-                            </TableRow>
-                            );
-                        })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </div>
-            <DeleteUserModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen}/>
-            {/* <surveyForm modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
-            {/* <SurveyFrom modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
+            {isLoading ? 
+                <CircularProgressLoader/> :    
+                <div>
+                    <div className="survey_table pt-4">
+                        <TableContainer className={classes.container}>
+                            <Table>
+                                <TableHead>
+                                <TableRow>
+                                    {columns.map((column) => (
+                                    <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        className="bg-transparent"
+                                        style={{ minWidth: column.minWidth,backgroundColor:'EEF0F3', color:"rgb(71 85 105)",fontWeight: "600",letterSpacing: "0.0355rem", paddingTop:"10px", paddingBottom:"10px",fontSize:"11pt",zIndex:"1" }}
+                                    >
+                                        {column.label}
+                                    </TableCell>
+                                    ))}
+                                </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                                    return (
+                                    
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={index} style={{zIndex:"0"}}>
+                                        <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row.name}</TableCell>
+                                        <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row.phone}</TableCell>
+                                        <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row.mail}</TableCell>
+                                        <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{getRole(row.role)}</TableCell>
+                                        <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>
+                                            <Grid container direction="row" alignItems="center" spacing={1}>
+                                                <Grid item >
+                                                    <Link to="/users/edit/:id">
+                                                        <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => handleSelectUser(row)}>
+                                                            <VisibilityIcon fontSize="small"/>
+                                                        </IconButton>
+                                                    </Link>
+                                                    
+                                                </Grid>
+                                                <Grid item>
+                                                    <IconButton style={{ padding: 1, color:"#FF5C5C" }} onClick={()=>deleteItem(row)}>
+                                                        <DeleteIcon fontSize="small"/>
+                                                    </IconButton>
+                                                </Grid>
+                                            </Grid>
+                                        </TableCell>
+                                    </TableRow>
+                                    );
+                                })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <TablePagination
+                            rowsPerPageOptions={[10, 25, 100]}
+                            component="div"
+                            count={users.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onPageChange={handleChangePage}
+                            onRowsPerPageChange={handleChangeRowsPerPage}
+                        />
+                    </div>
+                    <DeleteUserModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen}/>
+                    {/* <surveyForm modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
+                    {/* <SurveyFrom modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
+                </div>
+            }
         </div>
     )
 }
 
-export default UsersTable
+// get the state
+const mapStateToProps = state =>({
+  users:state.users.users,
+  isLoading:state.users.isLoading,
+  user_roles:state.users.user_roles
+})
+export default connect(mapStateToProps)(React.memo(UsersTable))
 

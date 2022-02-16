@@ -288,3 +288,14 @@ input:focus, textarea:focus{
     width: 14px;
     height: 14px;
 }
+.circular_progress{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+}
+  
+.progress_container{
+    position: absolute;
+    left: 50%;
+    top: 20%;
+}

@@ -44,3 +44,45 @@ export const addUser = (role) => (dispatch,getState) =>{
             nprogress.done()
         })
 }
+
+// get users action
+export const loadUsers = () => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_USER});
+    return apiClient.get('/api/v1/user',configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.GET_USER,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
+// Delete user
+export const deleteUser = (id) => (dispatch,getState) =>{
+    dispatch({type: actions_types.DELETING_USER});
+    nprogress.start()
+    return apiClient.delete(`/api/v1/user/delete/${id}`, configHeader(getState))
+        .then(()=>{
+            dispatch(createMessage({itemAdded:'User successfully deleted'}))
+            dispatch({
+                type:actions_types.DELETE_USER,
+                payload:id
+            })
+            nprogress.done()
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+            nprogress.done()
+        })
+}

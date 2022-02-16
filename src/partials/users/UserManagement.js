@@ -15,10 +15,11 @@ import SMEs from "./smes/SMEs";
 
 // Redux
 import {connect} from 'react-redux'
-import { loadUserRoles } from '../../redux/actions/users';
+import { loadUserRoles,loadUsers } from '../../redux/actions/users';
+import { loadVendors } from "../../redux/actions/vendors";
 
 function UserManagement(props) {
-  const {loadUserRoles} = props;
+  const {loadUserRoles,loadUsers,loadVendors} = props;
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
@@ -33,10 +34,12 @@ function UserManagement(props) {
   // get all data
   useEffect(() => {
     loadUserRoles()
+    loadUsers()
+    loadVendors()
   },[])
   return (
     <div>
-      <div className="pb-6">
+      <div className="pb-3">
         <h2 className="font-semibold text-xl">Users Management</h2>
       </div>
   
@@ -57,7 +60,7 @@ function UserManagement(props) {
         </div>
       </div>
      
-      <div className="flex flex-col pt-8">
+      <div className="flex flex-col pt-3">
 
         <SwipeableViews
             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -141,4 +144,4 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default connect(null, {loadUserRoles})(React.memo(UserManagement));
+export default connect(null, {loadUserRoles,loadUsers,loadVendors})(React.memo(UserManagement));

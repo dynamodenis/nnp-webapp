@@ -1,4 +1,4 @@
-import React,{useRef, useState} from "react";
+import React,{useRef, useState, useEffect} from "react";
 import eye from '../../images/eye.png';
 import eye_slash from '../../images/eye-slash.jpeg';
 import { ValidatorForm } from 'react-form-validator-core';
@@ -7,11 +7,11 @@ import { Link } from 'react-router-dom';
 
 // Redux
 import {connect} from 'react-redux'
-import { addUser } from "../../redux/actions/users";
+import { addUser,loadUserRoles } from "../../redux/actions/users";
 
 
 function CreateUserForm(props) {
-  const {user_roles,addUser} = props;
+  const {user_roles,addUser,loadUserRoles} = props;
   const form = useRef()
   const [name, setname] = useState("")
   const [mail, setMail] = useState("")
@@ -34,6 +34,10 @@ function CreateUserForm(props) {
   const changePhone = event => {
     setPhone(event.target.value)
   }
+
+  useEffect(() => {
+    loadUserRoles()
+  },[])
 
   const togglePassword = () => {
     const input = document.getElementsByClassName("myInput")[0]
@@ -87,7 +91,7 @@ function CreateUserForm(props) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 pt-8 justify-between pb-5">
+      <div className="flex flex-col gap-4 pt-3 justify-between pb-5">
         <div>
           <ValidatorForm ref={form} onSubmit={createCourse} autoComplete='off'>
             <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
@@ -113,11 +117,12 @@ function CreateUserForm(props) {
                 <label htmlFor="" className="font-semibold text-sm">User Role</label>
                 <div>
                   <select className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pr-3 text-sm" value={role} onChange={handleChangeRole} required>
-                  {user_roles.map(role => (
-                    <option key={role.id} value={role.id}>
-                      {role.name} - {role.desc}
-                    </option>
-                  ))}
+                    <option value="">Select Role</option>
+                    {user_roles.map(role => (
+                      <option key={role.id} value={role.id}>
+                        {role.name} - {role.desc}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -135,7 +140,7 @@ function CreateUserForm(props) {
               <div className="pt-2">
                 <label htmlFor="" className="font-semibold text-sm">Password</label>
                 <div className="pt-2 relative">
-                  <TextValidator className="myInput text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="exmple@gmail.com" type="password" name="search" value={password} onChange={changePassword} validators={['required']}
+                  <TextValidator className="myInput text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Password" type="password" name="search" value={password} onChange={changePassword} validators={['required']}
                   errorMessages={['Password is required']}/>
                   <span className="absolute inset-y-0 right-0 flex items-center pr-2" onClick={togglePassword}>
                       <img src={eye} alt="" className="see h-5 w-5 fill-slate-300 cursor-pointer"/>
@@ -171,4 +176,4 @@ const mapStateToProps = state =>({
 })
 
 
-export default connect(mapStateToProps, {addUser})(React.memo(CreateUserForm));
+export default connect(mapStateToProps, {addUser, loadUserRoles})(React.memo(CreateUserForm));
