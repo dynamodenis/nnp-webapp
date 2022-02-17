@@ -30,20 +30,19 @@ const vendors  = (state=initialState, action)=>{
                 isDeleting: true
             }
         case actions_types.GET_VENDOR:
-            console.log("vendors", action.payload.data)
             return {
                 ...state,
                 vendors:action.payload.data.vendors || [],
                 isLoading:false
             }
         case actions_types.ADD_VENDOR:
-            console.log(action.payload.data)
             return{
                 ...state,
                 vendors:[...state.vendors,action.payload.data?.vendor],
                 isAdding:false
             }
         case actions_types.UPDATE_VENDOR:
+            console.log("vendors update", action.payload.data)
             const index = state.vendors.findIndex(el => el.id === action.payload.data.vendor.id);
             const newArray = [...state.vendors]; 
             newArray[index] = action.payload.data.vendor;

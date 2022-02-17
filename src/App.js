@@ -90,6 +90,9 @@ function App() {
         <Route exact path="/users/edit/:id">
           <EditUser/>
         </Route>
+        <Route exact path="/users/vendor/edit/:id">
+          <Vendors/>
+        </Route>
         <Route exact path="/marketplace">
           <MarketPlace/>
         </Route>

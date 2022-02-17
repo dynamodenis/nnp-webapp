@@ -4,7 +4,7 @@ import nprogress from 'nprogress'
 import { actions_types } from '../action-types/types';
 import apiClient from '../../config/apiConfig';
 
-// Add a user
+// Add a vendor
 export const addVendor = (vendor) => (dispatch,getState) =>{
     dispatch({type: actions_types.ADDING_VENDOR});
     nprogress.start()
@@ -46,15 +46,38 @@ export const loadVendors = () => (dispatch,getState) =>{
         })
 }
 
-// Delete user
-export const deleteUser = (id) => (dispatch,getState) =>{
-    dispatch({type: actions_types.DELETING_USER});
+// update vendor
+export const updateVendor = (id,vendor) => (dispatch,getState) =>{
+    dispatch({type: actions_types.UPDATING_VENDOR});
     nprogress.start()
-    return apiClient.delete(`/api/v1/user/delete/${id}`, configHeader(getState))
-        .then(()=>{
-            dispatch(createMessage({itemAdded:'User successfully deleted'}))
+    return apiClient.put(`/api/v1/vendors/edit-vendor/${id}`,vendor, configHeader(getState))
+        .then(res=>{
+            dispatch(createMessage({itemAdded:'Vendor successfully updated'}))
             dispatch({
-                type:actions_types.DELETE_USER,
+                type:actions_types.UPDATE_VENDOR,
+                payload:res?.data
+            })
+            nprogress.done();
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+            nprogress.done()
+        })
+}
+
+// Delete user
+export const deleteVendor = (id) => (dispatch,getState) =>{
+    dispatch({type: actions_types.DELETING_VENDOR});
+    nprogress.start()
+    return apiClient.delete(`/api/v1/vendors/delete/${id}`, configHeader(getState))
+        .then(()=>{
+            dispatch(createMessage({itemAdded:'Vendor successfully deleted'}))
+            dispatch({
+                type:actions_types.DELETE_VENDOR,
                 payload:id
             })
             nprogress.done()

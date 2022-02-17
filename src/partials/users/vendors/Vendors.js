@@ -18,6 +18,7 @@ import CircularProgressLoader from '../../utils/CircularProgressLoader';
 
 // redux
 import {connect} from 'react-redux'
+import DeleteVendorModal from './DeleteVendorModal';
 
 // Test Table Data
 const columns = [
@@ -55,7 +56,6 @@ function Vendors(props) {
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [modalIsOpen,setIsOpen] = useState(false);
     const [modalIsDeleteOpen,setIsDeleteOpen] = useState(false);
     const [edit, setEdit] = useState();
     
@@ -67,11 +67,6 @@ function Vendors(props) {
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     };
-
-    // Open Modal
-    function openModal() {
-        setIsOpen(true);
-    }
 
     // selected user
     function handleSelectUser(user){
@@ -138,7 +133,7 @@ function Vendors(props) {
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>
                                             <Grid container direction="row" alignItems="center" spacing={1}>
                                                 <Grid item >
-                                                    <Link to="/users/edit/:id">
+                                                    <Link to={`/users/vendor/edit/${row.id}`}>
                                                         <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => handleSelectUser(row)}>
                                                             <VisibilityIcon fontSize="small"/>
                                                         </IconButton>
@@ -169,9 +164,7 @@ function Vendors(props) {
                         />
                     </div>
                 }
-                {/* <DeleteUserModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen}/> */}
-                {/* <surveyForm modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
-                {/* <SurveyFrom modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
+                <DeleteVendorModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} />
             
         </div>
     )

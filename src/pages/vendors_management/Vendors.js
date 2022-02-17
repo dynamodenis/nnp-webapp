@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import CreateVendorForm from '../../partials/users/vendors/CreateVendorForm';
+import EditVendorsForm from '../../partials/users/vendors/EditVendorsForm';
 
 
 
@@ -30,7 +31,8 @@ function Vendors() {
 
             {/* Cards */}
             <div className="flex flex-col gap-6">
-              {pathname === "/users/vendor/create" && <CreateVendorForm/>}  
+              {pathname === "/users/vendor/create" && <CreateVendorForm/>}
+              {pathname.includes("/users/vendor/edit") && <EditVendorsForm/> }   
             </div>
 
           </div>
