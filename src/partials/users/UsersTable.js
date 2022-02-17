@@ -92,7 +92,7 @@ function UsersTable(props) {
     // Get role name
     function getRole(role_item){
         const selected_role = user_roles.filter(role => role.id = role_item)
-        return selected_role[0].name
+        return selected_role[0]?.name
     }
     return (
         <div className="survey_container">

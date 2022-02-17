@@ -87,6 +87,9 @@ function App() {
         <Route exact path="/users/sme/create">
           <Smes/>
         </Route>
+        <Route exact path="/users/sme/edit/:id">
+          <Smes/>
+        </Route>
         <Route exact path="/users/edit/:id">
           <EditUser/>
         </Route>

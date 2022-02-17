@@ -17,9 +17,10 @@ import SMEs from "./smes/SMEs";
 import {connect} from 'react-redux'
 import { loadUserRoles,loadUsers } from '../../redux/actions/users';
 import { loadVendors } from "../../redux/actions/vendors";
+import { loadSmes } from "../../redux/actions/smes";
 
 function UserManagement(props) {
-  const {loadUserRoles,loadUsers,loadVendors} = props;
+  const {loadUserRoles,loadUsers,loadVendors,loadSmes} = props;
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
@@ -36,6 +37,7 @@ function UserManagement(props) {
     loadUserRoles()
     loadUsers()
     loadVendors()
+    loadSmes()
   },[])
   return (
     <div>
@@ -144,4 +146,4 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default connect(null, {loadUserRoles,loadUsers,loadVendors})(React.memo(UserManagement));
+export default connect(null, {loadUserRoles,loadUsers,loadVendors,loadSmes})(React.memo(UserManagement));

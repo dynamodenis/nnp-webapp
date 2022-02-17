@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import CreateSme from '../../partials/users/smes/CreateSme';
+import EditSmeForm from '../../partials/users/smes/EditSmeForm';
 
 
 
@@ -31,6 +32,7 @@ function Smes() {
             {/* Cards */}
             <div className="flex flex-col gap-6">
               {pathname === "/users/sme/create" && <CreateSme/>}  
+              {pathname.includes("/users/sme/edit") && <EditSmeForm/>} 
             </div>
 
           </div>
