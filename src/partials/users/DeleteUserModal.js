@@ -1,7 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import IconButton from '@material-ui/core/IconButton';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import Button from "../utils/Button";
 import Modal from 'react-modal';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';

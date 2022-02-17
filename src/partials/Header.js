@@ -62,6 +62,7 @@ function Header({
                   <p className='text-lg font-medium'>Management</p>
                 </div>
               }
+              
             </div>
           </div>
           {/* Header: Left side */}

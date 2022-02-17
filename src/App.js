@@ -105,6 +105,9 @@ function App() {
         <Route exact path="/consultancy/create">
           <Consultancy/>
         </Route>
+        <Route exact path="/users/consultant/edit/:id">
+          <Consultancy/>
+        </Route>
       </Switch>
     </>
   );

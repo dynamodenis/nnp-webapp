@@ -18,9 +18,10 @@ import {connect} from 'react-redux'
 import { loadUserRoles,loadUsers } from '../../redux/actions/users';
 import { loadVendors } from "../../redux/actions/vendors";
 import { loadSmes } from "../../redux/actions/smes";
+import { loadConsultants } from "../../redux/actions/consultants";
 
 function UserManagement(props) {
-  const {loadUserRoles,loadUsers,loadVendors,loadSmes} = props;
+  const {loadUserRoles,loadUsers,loadVendors,loadSmes,loadConsultants} = props;
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
@@ -38,6 +39,7 @@ function UserManagement(props) {
     loadUsers()
     loadVendors()
     loadSmes()
+    loadConsultants()
   },[])
   return (
     <div>
@@ -146,4 +148,4 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default connect(null, {loadUserRoles,loadUsers,loadVendors,loadSmes})(React.memo(UserManagement));
+export default connect(null, {loadUserRoles,loadUsers,loadVendors,loadSmes,loadConsultants})(React.memo(UserManagement));

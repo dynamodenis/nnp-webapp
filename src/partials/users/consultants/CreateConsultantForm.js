@@ -2,19 +2,26 @@ import React, { useRef, useState } from "react";
 
 import { ValidatorForm } from "react-form-validator-core";
 import TextValidator from "../../utils/TextValidator";
-import Button from "../../utils/Button";
 import SelectInput from "../../utils/SelectInput";
 
 import { Link } from "react-router-dom";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-function CreateConsultantForm() {
+// redux
+import {connect} from 'react-redux'
+import { addConsultant } from "../../../redux/actions/consultants";
+
+function CreateConsultantForm(props) {
+  const {isLoading, users, addConsultant} = props
   const form = useRef();
   const [name, setname] = useState("");
   const [salesRep, setSalesRep] = useState('');
   const [selectPicture, setSelectPicture] = useState("");
   const [selectPictureFormData, setSelectPictureFormData] = useState("");
+  const [desc, setDesc] = useState("");  
+  const [specialisation, setSpecialisation] = useState("");  
+  const [portfolio, setPortfolio] = useState("");
 
   const changename = event => {
     setname(event.target.value);
@@ -22,18 +29,44 @@ function CreateConsultantForm() {
   const handleSalesRep = rep => {
     setSalesRep(rep);
   };
+  const changeDesc = event => {
+    setDesc(event.target.value);
+  };
 
   const createCourse = e => {
     e.preventDefault();
+    const body = {
+      "name":name,
+      "userId":salesRep.value,
+      "pdescr":desc,
+      "expertise": specialisation,
+      "projects": portfolio
+    }
+    var postData = JSON.stringify(body);
+    let data = new FormData();
+    data.append('image', selectPictureFormData);
+    data.append('consultant', postData);
+    addConsultant(data).then( res => {
+      if(res === "success"){
+        setname("")
+        setSalesRep("")
+        setSelectPicture("")
+        setSelectPictureFormData("")
+        setDesc("")
+        setSpecialisation("")
+        setPortfolio("")
+      }
+    })
   };
 
-  const rep_options = [
-    {value: 0, label:"Never"},
-    {value: 1, label:"Weekly"},
-    {value: 2, label:"Fortnightly"},
-    {value: 3, label:"Monthly"},
-    {value: 4, label:"Yearly"}
- ]
+  // Select 2 users
+  const rep_options = [];
+  users?.forEach((el) => {
+    rep_options.push({
+      value: el.id,
+      label: el.name
+    });
+  })
 
  function uploadImage(e) {
    var file = e.target.files[0]; 
@@ -57,7 +90,7 @@ function CreateConsultantForm() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 pt-8 justify-between pb-5">
+      <div className="flex flex-col gap-4 pt-3 justify-between pb-5">
         <div>
           <ValidatorForm ref={form} onSubmit={createCourse} autoComplete="off">
             <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
@@ -66,7 +99,7 @@ function CreateConsultantForm() {
                   Link User
                 </label>
                 <div className="pt-2">
-                  <SelectInput onChange={handleSalesRep} options={rep_options} placeholder="Select Sales rep.." value={salesRep} />
+                  <SelectInput onChange={handleSalesRep} options={rep_options} placeholder="Select User as Consultant.." value={salesRep} />
                 </div>
               </div>
               <div className="pt-2">
@@ -75,8 +108,8 @@ function CreateConsultantForm() {
                 </label>
                 <div className="pt-2">
                   <TextValidator
-                    className="placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
-                    placeholder="Course title"
+                    className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                    placeholder="Consultant Username"
                     type="text"
                     name="search"
                     value={name}
@@ -94,7 +127,7 @@ function CreateConsultantForm() {
                   Description
                 </label>
                 <div className="pt-2">
-                  <textarea name="" id="" cols="30" rows="5" className="placeholder:text-slate-400 block bg-white w-full border textarea-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"></textarea>
+                  <textarea name="" id="" cols="30" rows="5" className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border textarea-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" value={desc} onChange={changeDesc}></textarea>
                 </div>
               </div>
             </div>
@@ -110,6 +143,7 @@ function CreateConsultantForm() {
                       data="<p>Type here!</p>"
                       onChange={ ( event, editor ) => {
                           const data = editor.getData();
+                          setSpecialisation(data)
                           console.log( { event, editor, data } );
                       } }
                   />
@@ -128,6 +162,7 @@ function CreateConsultantForm() {
                       data="<p>Type here!</p>"
                       onChange={ ( event, editor ) => {
                           const data = editor.getData();
+                          setPortfolio(data)
                           console.log( { event, editor, data } );
                       } }
                   />
@@ -152,14 +187,17 @@ function CreateConsultantForm() {
               </div>
             </div>
 
-            <div className="md:w-28 pt-8 md:float-right ">
+            <div className="md:w-36 pt-8 md:float-right ">
               <div className="grid grid-cols-2">
                 <Link to="/users">
                   <button type="button" className="bg-blue success-btn rounded-md text-white text-sm">
                     Back
                   </button>
                 </Link>
-                <Button type="button" class="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save" />
+                {isLoading ? 
+                  <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
+                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">Save</button>
+                }
               </div>
             </div>
           </ValidatorForm>
@@ -169,4 +207,12 @@ function CreateConsultantForm() {
   );
 }
 
-export default CreateConsultantForm;
+// get the state
+const mapStateToProps = state =>({
+  consultants:state.consultants.consultants,
+  isLoading:state.consultants.isAdding,
+  users:state.users.users,
+})
+
+
+export default connect(mapStateToProps,{addConsultant})(React.memo(CreateConsultantForm));

@@ -6,6 +6,7 @@ import messages from './messages'
 import users from './users'
 import vendors from './vendors'
 import smes from './smes'
+import consultants from './consultants'
 
 const rootReducer = combineReducers({
     auth:auth,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     messages:messages,
     users:users,
     vendors:vendors,
-    smes:smes
+    smes:smes,
+    consultants:consultants
 })
 
 export default rootReducer
