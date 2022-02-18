@@ -11,7 +11,6 @@ import { Grid } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { Link } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 // Form
 import CircularProgressLoader from '../../utils/CircularProgressLoader';
@@ -19,6 +18,8 @@ import CircularProgressLoader from '../../utils/CircularProgressLoader';
 // redux
 import {connect} from 'react-redux'
 import DeleteVendorModal from './DeleteVendorModal';
+import CreateVendorForm from './CreateVendorForm';
+import EditVendorsForm from './EditVendorsForm';
 
 // Test Table Data
 const columns = [
@@ -56,8 +57,10 @@ function Vendors(props) {
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [modalIsOpen,setIsOpen] = useState(false);
     const [modalIsDeleteOpen,setIsDeleteOpen] = useState(false);
     const [edit, setEdit] = useState();
+    const [modalIsEditOpen,setIsEditOpen] = useState(false);
     
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -68,9 +71,15 @@ function Vendors(props) {
       setPage(0);
     };
 
-    // selected user
-    function handleSelectUser(user){
-        // props.selectUser(user)
+    // Open Modal
+    function openModal() {
+        setIsOpen(true);
+    }
+
+      // edit function
+    function editItem(row){
+        setIsEditOpen(true)
+        setEdit(row);
     }
 
     // Delte user
@@ -89,14 +98,12 @@ function Vendors(props) {
                 </div>
 
                 <div className="w-full md:w-1/2">
-                    <Link to="/users/vendor/create">
-                    <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm">
+                    <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
                         <IconButton style={{ padding: 1.5, color:"white" }} className="text-white">
                             <AddIcon fontSize="small"/>
                         </IconButton>
                         Add Vendor
                     </button>
-                    </Link>
                 </div>
             </div>
             {isLoading ? 
@@ -133,11 +140,11 @@ function Vendors(props) {
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>
                                             <Grid container direction="row" alignItems="center" spacing={1}>
                                                 <Grid item >
-                                                    <Link to={`/users/vendor/edit/${row.id}`}>
-                                                        <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => handleSelectUser(row)}>
-                                                            <VisibilityIcon fontSize="small"/>
-                                                        </IconButton>
-                                                    </Link>
+                                                   
+                                                    <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => editItem(row)}>
+                                                        <VisibilityIcon fontSize="small"/>
+                                                    </IconButton>
+                                                  
                                                     
                                                 </Grid>
                                                 <Grid item>
@@ -165,7 +172,8 @@ function Vendors(props) {
                     </div>
                 }
                 <DeleteVendorModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} />
-            
+                <CreateVendorForm modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/>
+                <EditVendorsForm edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen}/>
         </div>
     )
 }

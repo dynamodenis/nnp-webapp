@@ -3,8 +3,7 @@ import React, { useRef, useState } from "react";
 import { ValidatorForm } from "react-form-validator-core";
 import TextValidator from "../../utils/TextValidator";
 import SelectInput from "../../utils/SelectInput";
-
-import { Link } from "react-router-dom";
+import Modal from "react-modal";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -32,6 +31,7 @@ function CreateConsultantForm(props) {
   const changeDesc = event => {
     setDesc(event.target.value);
   };
+  
 
   const createCourse = e => {
     e.preventDefault();
@@ -55,6 +55,7 @@ function CreateConsultantForm(props) {
         setDesc("")
         setSpecialisation("")
         setPortfolio("")
+        props.setIsOpen(!props.modalIsOpen)
       }
     })
   };
@@ -83,7 +84,17 @@ function CreateConsultantForm(props) {
   }
 
   return (
-    <div className="md:pl-8 md:pr-8">
+    <>
+      {/* New order Modal */}
+      <Modal
+        isOpen={props.modalIsOpen}
+        //   onAfterOpen={afterOpenModal}
+        closeTimeoutMS={500}
+        onRequestClose={() => props.setIsOpen(!props.modalIsOpen)}
+        style={customStyles}
+        contentLabel="Brand Modal"
+      >
+        <div className="md:pl-8 md:pr-8">
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
           <div className="text-2xl font-medium">Add Consultant</div>
@@ -144,7 +155,6 @@ function CreateConsultantForm(props) {
                       onChange={ ( event, editor ) => {
                           const data = editor.getData();
                           setSpecialisation(data)
-                          console.log( { event, editor, data } );
                       } }
                   />
                 </div>
@@ -163,7 +173,6 @@ function CreateConsultantForm(props) {
                       onChange={ ( event, editor ) => {
                           const data = editor.getData();
                           setPortfolio(data)
-                          console.log( { event, editor, data } );
                       } }
                   />
                 </div>
@@ -189,11 +198,9 @@ function CreateConsultantForm(props) {
 
             <div className="md:w-36 pt-8 md:float-right ">
               <div className="grid grid-cols-2">
-                <Link to="/users">
-                  <button type="button" className="bg-blue success-btn rounded-md text-white text-sm">
-                    Back
-                  </button>
-                </Link>
+                <button type="button" className="bg-blue success-btn rounded-md text-white text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>
+                  Back
+                </button>
                 {isLoading ? 
                   <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
                   <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">Save</button>
@@ -204,8 +211,28 @@ function CreateConsultantForm(props) {
         </div>
       </div>
     </div>
+      </Modal>
+    </>
+    
   );
 }
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    width: "70%",
+    paddingTop: "10px",
+    height: "auto",
+  },
+  overlay: {
+    backgroundColor: "rgba(31, 30, 30, 0.2)",
+  },
+};
 
 // get the state
 const mapStateToProps = state =>({

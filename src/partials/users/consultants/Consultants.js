@@ -21,6 +21,8 @@ import CircularProgressLoader from '../../utils/CircularProgressLoader';
 // redux
 import {connect} from 'react-redux'
 import DeleteConsultantModal from './DeleteConsultantModal';
+import CreateConsultantForm from './CreateConsultantForm';
+import EditConsultantForm from './EditConsultantForm';
 
 // Test Table Data
 const columns = [
@@ -57,8 +59,10 @@ function Consultants(props) {
     const {isLoading, consultants} = props;
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [modalIsOpen,setIsOpen] = useState(false);
     const [modalIsDeleteOpen,setIsDeleteOpen] = useState(false);
     const [edit, setEdit] = useState();
+    const [modalIsEditOpen,setIsEditOpen] = useState(false);
     
   
     const handleChangePage = (event, newPage) => {
@@ -70,19 +74,25 @@ function Consultants(props) {
       setPage(0);
     };
 
-    // selected user
-    function handleSelectUser(user){
-        // props.selectUser(user)
-    }
+      // Open Modal
+  function openModal() {
+    setIsOpen(true);
+  }
 
-    // Delte user
-    function deleteItem(row){
-        setIsDeleteOpen(true)
-        setEdit(row)
-    }
-    useEffect(() => {
-        setEdit(edit)
-    },[edit])
+  // edit function
+  function editItem(row) {
+    setIsEditOpen(true);
+    setEdit(row);
+  }
+
+  // Delte user
+  function deleteItem(row) {
+    setIsDeleteOpen(true);
+    setEdit(row);
+  }
+  useEffect(() => {
+    setEdit(edit);
+  }, [edit]);
     return (
         <div className="survey_container">
             <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
@@ -91,14 +101,12 @@ function Consultants(props) {
                 </div>
 
                 <div className="w-full md:w-1/2">
-                    <Link to="/consultancy/create">
-                    <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm">
+                    <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
                         <IconButton style={{ padding: 1.5, color:"white" }} className="text-white">
                             <AddIcon fontSize="small"/>
                         </IconButton>
                         Add Consultant
                     </button>
-                    </Link>
                 </div>
             </div>
             {isLoading ? 
@@ -133,11 +141,9 @@ function Consultants(props) {
                                     <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>
                                         <Grid container direction="row" alignItems="center" spacing={1}>
                                             <Grid item >
-                                                <Link to={`/users/consultant/edit/${row.id}`}>
-                                                    <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => handleSelectUser(row)}>
-                                                        <VisibilityIcon fontSize="small"/>
-                                                    </IconButton>
-                                                </Link>
+                                                <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => editItem(row)}>
+                                                    <VisibilityIcon fontSize="small"/>
+                                                </IconButton>
                                                 
                                             </Grid>
                                             <Grid item>
@@ -165,6 +171,8 @@ function Consultants(props) {
                 </div>
             }
             <DeleteConsultantModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} />
+            <CreateConsultantForm modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/>
+            <EditConsultantForm edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen} />
         </div>
     )
 }

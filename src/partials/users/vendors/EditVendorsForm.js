@@ -2,15 +2,13 @@ import React, { useRef, useState,useEffect } from "react";
 
 import { ValidatorForm } from "react-form-validator-core";
 import TextValidator from "../../utils/TextValidator";
-
-import { Link,useParams } from "react-router-dom";
+import Modal from 'react-modal';
 // redux
 import {connect} from 'react-redux'
-import { updateVendor,loadVendors } from "../../../redux/actions/vendors";
+import { updateVendor } from "../../../redux/actions/vendors";
 
 function EditVendorsForm(props) {
-  const {updateVendor, isLoading, vendors,loadVendors} = props;
-  const {id} = useParams();
+  const {updateVendor, isLoading, edit} = props;
   const form = useRef();
   const [name, setname] = useState("");
   const [contact, setContact] = useState("");
@@ -19,6 +17,7 @@ function EditVendorsForm(props) {
   const [address, setAddress] = useState("");
   const [town, setTown] = useState("");
   const [desc, setDesc] = useState("");  
+  const [id, setId] = useState("");
 
   const changename = event => {
     setname(event.target.value);
@@ -42,22 +41,18 @@ function EditVendorsForm(props) {
     setDesc(event.target.value);
   };
   
-  // Check for page reload
-  useEffect(() => {
-    loadVendors()
-  }, [id, loadVendors]);
   
   // Get current vendor
   useEffect(() => {
-    const vendor = vendors.filter(v => v.id === id)
-    setname(vendor[0]?.name)
-    setContact(vendor[0]?.contact)
-    setTel(vendor[0]?.tel)
-    setMail(vendor[0]?.mail)
-    setAddress(vendor[0]?.address1)
-    setTown(vendor[0]?.town)
-    setDesc(vendor[0]?.descr)
-  },[vendors, id])
+    setname(edit?.name)
+    setContact(edit?.contact)
+    setTel(edit?.tel)
+    setMail(edit?.mail)
+    setAddress(edit?.address1)
+    setTown(edit?.town)
+    setDesc(edit?.descr)
+    setId(edit?.id)
+  },[edit, id])
 
   const createCourse = e => {
     e.preventDefault();
@@ -73,12 +68,25 @@ function EditVendorsForm(props) {
       "sel":0,
       "descr":desc
     }
-    updateVendor(id,body)
+    updateVendor(id,body).then(res => {
+      if(res === "success"){
+        props.setIsOpen(!props.modalIsOpen)
+      }
+    })
 
   };
 
   return (
-    <div className="md:pl-8 md:pr-8">
+    <>
+      <Modal
+        isOpen={props.modalIsOpen}
+        //   onAfterOpen={afterOpenModal}
+        closeTimeoutMS={500}
+        onRequestClose={() => props.setIsOpen(!props.modalIsOpen)}
+        style={customStyles}
+        contentLabel="Brand Modal"
+      >
+        <div className="md:pl-8 md:pr-8">
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
           <div className="text-2xl font-medium">Edit Vendor</div>
@@ -207,11 +215,9 @@ function EditVendorsForm(props) {
 
             <div className="md:w-36 pt-8 md:float-right ">
               <div className="grid grid-cols-2">
-                <Link to="/users">
-                  <button type="button" className="bg-blue success-btn rounded-md text-white text-sm">
-                    Back
-                  </button>
-                </Link>
+                <button type="button" className="bg-blue success-btn rounded-md text-white text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>
+                  Back
+                </button>
                 {isLoading ? 
                   <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
                   <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">Update</button>
@@ -222,8 +228,27 @@ function EditVendorsForm(props) {
         </div>
       </div>
     </div>
+      </Modal>
+    </>
   );
 }
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    width: "70%",
+    paddingTop: "10px",
+    height: "auto",
+  },
+  overlay: {
+    backgroundColor: "rgba(31, 30, 30, 0.2)",
+  },
+};
 
 // get the state
 const mapStateToProps = state =>({
@@ -231,4 +256,4 @@ const mapStateToProps = state =>({
   isLoading:state.vendors.isUpdating,
 })
 
-export default connect(mapStateToProps,{updateVendor,loadVendors})(React.memo(EditVendorsForm));
+export default connect(mapStateToProps,{updateVendor})(React.memo(EditVendorsForm));

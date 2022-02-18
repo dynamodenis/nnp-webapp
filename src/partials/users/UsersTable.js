@@ -11,7 +11,6 @@ import { Grid } from '@material-ui/core';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
-import { Link } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 
 // Forms
@@ -20,6 +19,8 @@ import CircularProgressLoader from '../utils/CircularProgressLoader';
 
 // redux
 import {connect} from 'react-redux'
+import CreateUserForm from './CreateUserForm';
+import EditUserForm from './EditUserForm';
 
 
 
@@ -59,6 +60,7 @@ function UsersTable(props) {
     const [modalIsOpen,setIsOpen] = useState(false);
     const [modalIsDeleteOpen,setIsDeleteOpen] = useState(false);
     const [edit, setEdit] = useState();
+    const [modalIsEditOpen,setIsEditOpen] = useState(false);
     
   
     const handleChangePage = (event, newPage) => {
@@ -75,9 +77,10 @@ function UsersTable(props) {
         setIsOpen(true);
     }
 
-    // selected user
-    function handleSelectUser(user){
-        // props.selectUser(user)
+      // edit function
+    function editItem(row){
+        setIsEditOpen(true)
+        setEdit(row);
     }
 
     // Delte user
@@ -102,14 +105,12 @@ function UsersTable(props) {
                 </div>
 
                 <div className="w-full md:w-1/2">
-                    <Link to="/users/create">
-                    <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm">
+                    <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
                         <IconButton style={{ padding: 1.5, color:"white" }} className="text-white">
                             <AddIcon fontSize="small"/>
                         </IconButton>
                         Add User
                     </button>
-                    </Link>
                 </div>
             </div>
             {isLoading ? 
@@ -144,12 +145,9 @@ function UsersTable(props) {
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>
                                             <Grid container direction="row" alignItems="center" spacing={1}>
                                                 <Grid item >
-                                                    <Link to="/users/edit/:id">
-                                                        <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => handleSelectUser(row)}>
-                                                            <VisibilityIcon fontSize="small"/>
-                                                        </IconButton>
-                                                    </Link>
-                                                    
+                                                    <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => editItem(row)}>
+                                                        <VisibilityIcon fontSize="small"/>
+                                                    </IconButton>
                                                 </Grid>
                                                 <Grid item>
                                                     <IconButton style={{ padding: 1, color:"#FF5C5C" }} onClick={()=>deleteItem(row)}>
@@ -175,8 +173,8 @@ function UsersTable(props) {
                         />
                     </div>
                     <DeleteUserModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen}/>
-                    {/* <surveyForm modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
-                    {/* <SurveyFrom modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/> */}
+                    <CreateUserForm modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/>
+                    <EditUserForm edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen}/>
                 </div>
             }
         </div>

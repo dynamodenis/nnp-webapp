@@ -64,6 +64,29 @@ export const loadUsers = () => (dispatch,getState) =>{
         })
 }
 
+// update users
+export const updateUser = (id,user) => (dispatch,getState) =>{
+    dispatch({type: actions_types.UPDATING_USER});
+    nprogress.start()
+    return apiClient.put(`/api/v1/user/${id}/edit-user-details`,user, configHeader(getState))
+        .then(res=>{
+            dispatch(createMessage({itemAdded:'User successfully updated'}))
+            dispatch({
+                type:actions_types.UPDATE_USER,
+                payload:res?.data
+            })
+            nprogress.done();
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+            nprogress.done()
+        })
+}
+
 // Delete user
 export const deleteUser = (id) => (dispatch,getState) =>{
     dispatch({type: actions_types.DELETING_USER});

@@ -1,19 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 
 import { ValidatorForm } from "react-form-validator-core";
 import TextValidator from "../../utils/TextValidator";
 import SelectInput from "../../utils/SelectInput";
-
-import { Link } from "react-router-dom";
+import Modal from "react-modal";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 // redux
 import {connect} from 'react-redux'
-import { addConsultant } from "../../../redux/actions/consultants";
+import { updateConsultant } from "../../../redux/actions/consultants";
 
 function EditConsultantForm(props) {
-  const {isLoading, users, addConsultant} = props
+  const {isLoading, users, updateConsultant, edit} = props
   const form = useRef();
   const [name, setname] = useState("");
   const [salesRep, setSalesRep] = useState('');
@@ -22,6 +21,9 @@ function EditConsultantForm(props) {
   const [desc, setDesc] = useState("");  
   const [specialisation, setSpecialisation] = useState("");  
   const [portfolio, setPortfolio] = useState("");
+  const [hasSpecilaisation, setHasSpecilisation] = useState(false);
+  const [hasProject, setHasProject] = useState(false);
+  const [id, setId] = useState("");
 
   const changename = event => {
     setname(event.target.value);
@@ -33,9 +35,27 @@ function EditConsultantForm(props) {
     setDesc(event.target.value);
   };
 
+  useEffect(() => {
+    setId(edit?.id)
+    setname(edit?.name)
+    setDesc(edit?.pdescr)
+    setSpecialisation(edit?.expertise)
+    if(edit?.expertise){
+      setHasSpecilisation(true)
+    }
+    setPortfolio(edit?.projects)
+    if(edit?.projects){
+      setHasProject(true)
+    }
+    setSelectPicture(`data:image/png;base64,${edit?.consultantsProfileList[0]?.imageDownload}`)
+  },[edit, id])
+
+  // console.log(portfolio)
+  // console.log(selectPicture)
   const createCourse = e => {
     e.preventDefault();
     const body = {
+      "id":id,
       "name":name,
       "userId":salesRep.value,
       "pdescr":desc,
@@ -43,18 +63,16 @@ function EditConsultantForm(props) {
       "projects": portfolio
     }
     var postData = JSON.stringify(body);
+    console.log(body)
     let data = new FormData();
     data.append('image', selectPictureFormData);
-    data.append('consultant', postData);
-    addConsultant(data).then( res => {
+    // Check if picture has been updated
+    if (selectPictureFormData !== ""){
+      data.append('consultant', postData);
+    }
+    updateConsultant(id,data).then (res => {
       if(res === "success"){
-        setname("")
-        setSalesRep("")
-        setSelectPicture("")
-        setSelectPictureFormData("")
-        setDesc("")
-        setSpecialisation("")
-        setPortfolio("")
+        props.setIsOpen(!props.modalIsOpen)
       }
     })
   };
@@ -83,7 +101,17 @@ function EditConsultantForm(props) {
   }
 
   return (
-    <div className="md:pl-8 md:pr-8">
+    <>
+      {/* New order Modal */}
+      <Modal
+        isOpen={props.modalIsOpen}
+        //   onAfterOpen={afterOpenModal}
+        closeTimeoutMS={500}
+        onRequestClose={() => props.setIsOpen(!props.modalIsOpen)}
+        style={customStyles}
+        contentLabel="Brand Modal"
+      >
+        <div className="md:pl-8 md:pr-8">
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
           <div className="text-2xl font-medium">Edit Consultant</div>
@@ -132,25 +160,48 @@ function EditConsultantForm(props) {
               </div>
             </div>
 
-            <div className="justify-between flex flex-col gap-4 pt-2">
-              <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">
-                  Expertise/Field of specialisation
-                </label>
+            {hasSpecilaisation && 
+              <div className="justify-between flex flex-col gap-4 pt-2">
                 <div className="pt-2">
-                  <CKEditor
-                      editor={ ClassicEditor }
-                      data="<p>Type here!</p>"
-                      onChange={ ( event, editor ) => {
-                          const data = editor.getData();
-                          setSpecialisation(data)
-                          console.log( { event, editor, data } );
-                      } }
-                  />
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Expertise/Field of specialisation
+                  </label>
+                  <div className="pt-2">
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data= {specialisation}
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            setSpecialisation(data)
+                            // console.log( { event, editor, data } );
+                        } }
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            }
 
+            {!hasSpecilaisation && 
+              <div className="justify-between flex flex-col gap-4 pt-2">
+                <div className="pt-2">
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Expertise/Field of specialisation
+                  </label>
+                  <div className="pt-2">
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data= "Type Here!"
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            setSpecialisation(data)
+                            // console.log( { event, editor, data } );
+                        } }
+                    />
+                  </div>
+                </div>
+              </div>
+            }
+            {hasProject &&
             <div className="justify-between flex flex-col gap-4 pt-2">
               <div className="pt-2">
                 <label htmlFor="" className="font-semibold text-sm">
@@ -159,16 +210,38 @@ function EditConsultantForm(props) {
                 <div className="pt-2">
                   <CKEditor
                       editor={ ClassicEditor }
-                      data="<p>Type here!</p>"
+                      data= {portfolio}
                       onChange={ ( event, editor ) => {
                           const data = editor.getData();
                           setPortfolio(data)
-                          console.log( { event, editor, data } );
+                          // console.log( { event, editor, data } );
                       } }
                   />
                 </div>
               </div>
             </div>
+            }
+
+            {!hasProject &&
+              <div className="justify-between flex flex-col gap-4 pt-2">
+                <div className="pt-2">
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Portfolio projects
+                  </label>
+                  <div className="pt-2">
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data= {portfolio}
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            setPortfolio(data)
+                            // console.log( { event, editor, data } );
+                        } }
+                    />
+                  </div>
+                </div>
+              </div>
+            }
 
             <div className="justify-between flex flex-col gap-4 pt-2">
               <div className="pt-2">
@@ -189,11 +262,11 @@ function EditConsultantForm(props) {
 
             <div className="md:w-36 pt-8 md:float-right ">
               <div className="grid grid-cols-2">
-                <Link to="/users">
-                  <button type="button" className="bg-blue success-btn rounded-md text-white text-sm">
+                
+                  <button type="button" className="bg-blue success-btn rounded-md text-white text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>
                     Back
                   </button>
-                </Link>
+                
                 {isLoading ? 
                   <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
                   <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">Update</button>
@@ -204,8 +277,29 @@ function EditConsultantForm(props) {
         </div>
       </div>
     </div>
+      </Modal>
+    </>
+    
   );
 }
+
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    width: "70%",
+    paddingTop: "10px",
+    height: "auto",
+  },
+  overlay: {
+    backgroundColor: "rgba(31, 30, 30, 0.2)",
+  },
+};
 
 // get the state
 const mapStateToProps = state =>({
@@ -215,4 +309,4 @@ const mapStateToProps = state =>({
 })
 
 
-export default connect(mapStateToProps,{addConsultant})(React.memo(EditConsultantForm));
+export default connect(mapStateToProps,{updateConsultant})(React.memo(EditConsultantForm));

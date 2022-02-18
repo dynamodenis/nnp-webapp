@@ -78,9 +78,6 @@ function App() {
         <Route exact path="/users">
           <Users/>
         </Route>
-        <Route exact path="/users/create">
-          <CreateUser/>
-        </Route>
         <Route exact path="/users/vendor/create">
           <Vendors/>
         </Route>

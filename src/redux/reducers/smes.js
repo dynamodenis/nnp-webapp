@@ -44,7 +44,7 @@ const smes  = (state=initialState, action)=>{
         case actions_types.UPDATE_SME:
             const index = state.smes.findIndex(el => el.id === action.payload.data.sme.id);
             const newArray = [...state.smes]; 
-            newArray[index] = action.payload.data.vendor;
+            newArray[index] = action.payload.data.sme;
             return{
                 ...state,
                 smes:newArray,

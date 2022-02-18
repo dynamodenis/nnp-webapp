@@ -18,7 +18,7 @@ function Header({
   const { pathname } = location;
   const {user} = props
   return (
-    <header className="sticky top-0 bg-white border-b border-gray-200 z-30 pt-4 pb-4">
+    <header className=" sticky top-0 bg-white border-b border-gray-200 z-30 pt-4 pb-4">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 -mb-px">
           <div className='sm_display_none'>
