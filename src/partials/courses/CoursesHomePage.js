@@ -1,5 +1,8 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import { Link } from 'react-router-dom';
+
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@mui/icons-material/Add';
 
 import training_dash from '../../images/training-dashboard.png'
 import pasturisation from '../../images/pestaurization.jpg'
@@ -9,8 +12,34 @@ import silage from '../../images/silage.jpg'
 import youghurt from '../../images/yoghurt.jpeg'
 import hygiene from '../../images/hygiene.jpg'
 import insemination from '../../images/insemination.jpg'
+import CreateTrainingCategory from "./createcourse/CreateTrainingCategory";
 
-function CoursesHomePage() {
+function CoursesHomePage(props) {
+  const [modalIsOpen,setIsOpen] = useState(false);
+  const [modalIsDeleteOpen,setIsDeleteOpen] = useState(false);
+  const [edit, setEdit] = useState();
+  const [modalIsEditOpen,setIsEditOpen] = useState(false);
+
+  // Open Modal
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  // edit function
+  function editItem(row) {
+    setIsEditOpen(true);
+    setEdit(row);
+  }
+
+  // Delte user
+  function deleteItem(row) {
+    setIsDeleteOpen(true);
+    setEdit(row);
+  }
+  useEffect(() => {
+    setEdit(edit);
+  }, [edit]);
+
   return (
     <div>
       <div className="flex flex-col justify-between gap-2">
@@ -32,7 +61,19 @@ function CoursesHomePage() {
             </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
+        <div className="flex flex-col-reverse md:flex-row justify-end">
+
+            <div className="w-full md:w-1/2">
+                <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
+                    <IconButton style={{ padding: 1.5, color:"white" }} className="text-white">
+                        <AddIcon fontSize="small"/>
+                    </IconButton>
+                    Add Training Category
+                </button>
+            </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
           <Link to="/trainings-dashboard/category/1">
             <div className="bg-white border-radius-10 min-height-20vh cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-30 duration-300">
               <div className="flex flex-col rounded-md shadow-lg">
@@ -268,6 +309,7 @@ function CoursesHomePage() {
           </Link>
         </div>
       </div>
+      <CreateTrainingCategory modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/>
     </div>
   );
 }

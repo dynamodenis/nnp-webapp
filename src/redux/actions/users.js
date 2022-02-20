@@ -8,6 +8,7 @@ import apiClient from '../../config/apiConfig';
 export const loadUserRoles = () => (dispatch,getState) =>{
     return apiClient.get('/api/v1/user/user-roles',configHeader(getState))
         .then(res=>{
+            console.log("response", res)
             dispatch({
                 type:actions_types.USER_ROLES,
                 payload:res?.data || []

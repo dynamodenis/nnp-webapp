@@ -61,7 +61,7 @@ function LogoutModal(props) {
                         </div>
                     </div>
                     
-                    <div className="md:w-28 pt-8 md:float-right ">
+                    <div className="md:w-36 pt-8 md:float-right ">
                         <div className="grid grid-cols-2">
                             {/* <Link to="/users"> */}
                             <button type="button" className="bg-white cancel-btn shadow-slate-500 rounded-md text-gray-600 text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>Cancel</button>

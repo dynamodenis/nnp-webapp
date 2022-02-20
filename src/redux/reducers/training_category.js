@@ -1,62 +1,61 @@
 import { actions_types } from '../action-types/types';
 const initialState = {
-    consultants:[],
+    training_categories:[],
     isLoading:false,
     isUpdating:false,
     isDeleting:false,
     isAdding: false,
 }
 
-const consultants  = (state=initialState, action)=>{
+const training_category  = (state=initialState, action)=>{
     switch(action.type){
-        case actions_types.GETTING_CONSULTANT:
+        case actions_types.GETTING_TRAINING_CATEGORY:
             return{
                 ...state,
                 isLoading:true
             }    
-        case actions_types.ADDING_CONSULTANT:
+        case actions_types.ADDING_TRAINING_CATEGORY:
             return {
                 ...state,
                 isAdding: true
             }
-        case actions_types.UPDATING_CONSULTANT:
+        case actions_types.UPDATING_TRAINING_CATEGORY:
             return {
                 ...state,
                 isUpdating: true
             }
-        case actions_types.DELETING_CONSULTANT:
+        case actions_types.DELETING_TRAINING_CATEGORY:
             return {
                 ...state,
                 isDeleting: true
             }
-        case actions_types.GET_CONSULTANT:
-            console.log("consultants from state",action.payload.data)
+        case actions_types.GET_TRAINING_CATEGORY:
             return {
                 ...state,
-                consultants:action.payload.data?.consultants || [],
+                training_categories:action.payload.data || [],
                 isLoading:false
             }
-        case actions_types.ADD_CONSULTANT:
+        case actions_types.ADD_TRAINING_CATEGORY:
             return{
                 ...state,
-                consultants:[...state.consultants,action.payload.data?.consultant],
+                training_categories:[...state.training_categories,action.payload.data['t-category']],
                 isAdding:false
             }
-        case actions_types.UPDATE_CONSULTANT:
-            const index = state.consultants.findIndex(el => el.id === action.payload.data.sme.id);
-            const newArray = [...state.consultants]; 
-            newArray[index] = action.payload.data.vendor;
+        case actions_types.UPDATE_TRAINING_CATEGORY:
+            const index = state.training_categories.findIndex(el => el.id === action.payload.data.TRAINING_CATEGORY.id);
+            const newArray = [...state.training_categories]; 
+            newArray[index] = action.payload.data.TRAINING_CATEGORY;
             return{
                 ...state,
-                consultants:newArray,
+                training_categories:newArray,
                 isUpdating:false,
             }
 
-        case actions_types.DELETE_CONSULTANT:
+        case actions_types.DELETE_TRAINING_CATEGORY:
             return{
                 ...state,
                 isDeleting:false,
-                consultants: state.consultants.filter(user => user.id !== action.payload)
+                training_categories: state.training_categories.filter(user => user.id !== action.payload)
             }
             
         case actions_types.ACTION_FAIL:
@@ -72,5 +71,5 @@ const consultants  = (state=initialState, action)=>{
     }
 }
 
-export default consultants
+export default training_category
 

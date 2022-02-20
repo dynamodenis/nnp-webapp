@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import { connect } from "react-redux";
 import { addUser, loadUserRoles } from "../../redux/actions/users";
 
+
 function CreateUserForm(props) {
   const { user_roles, addUser, loadUserRoles } = props;
   const form = useRef();
@@ -21,6 +22,7 @@ function CreateUserForm(props) {
     setname(event.target.value);
   };
   const handleChangeRole = event => {
+    console.log(event.target.value)
     setRole(event.target.value);
   };
   const handleChangeMail = event => {
@@ -80,6 +82,14 @@ function CreateUserForm(props) {
       }
     });
   };
+
+  let roles = [];
+  user_roles?.forEach((el) => {
+    roles.push({
+      value: el.id,
+      label: el.name - el.desc
+    });
+  })
   return (
     <div className="z-10">
       {/* New order Modal */}
@@ -152,12 +162,13 @@ function CreateUserForm(props) {
                         required
                       >
                         {/* <option value="">Select Role</option> */}
-                        {user_roles.map((role, i) => (
-                          <option key={i} value={role.id}>
+                        {user_roles.map((role, i) => {
+                          return (<option key={i} value={role.id}>
                             {role.name} - {role.desc}
-                          </option>
-                        ))}
+                          </option>)
+                        })}
                       </select>
+                      
                     </div>
                   </div>
 

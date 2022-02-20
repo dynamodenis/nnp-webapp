@@ -1,76 +1,77 @@
 import { actions_types } from '../action-types/types';
 const initialState = {
-    users:[],
+    trainings:[],
     selectedUser:{},
     isLoading:false,
     isUpdating:false,
     isDeleting:false,
     isAdding: false,
-    user_roles:[]
+    training_category:[],
+    trainers:[]
 }
 
-const users  = (state=initialState, action)=>{
+const trainings  = (state=initialState, action)=>{
     switch(action.type){
-        case actions_types.GETTING_USER:
+        case actions_types.GETTING_TRAINING:
             return{
                 ...state,
                 isLoading:true
             }    
-        case actions_types.ADDING_USER:
+        case actions_types.ADDING_TRAINING:
             return {
                 ...state,
                 isAdding: true
             }
-        case actions_types.UPDATING_USER:
+        case actions_types.UPDATING_TRAINING:
             return {
                 ...state,
                 isUpdating: true
             }
-        case actions_types.DELETING_USER:
+        case actions_types.DELETING_TRAINING:
             return {
                 ...state,
                 isDeleting: true
             }
-        case actions_types.SELECTED_USER:
+        case actions_types.GET_TRAINING:
             return {
                 ...state,
-                selectedUser: action.payload
-            }
-        case actions_types.GET_USER:
-            return {
-                ...state,
-                users:action.payload.data.userList || [],
+                trainings:action.payload.data.trainings || [],
                 isLoading:false
             }
-        case actions_types.USER_ROLES:
-            console.log("user roles from state", action.payload.data.roles)
+        case actions_types.GET_TRAINING_CATEGORY:
             return {
                 ...state,
-                user_roles:action.payload.data.roles || [],
+                training_category:action.payload.data || [],
             }
-        case actions_types.ADD_USER:
+        case actions_types.GET_TRAINERS:
+            return {
+                ...state,
+                trainers:action.payload.data.userList || [],
+            }
+        case actions_types.ADD_TRAINING:
+            console.log(action.payload.data)
             return{
                 ...state,
-                users:[...state.users,action.payload.data?.user],
+                trainings:[...state.trainings,action.payload.data?.user],
                 isAdding:false
             }
-        case actions_types.UPDATE_USER:
+        case actions_types.UPDATE_TRAINING:
             console.log("response", action.payload.data)
-            const index = state.users.findIndex(el => el.id === action.payload.data.user.id);
-            const newArray = [...state.users]; 
+            const index = state.trainings.findIndex(el => el.id === action.payload.data.user.id);
+            const newArray = [...state.trainings]; 
             newArray[index] = action.payload.data.user;
             return{
                 ...state,
-                users:newArray,
+                trainings:newArray,
                 isUpdating:false,
                 selectedUser:action.payload.data.user
             }
 
-        case actions_types.DELETE_USER:
+        case actions_types.DELETE_TRAINING:
             return{
                 ...state,
                 isDeleting:false,
-                users: state.users.filter(user => user.id !== action.payload)
+                trainings: state.trainings.filter(user => user.id !== action.payload)
             }
             
         case actions_types.ACTION_FAIL:
@@ -86,5 +87,5 @@ const users  = (state=initialState, action)=>{
     }
 }
 
-export default users
+export default trainings
 

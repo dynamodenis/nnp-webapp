@@ -30,6 +30,7 @@ const columns = [
     { id: 'number', label: 'Phone Number', minWidth: 5 },
     { id: 'email', label: 'Email', minWidth: 10},
     { id: 'role', label: 'Role', minWidth: 10},
+    { id: 'type', label: 'Type', minWidth: 10},
     { id: '', label: 'Actions', minWidth: 5},
 ];
 // Tables CSS
@@ -92,6 +93,21 @@ function UsersTable(props) {
         setEdit(edit)
     },[edit])
 
+    // user type
+    function getType(type_field){
+        let type = "";
+        if(parseInt(type_field) === 1){
+            type = "Nnp user"
+        } else if(parseInt(type_field) === 2){
+            type = "SME"
+        }else if(parseInt(type_field) === 3){
+            type = "Farmer"
+        }
+        return type;
+    }
+    console.log(users)
+    console.log("roles",user_roles)
+
     // Get role name
     function getRole(role_item){
         const selected_role = user_roles.filter(role => role.id = role_item)
@@ -142,6 +158,7 @@ function UsersTable(props) {
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row?.phone}</TableCell>
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row?.mail}</TableCell>
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{getRole(row?.role)}</TableCell>
+                                        <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{getType(row?.type)}</TableCell>
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>
                                             <Grid container direction="row" alignItems="center" spacing={1}>
                                                 <Grid item >

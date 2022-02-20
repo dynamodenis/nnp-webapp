@@ -1,11 +1,46 @@
-import React from "react";
+import React,{useEffect, useState} from "react";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { Link } from 'react-router-dom';
-import Button from "../utils/Button";
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@mui/icons-material/Add';
 
+// Redux
+import {connect} from 'react-redux';
+import { loadTrainingCategory,loadTrainingTrainers } from "../../redux/actions/training";
+import CreateCourses from "./CreateCourses";
 
-function TrainerCourses() {
+function TrainerCourses(props) {
+  const {loadTrainingCategory,loadTrainingTrainers} = props;
+  const [modalIsOpen,setIsOpen] = useState(false);
+  const [modalIsDeleteOpen,setIsDeleteOpen] = useState(false);
+  const [edit, setEdit] = useState();
+  const [modalIsEditOpen,setIsEditOpen] = useState(false);
+
+  // Open Modal
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  // edit function
+  function editItem(row) {
+    setIsEditOpen(true);
+    setEdit(row);
+  }
+
+  // Delte user
+  function deleteItem(row) {
+    setIsDeleteOpen(true);
+    setEdit(row);
+  }
+  useEffect(() => {
+    setEdit(edit);
+  }, [edit]);
+
+  useEffect(() => {
+    loadTrainingCategory();
+    loadTrainingTrainers()
+  },[])
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between gap-2">
@@ -13,13 +48,14 @@ function TrainerCourses() {
             <div className="text-2xl font-medium">
                 Welcome, John Doe.
                 <div className="text-sm link">
-                You have currently uploaded the courses below.
+                This are the current uploaded trainings below.
                 </div>
             </div>
         </div>
-        <div className="md:w-1/2">
-          <Link to="/trainer/courses/create"><Button type="button" class="bg-blue form-btn rounded-md text-white m-auto text-sm" title="Create a Course"/></Link>
-            {/* <input type="text" className="border-radius-10 py-0.5 text-sm border-slate-300 text-slate-500" placeholder="Search a topic" /> */}
+        <div className="w-full md:w-1/2">
+          <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
+            Add Training
+          </button>
         </div>
       </div>
 
@@ -68,8 +104,18 @@ function TrainerCourses() {
             <div><button className="text-slate-500 text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">Check Progress</button></div>
         </div>
       </div>
+
+      <CreateCourses modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
 
-export default TrainerCourses;
+// get the state
+const mapStateToProps = state =>({
+  trainings:state.trainings.trainings,
+  isLoading:state.trainings.isLoading,
+  t_category:state.trainings.training_category,
+  trainers:state.trainings.trainers
+})
+
+export default connect(mapStateToProps,{loadTrainingCategory,loadTrainingTrainers})(React.memo(TrainerCourses));

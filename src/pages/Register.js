@@ -25,6 +25,7 @@ function Register(props) {
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [match, setMatch] = useState(true)
+    const [type, setType] = useState("")
 
     const changePhone = event => {
         
@@ -35,6 +36,9 @@ function Register(props) {
     }
     const changeName = event => {
         setName(event.target.value)
+    }
+    const changeType = event => {
+        setType(event.target.value)
     }
     const changePassword = event => {
         setPassword(event.target.value)
@@ -84,7 +88,7 @@ function Register(props) {
         e.preventDefault()
         const slice_number = phone.slice(-9);
         console.log("07 phone ", slice_number)
-        const form = {phone:`254${slice_number}`, mail,password, name,"sel": 0,"admin": 0,"status": 1,"type": 2}
+        const form = {phone:`254${slice_number}`, mail,password, name,"sel": 0,"admin": 0,"status": 1,"type": parseInt(type)}
         console.log(form)
         registerUser(form).then( res => {
             console.log("response", res)
@@ -101,8 +105,8 @@ function Register(props) {
         </div>
         <div className='flex flex-col sm:m-auto border-radius-10 login-form'>
             <div className='login-form-container registration-form-container min-w-full'>
-                <div className='flex flex-row ml-5 md:ml-6 pt-1'>
-                    <p className='text-center text-sm md:text-lg font-semibold'>Hello There, Dairy Farmer</p>
+                <div className='flex flex-row ml-5 md:ml-14 pt-1'>
+                    <p className='text-center text-sm md:text-lg font-semibold'>Hello there, welcome.</p>
                 </div>
                 <div className='flex justify-center item-center pt-1'>
                     <img src={logo} alt="" className='w-20 pt-1 pb-1'/>
@@ -110,8 +114,21 @@ function Register(props) {
                 <ValidatorForm ref={form}  onSubmit={register} autoComplete='off'>
                     <div className='flex flex-col gap-3 items-center login-fields'>
                         <div>
-                            <label htmlFor="phone" className='text-sm'>Phone Number</label>
+                            <label htmlFor="phone" className='text-sm'>Register As</label>
                                 <label className="relative block text-sm md:text-base">
+                                <div className="">
+                                    <select name="" id="" value={type} onChange={changeType} className="text_inputs--pl block bg-white width-17rem border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3" required>
+                                        <option value="" className="text-slate-400">Select user type</option>
+                                        <option value="3" className="text-slate-400">Farmer</option>
+                                        <option value="2" className="text-slate-400">SME/Vendor</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div>
+                            <label htmlFor="phone" className='text-sm'>Phone Number</label>
+                            <label className="relative block text-sm md:text-base">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     <i className="fa fa-phone h-5 w-5 fill-slate-100"></i>
                                 </span>

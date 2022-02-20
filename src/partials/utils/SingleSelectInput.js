@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'react-select'
 
-function SelectInput(props) {
+function SingleSelectInput(props) {
     return (
         <div>
             <Select
@@ -12,7 +12,6 @@ function SelectInput(props) {
                 placeholder={props.placeholder}
                 value={props.value}
                 style={{outline:'none'}}
-                isMulti
                 required
                 className='select-input'
             />
@@ -20,4 +19,4 @@ function SelectInput(props) {
     )
 }
 
-export default SelectInput
+export default SingleSelectInput
