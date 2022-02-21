@@ -299,3 +299,19 @@ input:focus, textarea:focus{
     left: 50%;
     top: 20%;
 }
+
+// youtube player
+.player-wrapper {
+    position: relative;
+    padding-top: 32.25%; /* Player ratio: 100 / (1280 / 720) */
+
+    @media screen and (max-width: 700px) {
+        padding-top: 56.25%;
+    }
+}
+
+.react-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+}

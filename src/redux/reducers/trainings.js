@@ -7,7 +7,8 @@ const initialState = {
     isDeleting:false,
     isAdding: false,
     training_category:[],
-    trainers:[]
+    trainers:[],
+    training:{}
 }
 
 const trainings  = (state=initialState, action)=>{
@@ -38,6 +39,12 @@ const trainings  = (state=initialState, action)=>{
                 trainings:action.payload.data.trainings || [],
                 isLoading:false
             }
+        case actions_types.GET_SINGLE_TRAINING:
+            return {
+                ...state,
+                training:action.payload.data.training || {},
+                isLoading:false
+            }
         case actions_types.GET_TRAINING_CATEGORY:
             return {
                 ...state,
@@ -49,22 +56,19 @@ const trainings  = (state=initialState, action)=>{
                 trainers:action.payload.data.userList || [],
             }
         case actions_types.ADD_TRAINING:
-            console.log(action.payload.data)
             return{
                 ...state,
-                trainings:[...state.trainings,action.payload.data?.user],
+                trainings:[...state.trainings,action.payload.data?.trainings],
                 isAdding:false
             }
         case actions_types.UPDATE_TRAINING:
-            console.log("response", action.payload.data)
-            const index = state.trainings.findIndex(el => el.id === action.payload.data.user.id);
+            const index = state.trainings.findIndex(el => el.id === action.payload.data.training.id);
             const newArray = [...state.trainings]; 
-            newArray[index] = action.payload.data.user;
+            newArray[index] = action.payload.data.training;
             return{
                 ...state,
                 trainings:newArray,
                 isUpdating:false,
-                selectedUser:action.payload.data.user
             }
 
         case actions_types.DELETE_TRAINING:

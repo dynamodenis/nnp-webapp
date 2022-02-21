@@ -1,4 +1,4 @@
-import React,{useRef, useState} from "react";
+import React,{useRef, useState, useEffect} from "react";
 import Modal from "react-modal";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -10,11 +10,11 @@ import SingleSelectInput from "../utils/SingleSelectInput";
 
 // Redux
 import {connect} from 'react-redux';
-import { addTraining } from "../../redux/actions/training";
+import { updateTraining } from "../../redux/actions/training";
 
-function CreateCourses(props) {
+function EditCourse(props) {
   const form = useRef()
-  const {isLoading,t_trainers, t_category, addTraining} = props;
+  const {isLoading,t_trainers, t_category, updateTraining, edit} = props;
   const [name, setname] = useState("")
   const [category, setCategory] = useState('');
   const [duration, setDuration] = useState('');
@@ -24,6 +24,8 @@ function CreateCourses(props) {
   const [url, setUrl] = useState('');
   const [selectPicture, setSelectPicture] = useState([]);
   const [selectPictureFormData, setSelectPictureFormData] = useState([]);
+  const [hasNotes, setHasNotes] = useState(false);
+  const [id, setId] = useState("")
   
   const changename = event => {
       setname(event.target.value)
@@ -44,6 +46,47 @@ function CreateCourses(props) {
     setTrainers(trainer);
   };
 
+//   get items
+  useEffect(() => {
+    // console.log(edit)
+    const category = t_category['t-category']?.filter(el => el.id === edit?.category);
+    let selected_category = {value:"", label:""};
+    if(category !== undefined){
+        selected_category = {value:category[0]?.id, label:category[0]?.name};
+    } 
+    // Trainers
+    const trainers_array = [];
+    edit?.trainers?.trainers?.map(trainer => {
+        let selected_trainers = t_trainers?.filter(el => el.id === trainer)
+        if(selected_trainers !== undefined){
+            trainers_array.push({value:selected_trainers[0]?.id, label:selected_trainers[0]?.name})
+        }
+    })
+    // Url
+    const selected_picture = [];
+    if(edit !== undefined && Object.keys(edit).length){
+        setUrl(edit?.tMaterials[0]?.url)
+        // set the select pictures
+        edit?.tMaterials[0]?.tMaterialsData?.map(images => {
+            selected_picture.push(`data:image/png;base64,${images.contentDownload}`)
+        })
+    } 
+    
+    setCategory(selected_category)
+    setDuration(edit?.duration)
+    setTrainers(trainers_array)
+    setDescription(edit?.description)
+    setSelectPicture(selected_picture)
+    // check if ckeditor will have data
+    if(edit?.notes){
+        setHasNotes(true)
+    }
+    setNotes(edit?.notes)
+    setId(edit?.id)
+  },[edit])
+
+
+
   const createCourse = (e) =>{
     e.preventDefault()
     const body = {
@@ -58,7 +101,6 @@ function CreateCourses(props) {
     let data = new FormData();
     // data.append('images', selectPictureFormData);
     selectPictureFormData.forEach(item => {
-      // console.log("item")
       data.append('images', item);
      });
     data.append('training', postData);
@@ -68,20 +110,13 @@ function CreateCourses(props) {
     // console.log("url", url)
     // console.log("topic", name)
     // console.log("training", postData)
-    addTraining(data).then(res => {
-      if(res === "success"){
-        setname("")
-        setCategory("")
-        setDuration("")
-        setTrainers("")
-        setNotes("")
-        setDescription("")
-        setSelectPictureFormData([])
-        setUrl("")
-        setSelectPicture([])
-        props.setIsOpen(!props.modalIsOpen)
-      }
+
+    updateTraining(id, data).then(res => {
+        if(res === "success"){
+            props.setIsOpen(!props.modalIsOpen)
+        }
     })
+
   }
 
 
@@ -130,7 +165,7 @@ function CreateCourses(props) {
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
             <div className="text-2xl font-medium">
-                Upload a Training
+                Edit Training
             </div>
         </div>
       </div>
@@ -179,23 +214,44 @@ function CreateCourses(props) {
               </div>
             </div>
 
-            <div className="justify-between flex flex-col gap-4 pt-2">
-              <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">
-                  Notes
-                </label>
+            {hasNotes && 
+                <div className="justify-between flex flex-col gap-4 pt-2">
                 <div className="pt-2">
-                  <CKEditor
-                      editor={ ClassicEditor }
-                      data="<p>Type here!</p>"
-                      onChange={ ( event, editor ) => {
-                          const data = editor.getData();
-                          setNotes(data)
-                      } }
-                  />
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Notes
+                  </label>
+                  <div className="pt-2">
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data={notes}
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            setNotes(data)
+                        } }
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            }
+            {!hasNotes && 
+                <div className="justify-between flex flex-col gap-4 pt-2">
+                <div className="pt-2">
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Notes
+                  </label>
+                  <div className="pt-2">
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data=""
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            setNotes(data)
+                        } }
+                    />
+                  </div>
+                </div>
+              </div>
+            }
 
             <div className="pt-2">
               <label htmlFor="" className="font-semibold text-sm">Topic Link</label>
@@ -234,7 +290,7 @@ function CreateCourses(props) {
                 </button>
                 {isLoading ? 
                   <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
-                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm disabled:opacity-50" title="Save" disabled={!name || !category || !trainers}>Save</button>
+                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm disabled:opacity-50" title="Save" disabled={!name || !category || !trainers}>Update</button>
                 }
               </div>
             </div>
@@ -269,9 +325,9 @@ const customStyles = {
 // get the state
 const mapStateToProps = state =>({
   trainings:state.trainings.trainings,
-  isLoading:state.trainings.isAdding,
+  isLoading:state.trainings.isUpdating,
   t_category:state.trainings.training_category,
   t_trainers:state.trainings.trainers
 })
 
-export default connect(mapStateToProps,{addTraining})(React.memo(CreateCourses));
+export default connect(mapStateToProps,{updateTraining})(React.memo(EditCourse));

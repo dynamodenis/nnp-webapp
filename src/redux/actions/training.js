@@ -63,12 +63,31 @@ export const addTraining = (vendor) => (dispatch,getState) =>{
 }
 
 // get training action
-export const loadTraining = () => (dispatch,getState) =>{
+export const loadTrainings = () => (dispatch,getState) =>{
     dispatch({type: actions_types.GETTING_TRAINING});
     return apiClient.get('/api/v1/training',configHeader(getState))
         .then(res=>{
             dispatch({
                 type:actions_types.GET_TRAINING,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
+// get single trainig action
+export const loadTraining = (id) => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_TRAINING});
+    return apiClient.get(`/api/v1/training/${id}`,configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.GET_SINGLE_TRAINING,
                 payload:res?.data || []
             })
             return "success";

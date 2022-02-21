@@ -15,7 +15,7 @@ const auth  = (state=initalState, action)=>{
                 isLoading:true
             }
         case actions_types.USER_LOADED:
-            // console.log("usrlist",action.payload.data.userList)
+            console.log("usrlist",action.payload.data)
             return{
                 ...state,
                 isLoading:false,
