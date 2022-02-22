@@ -94,7 +94,7 @@ function CreateTrainingCategory(props) {
                 <div className="pt-2">
                   <TextValidator
                     className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
-                    placeholder="Consultant Username"
+                    placeholder="Category name"
                     type="text"
                     name="search"
                     value={name}

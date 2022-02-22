@@ -143,7 +143,7 @@ function Sidebar({
                 <NavLink exact to="/trainer/courses" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/trainer/courses') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <UploadIcon className={`fill-current text-gray-500 ${pathname.includes('/trainer/courses') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">My Courses/Upload</span>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Training Upload</span>
                   </div>
                 </NavLink>
               </li>

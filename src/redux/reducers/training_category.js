@@ -32,7 +32,7 @@ const training_category  = (state=initialState, action)=>{
         case actions_types.GET_TRAINING_CATEGORY:
             return {
                 ...state,
-                training_categories:action.payload.data || [],
+                training_categories:action.payload.data['t-category'] || [],
                 isLoading:false
             }
         case actions_types.ADD_TRAINING_CATEGORY:

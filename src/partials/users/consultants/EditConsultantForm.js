@@ -65,10 +65,10 @@ function EditConsultantForm(props) {
     var postData = JSON.stringify(body);
     console.log(body)
     let data = new FormData();
-    data.append('image', selectPictureFormData);
+    data.append('consultant', postData);
     // Check if picture has been updated
     if (selectPictureFormData !== ""){
-      data.append('consultant', postData);
+      data.append('image', selectPictureFormData);
     }
     updateConsultant(id,data).then (res => {
       if(res === "success"){

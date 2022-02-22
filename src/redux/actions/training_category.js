@@ -46,7 +46,7 @@ export const addTrainingCategory = (vendor) => (dispatch,getState) =>{
 }
 
 // update training
-export const updateTrainingCategory = (vendor) => (dispatch,getState) =>{
+export const updateTrainingCategory = (id, vendor) => (dispatch,getState) =>{
     dispatch({type: actions_types.UPDATING_TRAINING_CATEGORY});
     nprogress.start()
     return apiClient.put(`/api/v1/t-category`,vendor, configHeader(getState))
@@ -72,7 +72,7 @@ export const updateTrainingCategory = (vendor) => (dispatch,getState) =>{
 export const deleteTrainingCategory = (id) => (dispatch,getState) =>{
     dispatch({type: actions_types.DELETING_TRAINING_CATEGORY});
     nprogress.start()
-    return apiClient.delete(`/api/v1/training/delete/${id}`, configHeader(getState))
+    return apiClient.delete(`/api/v1/t-category/delete/${id}`, configHeader(getState))
         .then(()=>{
             dispatch(createMessage({itemAdded:'Training category successfully deleted'}))
             dispatch({
