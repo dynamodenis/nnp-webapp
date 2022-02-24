@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import login_pic from '../images/login-logo.jpeg';
+import login_pic from '../images/login-logo.png';
 import logo from '../images/logo.jpeg';
 import lock from '../images/lock-password.svg';
 import Button from '../partials/utils/Button';

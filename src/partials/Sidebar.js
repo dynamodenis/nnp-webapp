@@ -9,6 +9,7 @@ import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import UploadIcon from '@mui/icons-material/Upload';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import HelpIcon from '@mui/icons-material/Help';
+import ScienceIcon from '@mui/icons-material/Science';
 
 function Sidebar({
   sidebarOpen,
@@ -153,6 +154,15 @@ function Sidebar({
                   <div className="flex items-center">
                     <HelpIcon className={`fill-current text-gray-500 ${pathname.includes('/consultancy') && 'text-gray-600'}`}/>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Consultancy</span>
+                  </div>
+                </NavLink>
+              </li>
+              {/* research */}
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('/research') && 'nav-yellow'}`}>
+                <NavLink exact to="/research" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/research') && 'hover:text-gray-900'}`}>
+                  <div className="flex items-center">
+                    <ScienceIcon className={`fill-current text-gray-500 ${pathname.includes('/research') && 'text-gray-600'}`}/>
+                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Research</span>
                   </div>
                 </NavLink>
               </li>

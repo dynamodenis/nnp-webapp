@@ -11,10 +11,12 @@ import { connect } from "react-redux";
 import { loadTrainingCategory } from "../../redux/actions/training_category";
 import { loadTrainings,loadTrainingTrainers } from "../../redux/actions/training";
 import CircularProgressLoader from "../utils/CircularProgressLoader";
+import NoDataFound from '../utils/NoDataFound';
 function CoursesDashboard(props) {
   let {categories, loadTrainingCategory, loadTrainings,trainings,loadTrainingTrainers,isLoadingCategories,trainers,isLoading} = props;
   const category_id = props.match.params.category_id
   const [category_name, setCategoryName] = useState("")
+  const [trainingsList, setTrainingsList] = useState([]);
 
   let history = useHistory();
   const goToPreviousPath = () => {
@@ -22,24 +24,25 @@ function CoursesDashboard(props) {
   }
   useEffect(() => {
     loadTrainingCategory()
-  },[categories])
-
-  useEffect(() => {
     loadTrainings()
-  },[trainings])
-
-  useEffect(() => {
     loadTrainingTrainers()
-  },[trainers])
+  },[])
 
   useEffect(() => {
     const category = categories?.filter(cat => cat.id === category_id)
     setCategoryName(category[0]?.name)
   },[category_id, categories])
 
-  console.log("categories ", categories)
-  console.log("trainings", trainings)
-  console.log("trainers", trainers)
+  // Filter trainings
+  useEffect(() => {
+    const trainings_filtered = trainings?.filter(train => train.category === category_id)
+    console.log("trainings filtered", trainings_filtered)
+    setTrainingsList(trainings_filtered)
+  },[category_id])
+
+  // console.log("categories ", categories)
+  console.log("trainings aftr filter", trainingsList)
+  // console.log("trainers", trainers)
 
   // Get training category
   function getCategory(cat){
@@ -86,7 +89,7 @@ function CoursesDashboard(props) {
                 </div>
             </div>
         </div>
-        <div className="w-20 md:float-right ">
+        <div className="w-20 float-right ">
           <button type="button" className="bg-blue success-btn rounded-md text-white text-sm" onClick={goToPreviousPath}>Back</button>
         </div>
       </div>
@@ -96,13 +99,14 @@ function CoursesDashboard(props) {
           {/* Filters */}
         </div>
       </div>
-      {(isLoading && isLoadingCategories) ? (
+      {isLoading ? (
           <CircularProgressLoader/>
         ) : (
       <div className="flex flex-col gap-4 pt-8">
-        {trainings?.map((training,index) => (
+        {trainingsList.length === 0 && <NoDataFound/> }
+        {trainingsList?.map((training,index) => (
           <Link to={`/trainings-dashboard/category/${category_id}/training/${training.id}`}>
-            <div className="bg-white border-radius-10 min-height-20vh border-training-card">
+            <div className="bg-white border-radius-10 min-height-20vh border-training-card" key={index}>
               <div className="flex flex-col md:grid md:grid-cols-2 justify-start px-4 py-4 gap-8">
                 <div className="flex flex-col gap-2">
                   <div className="grid grid-cols-2 justify-between">

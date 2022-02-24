@@ -49,11 +49,13 @@ const trainings  = (state=initialState, action)=>{
             return {
                 ...state,
                 training_category:action.payload.data || [],
+                isLoading:false
             }
         case actions_types.GET_TRAINERS:
             return {
                 ...state,
                 trainers:action.payload.data.userList || [],
+                isLoading:false
             }
         case actions_types.ADD_TRAINING:
             return{

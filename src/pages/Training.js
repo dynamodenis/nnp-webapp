@@ -46,4 +46,4 @@ function Training() {
   );
 }
 
-export default Training;
+export default React.memo(Training);

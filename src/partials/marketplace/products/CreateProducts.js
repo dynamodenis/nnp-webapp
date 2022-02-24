@@ -1,4 +1,4 @@
-import React,{useRef, useState} from "react";
+import React,{useRef, useState,useEffect} from "react";
 import Modal from "react-modal";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -10,29 +10,44 @@ import SingleSelectInput from "../../utils/SingleSelectInput";
 
 // Redux
 import {connect} from 'react-redux';
-import { addTraining } from "../../../redux/actions/training";
+import { addProduct } from "../../../redux/actions/products";
 
 function CreateProducts(props) {
   const form = useRef()
-  const {isLoading,t_trainers, t_category, addTraining} = props;
+  const {isLoading,addProduct,categories,vendors,smes} = props;
   const [name, setname] = useState("")
+  const [price, setPrice] = useState(0)
+  const [units, setUnits] = useState("")
   const [category, setCategory] = useState('');
   const [type, setType] = useState('');
   const [trainers, setTrainers] = useState('');
-  const [notes, setNotes] = useState('');
   const [description, setDescription] = useState('');
-  const [url, setUrl] = useState('');
   const [selectPicture, setSelectPicture] = useState([]);
   const [selectPictureFormData, setSelectPictureFormData] = useState([]);
+  const [selectFilterCategories, setSelectFilterCategories] = useState([]);
+  const [selectFilterSuppliers, setSelectFilterSuppliers] = useState([]);
   
   const changename = event => {
       setname(event.target.value)
   }
   const changeType = event => {
+    const cat = categories?.filter(cat => cat.type === parseInt(event.target.value))
+    // filter suppliers
+    if(event.target.value === '1'){
+      // load smes
+      setSelectFilterSuppliers(smes)
+    } else if(event.target.value === '2'){
+      setSelectFilterSuppliers(vendors)
+    }
+    setSelectFilterCategories(cat)
     setType(event.target.value)
   }
-  const changeUrl = event => {
-    setUrl(event.target.value)
+
+  const changePrice = event => {
+    setPrice(event.target.value)
+  }
+  const changeUnits = event => {
+    setUnits(event.target.value)
   }
   const changeDescription = event => {
     setDescription(event.target.value)
@@ -44,41 +59,61 @@ function CreateProducts(props) {
     setTrainers(trainer);
   };
 
+  // Set categories
+  useEffect(() => {
+    setSelectFilterCategories(categories)
+  },[categories])
+
+  // Set supplier
+  useEffect(() => {
+    if(type === '2'){
+      setSelectFilterSuppliers(selectFilterSuppliers.concat(vendors))
+    }
+    
+  },[smes])
+  useEffect(() => {
+    if(type === "1"){
+      setSelectFilterSuppliers(selectFilterSuppliers.concat(smes))
+    }
+  },[vendors])
+
   const createCourse = (e) =>{
     e.preventDefault()
     const body = {
-      "category":category.value,
-      "trainers":{"trainers": trainers?.map(trainer => trainer.value)},
-      "type":parseInt(type),
-      "description":description,
-      "notes":notes,
-      "sel":0
+        "name":name,
+        "description":description,
+        "sel":0,
+        "category":category.value,
+        "type":parseInt(type),
+        "avwcost":parseFloat(price),
+        "del":0,
+        "frezze":0,
+        "levy_1":"",
+        "pack_1":0,
+        "price_1":parseFloat(price),
+        "supplier":trainers.value,
+        "units_1":units,
+        "vat_perc":0,
+        "weight":0,
+        "service":0
     }
     var postData = JSON.stringify(body);
     let data = new FormData();
-    // data.append('images', selectPictureFormData);
-    selectPictureFormData.forEach(item => {
-      // console.log("item")
-      data.append('images', item);
-     });
-    data.append('training', postData);
-    data.append('topic', name);
-    data.append('url', url);
-    // console.log("images",selectPictureFormData)
-    // console.log("url", url)
-    // console.log("topic", name)
-    // console.log("training", postData)
-    addTraining(data).then(res => {
+    data.append('image', selectPictureFormData);
+    data.append('product', postData);
+    // console.log("product", body)
+    // console.log("image", selectPictureFormData)
+    addProduct(data).then(res => {
       if(res === "success"){
         setname("")
         setCategory("")
         setType("")
         setTrainers("")
-        setNotes("")
         setDescription("")
-        setSelectPictureFormData([])
-        setUrl("")
-        setSelectPicture([])
+        setSelectPictureFormData("")
+        setSelectPicture("")
+        setUnits("")
+        setPrice(0)
         props.setIsOpen(!props.modalIsOpen)
       }
     })
@@ -91,16 +126,16 @@ function CreateProducts(props) {
      var reader = new FileReader();
 
      reader.addEventListener("load", () => {
-      setSelectPicture(selectPicture.concat(reader.result))
-      setSelectPictureFormData(selectPictureFormData.concat(e.target.files[0]))
+      setSelectPicture(reader.result)
+      setSelectPictureFormData(e.target.files[0])
      });
      reader.readAsDataURL(file);
    }
  }
 
-   // Select 2 users
+   // Select 2 category
   const cat_options = [];
-  t_category['t-category']?.map( cat => {
+  selectFilterCategories?.map( cat => {
     cat_options.push({
       value:cat.id,
       label:cat.name
@@ -109,7 +144,7 @@ function CreateProducts(props) {
 
   // Select 2 trainers
   const trainers_options = [];
-  t_trainers?.map(trainer => {
+  selectFilterSuppliers?.map(trainer => {
     trainers_options.push({
       value:trainer.id,
       label:trainer.name
@@ -146,32 +181,51 @@ function CreateProducts(props) {
                   errorMessages={['Name is required']}/>
                 </div>
               </div>
-
-              <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">Category</label>
-                
-                <div className="pt-2">
-                  <SingleSelectInput onChange={handleCategory} options={cat_options} placeholder="Select Training Category.." value={category} />
-                </div>
-              </div>
-            </div>
-
-            <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
               <div className="pt-2">
                 <label htmlFor="" className="font-semibold text-sm">Supplier Type</label>
                 <div className="pt-2">
-                    <select value={type} onChange={changeType}  className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm">
+                    <select value={type} onChange={changeType}  className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" required>
+                        <option value="" disabled>Select supplier type</option>
                         <option value="1">SME</option>
                         <option value="2">Vendor</option>
                     </select>
                   {/* <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Training duration" type="number" name="search" value={duration} onChange={changeType}/> */}
                 </div>
               </div>
+              
+            </div>
+
+            <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
+              <div className="pt-2">
+                <label htmlFor="" className="font-semibold text-sm">Product Category</label>
+                
+                <div className="pt-2">
+                  <SingleSelectInput onChange={handleCategory} options={cat_options} placeholder="Select product category.." value={category} />
+                </div>
+              </div>
 
               <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">Trainers</label>
+                <label htmlFor="" className="font-semibold text-sm">Supplier</label>
                 <div className="pt-2">
-                  <SelectInput onChange={handleTrainers} options={trainers_options} placeholder="Select Trainers.." value={trainers} isMulti/>
+                  <SingleSelectInput onChange={handleTrainers} options={trainers_options} placeholder="Select Supplier.." value={trainers}/>
+                </div>
+              </div>
+            </div>
+
+            <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
+              <div className="pt-2">
+                <label htmlFor="" className="font-semibold text-sm">Price</label>
+                <div className="pt-2">
+                  <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Product/Service price" type="text" name="search" value={price} onChange={changePrice} validators={['required']}
+                  errorMessages={['Price is required']}/>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <label htmlFor="" className="font-semibold text-sm">Product units/ Service rate</label>
+                
+                <div className="pt-2">
+                <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Product units/ Service rate" type="text" name="search" value={units} onChange={changeUnits} />
                 </div>
               </div>
             </div>
@@ -186,47 +240,22 @@ function CreateProducts(props) {
             <div className="justify-between flex flex-col gap-4 pt-2">
               <div className="pt-2">
                 <label htmlFor="" className="font-semibold text-sm">
-                  Notes
-                </label>
-                <div className="pt-2">
-                  <CKEditor
-                      editor={ ClassicEditor }
-                      data="<p>Type here!</p>"
-                      onChange={ ( event, editor ) => {
-                          const data = editor.getData();
-                          setNotes(data)
-                      } }
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-2">
-              <label htmlFor="" className="font-semibold text-sm">Topic Link</label>
-              <div className="pt-2">
-                <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="https://www.youtube.com/watch?v=ysz5S6PUM-U" type="text" name="search" value={url} onChange={changeUrl} />
-              </div>
-            </div>
-
-            <div className="justify-between flex flex-col gap-4 pt-2">
-              <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">
-                    Training images
+                    Product/Sevice image
                 </label>
                 <div className="flex flex-col gap-8">
                   <div className="pt-2">
                     <input type="file" id="product_file_input" accept="image/*" onChange={uploadImage} hidden/>
                     <label htmlFor="product_file_input" title="Upload picture" className="product_file_input"> + Upload images</label>
                   </div>
-                  {/* <div className="pl-10">
-                      <img src={selectPicture[0]} alt="" id="img" className="product_img" />
-                  </div> */}
+                  <div className="pl-10">
+                      <img src={selectPicture} alt="" id="img" className="product_img" />
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-2">
+                {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-2">
                   {selectPicture.map((pic, i) => (
                     <img src={pic} alt="" id="img" className="product_img" key={i} />
                   ))}
-                </div>
+                </div> */}
               
               </div>
             </div>
@@ -272,10 +301,10 @@ const customStyles = {
 
 // get the state
 const mapStateToProps = state =>({
-  trainings:state.trainings.trainings,
-  isLoading:state.trainings.isAdding,
-  t_category:state.trainings.training_category,
-  t_trainers:state.trainings.trainers
+  isLoading:state.products.isAdding,
+  categories: state.product_category.product_categories,
+  vendors:state.vendors.vendors,
+  smes: state.smes.smes,
 })
 
-export default connect(mapStateToProps,{addTraining})(React.memo(CreateProducts));
+export default connect(mapStateToProps,{addProduct})(React.memo(CreateProducts));

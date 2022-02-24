@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import login_pic from '../images/login-logo.jpeg';
+import login_pic from '../images/login-logo.png';
 import logo from '../images/logo.jpeg';
 import Button from '../partials/utils/Button';
 import { Link,Redirect } from 'react-router-dom';

@@ -9,6 +9,9 @@ import smes from './smes'
 import consultants from './consultants'
 import trainings from './trainings';
 import training_category from './training_category';
+import product_category from './product_category';
+import products from './products';
+import research_category from './research_category';
 
 const rootReducer = combineReducers({
     auth:auth,
@@ -19,7 +22,10 @@ const rootReducer = combineReducers({
     smes:smes,
     consultants:consultants,
     trainings,
-    training_category
+    training_category,
+    product_category,
+    products,
+    research_category
 })
 
 export default rootReducer

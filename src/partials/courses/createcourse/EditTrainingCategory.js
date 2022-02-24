@@ -46,9 +46,9 @@ function EditTrainingCategory(props) {
     }
     var postData = JSON.stringify(body);
     let data = new FormData();
-    // if (selectPictureFormData !== ""){
+    if (selectPictureFormData !== ""){
         data.append('image', selectPictureFormData);
-    // }
+    }
     data.append('tcategory', postData);
     updateTrainingCategory(data).then( res => {
       if(res === "success"){

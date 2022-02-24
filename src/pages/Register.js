@@ -1,6 +1,6 @@
 import React,{useState, useRef} from 'react';
 import logo from '../images/logo.jpeg';
-import register_logo from '../images/login-logo.jpeg';
+import register_logo from '../images/login-logo.png';
 import lock from '../images/lock-password.svg';
 import eye from '../images/eye.png';
 import eye_slash from '../images/eye-slash.jpeg';

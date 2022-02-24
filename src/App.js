@@ -29,6 +29,8 @@ import Alert from './partials/utils/Alert';
 import OTP from './pages/OTP';
 import Vendors from './pages/vendors_management/Vendors';
 import Smes from './pages/smes_management/Smes';
+import ErrorNotFound from './pages/ErrorNotFound';
+import Researches from './pages/research _management/Researches';
 
 function App() {
 
@@ -96,6 +98,9 @@ function App() {
         <Route exact path="/marketplace">
           <MarketPlace/>
         </Route>
+        <Route exact path="/marketplace/products/category">
+          <MarketPlace/>
+        </Route>
         <Route exact path="/consultancy">
           <Consultancy/>
         </Route>
@@ -104,6 +109,15 @@ function App() {
         </Route>
         <Route exact path="/users/consultant/edit/:id">
           <Consultancy/>
+        </Route>
+        <Route exact path="/research">
+          <Researches/>
+        </Route>
+        <Route exact path="/research/category">
+          <Researches/>
+        </Route>
+        <Route path="*">
+          <ErrorNotFound/>
         </Route>
       </Switch>
     </>
