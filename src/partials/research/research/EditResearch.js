@@ -1,4 +1,4 @@
-import React,{useRef, useState} from "react";
+import React,{useRef, useState, useEffect} from "react";
 import Modal from "react-modal";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -10,35 +10,27 @@ import SingleSelectInput from "../../utils/SingleSelectInput";
 
 // Redux
 import {connect} from 'react-redux';
-import { addTraining } from "../../../redux/actions/training";
+import { updateResearch } from "../../../redux/actions/research";
 
-function EditProduct(props) {
+function EditResearch(props) {
   const form = useRef()
-  const {isLoading,t_trainers, t_category, addTraining, edit} = props;
+  const {isLoading,t_trainers, categories, updateResearch, edit} = props;
   const [name, setname] = useState("")
-  const [price, setPrice] = useState(0)
-  const [units, setUnits] = useState("")
+  const [id, setId] = useState("")
   const [category, setCategory] = useState('');
-  const [type, setType] = useState('');
+  const [duration, setDuration] = useState('');
   const [trainers, setTrainers] = useState('');
   const [description, setDescription] = useState('');
+  const [url, setUrl] = useState('');
   const [selectPicture, setSelectPicture] = useState([]);
   const [selectPictureFormData, setSelectPictureFormData] = useState([]);
+  const [hasNotes, setHasNotes] = useState(false);
   
   const changename = event => {
       setname(event.target.value)
   }
-  const changeType = event => {
-    setType(event.target.value)
-  }
-  const changePrice = event => {
-    setPrice(event.target.value)
-  }
-  const changeUnits = event => {
-    setUnits(event.target.value)
-  }
-  const changeDescription = event => {
-    setDescription(event.target.value)
+  const changeUrl = event => {
+    setUrl(event.target.value)
   }
   const handleCategory = rep => {
     setCategory(rep);
@@ -46,32 +38,81 @@ function EditProduct(props) {
   const handleTrainers = trainer => {
     setTrainers(trainer);
   };
-  console.log(edit)
+
+    // get items
+    useEffect(() => {
+        // console.log(edit)
+        const category = categories?.filter(el => el.id === edit?.category);
+        let selected_category = {value:"", label:""};
+        if(category !== undefined){
+            selected_category = {value:category[0]?.id, label:category[0]?.name};
+        } 
+        // Trainers
+        const trainers_array = [];
+        edit?.trainers?.trainers?.map(trainer => {
+            let selected_trainers = t_trainers?.filter(el => el.id === trainer)
+            if(selected_trainers !== undefined){
+                trainers_array.push({value:selected_trainers[0]?.id, label:selected_trainers[0]?.name})
+            }
+        })
+        // Url
+        const selected_picture = [];
+        if(edit !== undefined && Object.keys(edit).length){
+            setUrl(edit?.rMaterials[0]?.url)
+            // set the select pictures
+            edit?.rMaterials[0]?.rResources?.map(images => {
+                selected_picture.push(`data:image/png;base64,${images.image.data}`)
+                
+            })
+            console.log(selected_picture)
+        } 
+        
+        setCategory(selected_category)
+        setDuration(edit?.duration)
+        setTrainers(trainers_array)
+        setDescription(edit?.description)
+        setSelectPicture(selected_picture)
+        // check if ckeditor will have data
+        if(edit?.description){
+            setHasNotes(true)
+        }
+        setId(edit?.id)
+    },[edit])
 
   const createCourse = (e) =>{
     e.preventDefault()
     const body = {
       "category":category.value,
       "trainers":{"trainers": trainers?.map(trainer => trainer.value)},
-      "type":parseInt(type),
       "description":description,
       "sel":0
     }
     var postData = JSON.stringify(body);
     let data = new FormData();
-    // data.append('images', selectPictureFormData);
-    selectPictureFormData.forEach(item => {
-      // console.log("item")
-      data.append('images', item);
-     });
-    data.append('training', postData);
+    // check if images are selected
+    console.log(selectPictureFormData)
+    if (selectPicture.length > 0){
+        selectPictureFormData.forEach(item => {
+        // console.log("item")
+        data.append('images', item);
+        });
+    } else {
+        data.append('images', []);
+    }
+    // data.append('images', []);
+    data.append('research', postData);
     data.append('topic', name);
-    // console.log("images",selectPictureFormData)
-    // console.log("url", url)
-    // console.log("topic", name)
-    // console.log("training", postData)
-    addTraining(data).then(res => {
+    data.append('url', url);
+    updateResearch(id,data).then(res => {
       if(res === "success"){
+        setname("")
+        setCategory("")
+        setDuration("")
+        setTrainers("")
+        setDescription("")
+        setSelectPictureFormData([])
+        setUrl("")
+        setSelectPicture([])
         props.setIsOpen(!props.modalIsOpen)
       }
     })
@@ -93,7 +134,7 @@ function EditProduct(props) {
 
    // Select 2 users
   const cat_options = [];
-  t_category['t-category']?.map( cat => {
+  categories?.map( cat => {
     cat_options.push({
       value:cat.id,
       label:cat.name
@@ -123,7 +164,7 @@ function EditProduct(props) {
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
             <div className="text-2xl font-medium">
-                Edit a Product
+                Edit a Research
             </div>
         </div>
       </div>
@@ -133,71 +174,82 @@ function EditProduct(props) {
           <ValidatorForm ref={form} onSubmit={createCourse} autoComplete='off'>
             <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
               <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">Product Name</label>
+                <label htmlFor="" className="font-semibold text-sm">Name/Topic</label>
                 <div className="pt-2">
-                  <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Product name" type="text" name="search" value={name} onChange={changename} validators={['required']}
+                  <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Research title" type="text" name="search" value={name} onChange={changename} validators={['required']}
                   errorMessages={['Name is required']}/>
                 </div>
               </div>
 
               <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">Category</label>
+                <label htmlFor="" className="font-semibold text-sm">Research Category</label>
                 
                 <div className="pt-2">
-                  <SingleSelectInput onChange={handleCategory} options={cat_options} placeholder="Select product category.." value={category} />
+                  <SingleSelectInput onChange={handleCategory} options={cat_options} placeholder="Select Research Category.." value={category} />
                 </div>
               </div>
             </div>
 
             <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
               <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">Supplier Type</label>
+                <label htmlFor="" className="font-semibold text-sm">Research Link</label>
                 <div className="pt-2">
-                    <select value={type} onChange={changeType}  className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm">
-                        <option value="1">SME</option>
-                        <option value="2">Vendor</option>
-                    </select>
-                  {/* <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Training duration" type="number" name="search" value={duration} onChange={changeType}/> */}
+                    <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="https://www.youtube.com/watch?v=ysz5S6PUM-U" type="text" name="search" value={url} onChange={changeUrl} />
                 </div>
-              </div>
+                </div>
 
               <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">Trainers</label>
+                <label htmlFor="" className="font-semibold text-sm">Researchers/Trainers</label>
                 <div className="pt-2">
-                  <SelectInput onChange={handleTrainers} options={trainers_options} placeholder="Select Supplier.." value={trainers} isMulti/>
+                  <SelectInput onChange={handleTrainers} options={trainers_options} placeholder="Select Researchers.." value={trainers} isMulti/>
                 </div>
               </div>
             </div>
 
-            <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
-              <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">Price</label>
+            {hasNotes && 
+                <div className="justify-between flex flex-col gap-4 pt-2">
                 <div className="pt-2">
-                  <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Product/Service price" type="text" name="search" value={price} onChange={changePrice} validators={['required']}
-                  errorMessages={['Price is required']}/>
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Description/Notes
+                  </label>
+                  <div className="pt-2">
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data={description}
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            setDescription(data)
+                        } }
+                    />
+                  </div>
                 </div>
               </div>
+            }
 
-              <div className="pt-2">
-                <label htmlFor="" className="font-semibold text-sm">Product units/ Service rate</label>
-                
+            {!hasNotes && 
+                <div className="justify-between flex flex-col gap-4 pt-2">
                 <div className="pt-2">
-                <TextValidator className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" placeholder="Product units/ Service rate" type="text" name="search" value={units} onChange={changeUnits} />
+                  <label htmlFor="" className="font-semibold text-sm">
+                    Description/Notes
+                  </label>
+                  <div className="pt-2">
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data=""
+                        onChange={ ( event, editor ) => {
+                            const data = editor.getData();
+                            setDescription(data)
+                        } }
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <div className="pt-2">
-              <label htmlFor="" className="font-semibold text-sm">Decription</label>
-              <div className="pt-2">
-                <textarea name="" id="" cols="30" rows="3" className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm" value={description} onChange={changeDescription} required></textarea>
-              </div>
-            </div>
+            }
 
             <div className="justify-between flex flex-col gap-4 pt-2">
               <div className="pt-2">
                 <label htmlFor="" className="font-semibold text-sm">
-                    Training images
+                    Research images
                 </label>
                 <div className="flex flex-col gap-8">
                   <div className="pt-2">
@@ -224,7 +276,7 @@ function EditProduct(props) {
                 </button>
                 {isLoading ? 
                   <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
-                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm disabled:opacity-50" title="Save" disabled={!name || !category || !trainers}>Update</button>
+                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm disabled:opacity-50" title="Save" disabled={!name || !category || !trainers}>Save</button>
                 }
               </div>
             </div>
@@ -259,9 +311,9 @@ const customStyles = {
 // get the state
 const mapStateToProps = state =>({
   trainings:state.trainings.trainings,
-  isLoading:state.trainings.isAdding,
-  t_category:state.trainings.training_category,
+  isLoading:state.research.isUpdating,
+  categories: state.research_category.research_categories,
   t_trainers:state.trainings.trainers
 })
 
-export default connect(mapStateToProps,{addTraining})(React.memo(EditProduct));
+export default connect(mapStateToProps,{updateResearch})(React.memo(EditResearch));

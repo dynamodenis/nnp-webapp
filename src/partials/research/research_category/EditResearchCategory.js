@@ -28,11 +28,13 @@ function EditResearchCategory(props) {
     e.preventDefault();
 
     const body = {
-      "id":id,
+      "id": id,
       "name": name,
-    };
-    // console.log(body)
-    updateResearchCategory(body).then(res => {
+      "sel": 1,
+      // "init_dte": "2022-02-24 16:58:39"
+    }
+    console.log(JSON.stringify(body))
+    updateResearchCategory(JSON.stringify(body)).then(res => {
       if (res === "success") {
      
         props.setIsOpen(!props.modalIsOpen);
@@ -54,7 +56,7 @@ function EditResearchCategory(props) {
         <div className="md:pl-8 md:pr-8">
           <div className="flex flex-col sm:flex-row justify-between gap-2">
             <div>
-              <div className="text-2xl font-medium">Edit Category Category</div>
+              <div className="text-2xl font-medium">Edit Research Category</div>
             </div>
           </div>
 

@@ -11,9 +11,10 @@ import { loadProductCategory } from "../../redux/actions/product_category";
 import { loadVendors } from "../../redux/actions/vendors";
 import { loadSmes } from "../../redux/actions/smes";
 import { loadProducts } from "../../redux/actions/products";
+import CircularProgressLoader from "../utils/CircularProgressLoader";
 
 function MarketPlaceProducts(props) {
-  const {loadProductCategory,loadVendors,loadSmes,loadProducts,products} = props;
+  const {loadProductCategory,loadVendors,loadSmes,loadProducts,products, isLoading} = props;
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsDeleteOpen, setIsDeleteOpen] = useState(false);
   const [edit, setEdit] = useState();
@@ -46,7 +47,7 @@ function MarketPlaceProducts(props) {
     loadProducts()
   },[])
 
-  console.log("products   ", products)
+  // console.log("products   ", products)
 
   function getImage(cat){
     let imageList = cat?.pImages
@@ -89,13 +90,16 @@ function MarketPlaceProducts(props) {
           Filters
         </div>
       </div>
+      {isLoading ? (
+        <CircularProgressLoader/>
+      ) : (
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">
         {products?.map((product,index) => (
           <div key={index} className="bg-white border-radius-10 min-height-20vh cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-30 duration-300">
             <div className="flex flex-col rounded-md shadow-lg">
               <div>
                 {/* <img src={user} alt="" className="h-40 w-full bg-cover bg-center"/> */}
-                <div className="bg-cover bg-center h-52 w-full bg-no-repeat rounded-md" style={{backgroundImage: `url(${getImage(product)})`}}></div>
+                <div className="bg-contain bg-center h-52 w-full bg-no-repeat rounded-md" style={{backgroundImage: `url(${getImage(product)})`}}></div>
               </div>
               <div className="p-2">
                 <div className="text-md font-medium">{product.name}</div>
@@ -104,15 +108,15 @@ function MarketPlaceProducts(props) {
               </div>
               <div className="flex flex-row justify-center gap-2 pb-4">
                 <div><Link to="/training/:id"><button className="text-slate-500 text-xs view-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">View</button></Link></div>
-                <div><button className="text-slate-500 text-xs edit-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem('training')} >Edit</button></div>
-                <div><button className="text-slate-500 text-xs delete-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => deleteItem('training')} >Delete</button></div>
+                <div><button className="text-slate-500 text-xs edit-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(product)} >Edit</button></div>
+                <div><button className="text-slate-500 text-xs delete-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => deleteItem(product)} >Delete</button></div>
               </div>
             </div>
           </div>
         ))}
       
       </div>
-
+      )}
       <CreateProducts modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
       <EditProduct edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen} />
       <DeleteProduct edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} />

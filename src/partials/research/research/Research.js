@@ -8,20 +8,26 @@ import AddIcon from "@mui/icons-material/Add";
 
 // Redux
 import { connect } from "react-redux";
-import { loadTrainingCategory, loadTrainingTrainers, loadTrainings } from "../../../redux/actions/training";
 // import CreateCourses from "./CreateCourses";
 import CircularProgressLoader from "../../utils/CircularProgressLoader";
 // import EditCourse from "./EditCourse";
 // import DeleteCourse from "./DeleteCourse";
+import { loadResearchCategory } from "../../../redux/actions/research_category";
+import { loadResearches } from "../../../redux/actions/research";
+import { loadTrainingTrainers } from "../../../redux/actions/training";
+import CreateResearch from "./CreateResearch";
+import NoDataFound from '../../utils/NoDataFound';
+import DeleteResearch from "./DeleteResearch";
+import EditResearch from './EditResearch';
 
 function Research(props) {
-  let { loadTrainingCategory, loadTrainingTrainers, loadTrainings, user, trainings, isLoading, t_category, trainers } = props;
+  let { loadResearchCategory, user, researches, isLoading, categories, trainers,loadResearches,loadTrainingTrainers } = props;
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsDeleteOpen, setIsDeleteOpen] = useState(false);
   const [edit, setEdit] = useState();
   const [modalIsEditOpen, setIsEditOpen] = useState(false);
   const [role, setRole] = useState("");
-  const [trainingsList, setTrainingsList] = useState([]);
+  const [researchesList, setResearchesList] = useState([]);
   // check if user is undefined
   if (user !== "undefined") {
     user = JSON.parse(user);
@@ -33,11 +39,11 @@ function Research(props) {
     isLoading = true;
     if(event.target.value){
       // console.log(event.target.value)
-      const trainings_filtered = trainings?.filter(item => item.category === event.target.value)
-      setTrainingsList(trainings_filtered)
+      const researches_filtered = researches?.filter(item => item.category === event.target.value)
+      setResearchesList(researches_filtered)
       isLoading = false
     } else {
-      setTrainingsList(trainings)
+      setResearchesList(researches)
     }
     isLoading = false
     setRole(event.target.value);
@@ -59,22 +65,26 @@ function Research(props) {
     setIsDeleteOpen(true);
     setEdit(row);
   }
+
   useEffect(() => {
     setEdit(edit);
   }, [edit]);
 
   useEffect(() => {
-    // loadTrainingCategory();
-    // loadTrainingTrainers();
-    // loadTrainings();
+    loadResearchCategory();
+    loadTrainingTrainers();
+    loadResearches()
   }, []);
+
   useEffect(() => {
-    setTrainingsList(trainings)
-  },[trainings])
+    setResearchesList(researches)
+  },[researches])
+
+  console.log(researches)
 
   // Get training category
   function getCategory(cat){
-    const category = t_category['t-category']?.filter(item => item.id === cat)
+    const category = categories?.filter(item => item.id === cat)
     if(category !== undefined){
       // console.log("category", category)
       return category[0]?.name || "";
@@ -101,7 +111,7 @@ function Research(props) {
         <div className="flex flex-row gap-4 justify-between md:w-2/4">
           <div className="w-full">
             <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm md:w-full" onClick={openModal}>
-              Add Product
+              Add Research
             </button>
           </div>
           <div className="w-full">
@@ -124,7 +134,7 @@ function Research(props) {
               required
             >
               <option value="">Select All</option>
-              {t_category['t-category']?.map((cat, i) => (
+              {categories?.map((cat, i) => (
                 <option key={i} value={cat.id} className="h-2">{cat.name}</option>
               ))}
             </select>
@@ -134,22 +144,22 @@ function Research(props) {
       {isLoading ? (
         <CircularProgressLoader />
       ) : (
+        <>
+        <div className="pt-8">
+          {researchesList.length === 0 && <NoDataFound/>  }
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
-          {trainingsList.map((training, index) => (
+          {researchesList.map((training, index) => (
             
               <div key={index} className={`bg-white border-radius-10 min-height-20vh ${index % 2 === 0 ? 'courses-card-2' :'courses-card-1'}  p-1 md:p-4 cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-30 duration-300`}>
                 <div className="grid grid-cols-2 justify-between">
-                  <div className="font-medium">
-                    <AccessTimeIcon className="text-xs" style={{fontSize:"20px"}} />
-                    <span className="text-xs pl-2 text-slate-500">Duration {training.duration} Min</span>
-                  </div>
                   <div className="font-medium">
                     <CategoryIcon className="text-xs" style={{fontSize:"20px"}} />
                     <span className="text-xs pl-2 text-slate-500">{getCategory(training.category)}</span>
                   </div>
 
                 </div>
-                <div className="text-lg font-semibold pt-2">Sample Course A</div>
+                <div className="text-lg font-semibold pt-4">Sample Course A</div>
                 <div className="pt-2 flex flex-row justify-start pb-2">
                   <AccountBoxIcon className="text-xs text-slate-500" />
                   <div>
@@ -169,8 +179,11 @@ function Research(props) {
             
           ))}
         </div>
+        </>
       )}
-
+      <CreateResearch modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
+      <DeleteResearch edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} />
+      <EditResearch edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen} />
       {/* <CreateCourses modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
       <EditCourse edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen} />
       <DeleteCourse edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} /> */}
@@ -180,11 +193,11 @@ function Research(props) {
 
 // get the state
 const mapStateToProps = state => ({
-  trainings: state.trainings.trainings,
-  isLoading: state.trainings.isLoading,
-  t_category: state.trainings.training_category,
+  researches: state.research.researches,
+  isLoading: state.research.isLoading,
+  categories: state.research_category.research_categories,
   trainers: state.trainings.trainers,
   user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { loadTrainingCategory, loadTrainingTrainers, loadTrainings })(React.memo(Research));
+export default connect(mapStateToProps, { loadResearchCategory, loadResearches,loadTrainingTrainers })(React.memo(Research));

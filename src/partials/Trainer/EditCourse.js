@@ -46,7 +46,7 @@ function EditCourse(props) {
     setTrainers(trainer);
   };
 
-//   get items
+  // get items
   useEffect(() => {
     // console.log(edit)
     const category = t_category['t-category']?.filter(el => el.id === edit?.category);

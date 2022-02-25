@@ -7,11 +7,10 @@ import { makeStyles } from '@material-ui/core/styles';
 
 // Redux
 import {connect} from 'react-redux'
-import { deleteProduct } from '../../../redux/actions/products';
+import { deleteResearch } from '../../../redux/actions/research';
 
-
-function DeleteProduct(props) {
-    const {deleteProduct,setIsOpen,modalIsOpen} = props;
+function DeleteResearch(props) {
+    const {deleteResearch,setIsOpen,modalIsOpen} = props;
     const classes = useStyles();
     const [selectId, setSelectId] = useState("");
     const [selectName, setSelectName] = useState("");
@@ -21,7 +20,7 @@ function DeleteProduct(props) {
     // SUBMIT FORM
     const handleSubmit = event => {
         event.preventDefault();
-        deleteProduct(selectId).then((res) => {
+        deleteResearch(selectId).then((res) => {
             if(res === "success"){
                 setIsOpen(!modalIsOpen)  
             }
@@ -49,7 +48,7 @@ function DeleteProduct(props) {
 
             <div className="flex flex-row justify-between">
                 <span className="text-lg font-semibold">
-                    Delete Product
+                    Delete Research
                 </span>
                 <IconButton  style={{ padding: 2, color:"#FF5C5C"}} onClick={() => props.setIsOpen(!props.modalIsOpen)}>
                     <HighlightOffIcon fontSize="small"/>
@@ -125,8 +124,8 @@ const useStyles = makeStyles({
 });
 const mapStateToProps = state => {
     return{
-        isLoading: state.products.isDeleting,
+        isLoading: state.research.isDeleting,
     }
 }
 
-export default connect(mapStateToProps, {deleteProduct})(React.memo(DeleteProduct))
+export default connect(mapStateToProps, {deleteResearch})(React.memo(DeleteResearch))

@@ -12,6 +12,7 @@ import training_category from './training_category';
 import product_category from './product_category';
 import products from './products';
 import research_category from './research_category';
+import research from './research'
 
 const rootReducer = combineReducers({
     auth:auth,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
     training_category,
     product_category,
     products,
-    research_category
+    research_category,
+    research
 })
 
 export default rootReducer

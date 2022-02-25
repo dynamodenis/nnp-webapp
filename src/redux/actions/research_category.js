@@ -51,6 +51,7 @@ export const updateResearchCategory = (id, vendor) => (dispatch,getState) =>{
     nprogress.start()
     return apiClient.put(`/api/v1/r-category`,vendor, configHeader(getState))
         .then(res=>{
+            console.log("response", res)
             dispatch(createMessage({itemAdded:'Research category successfully updated'}))
             dispatch({
                 type:actions_types.UPDATE_RESEARCH_CATEGORY,
@@ -60,6 +61,7 @@ export const updateResearchCategory = (id, vendor) => (dispatch,getState) =>{
             return "success";
         })
         .catch(err => {
+            console.log("error", err)
             dispatch(returnErrors(err.response?.data, err.response?.status))
             dispatch({
                 type:actions_types.ACTION_FAIL,
