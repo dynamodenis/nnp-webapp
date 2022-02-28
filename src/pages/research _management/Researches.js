@@ -5,6 +5,7 @@ import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import Research from '../../partials/research/research/Research';
 import ResearchCategory from '../../partials/research/research_category/ResearchCategory';
+import ResearchDetails from '../../partials/research/research/ResearchDetails';
 
 
 function Researches() {
@@ -32,6 +33,7 @@ function Researches() {
             <div className="flex flex-col gap-6">
               {pathname === "/research" && <Research/>}  
               {pathname === "/research/category" && <ResearchCategory/> }  
+              {pathname.includes("/research/details") && <ResearchDetails/> } 
             </div>
 
           </div>

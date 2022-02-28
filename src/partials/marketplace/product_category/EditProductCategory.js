@@ -26,7 +26,7 @@ function EditProductCategory(props) {
     setname(edit?.name)
     setId(edit?.id)
     setType((edit?.type) ? edit?.type.toString() :"")
-    console.log(edit)
+    // console.log(edit)
   },[edit])
 
 
@@ -38,10 +38,8 @@ function EditProductCategory(props) {
       "name": name,
       "type": parseInt(type),
     };
-    console.log(body)
-    updateProductCategory(body).then(res => {
+    updateProductCategory(id, body).then(res => {
       if (res === "success") {
-     
         props.setIsOpen(!props.modalIsOpen);
       }
     });

@@ -62,6 +62,7 @@ function UsersTable(props) {
     const [modalIsDeleteOpen,setIsDeleteOpen] = useState(false);
     const [edit, setEdit] = useState();
     const [modalIsEditOpen,setIsEditOpen] = useState(false);
+    const [search, setSearch] = useState("")
     
   
     const handleChangePage = (event, newPage) => {
@@ -105,19 +106,24 @@ function UsersTable(props) {
         }
         return type;
     }
-    console.log(users)
-    console.log("roles",user_roles)
+    // console.log(users)
+    // console.log("roles",user_roles)
 
     // Get role name
     function getRole(role_item){
         const selected_role = user_roles.filter(role => role.id = role_item)
         return selected_role[0]?.name
     }
+
+    // search 
+    function searchUser(e){
+        setSearch(e.target.value);
+    }
     return (
         <div className="survey_container">
             <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
                 <div className="">
-                    <input type="text" className="w-full border-radius-10 py-1 text-sm border-slate-300 text-slate-500" placeholder="Search a user" />
+                    <input type="text" value={search} onChange={searchUser} className="w-full border-radius-10 py-1 text-sm border-slate-300 text-slate-500" placeholder="Search a user" />
                 </div>
 
                 <div className="w-full md:w-1/2">

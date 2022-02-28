@@ -17,7 +17,6 @@ function CreateResearch(props) {
   const {isLoading,t_trainers, categories, addResearch} = props;
   const [name, setname] = useState("")
   const [category, setCategory] = useState('');
-  const [duration, setDuration] = useState('');
   const [trainers, setTrainers] = useState('');
   const [description, setDescription] = useState('');
   const [url, setUrl] = useState('');
@@ -58,7 +57,6 @@ function CreateResearch(props) {
       if(res === "success"){
         setname("")
         setCategory("")
-        setDuration("")
         setTrainers("")
         setDescription("")
         setSelectPictureFormData([])

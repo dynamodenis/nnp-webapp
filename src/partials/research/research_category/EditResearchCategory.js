@@ -33,10 +33,8 @@ function EditResearchCategory(props) {
       "sel": 1,
       // "init_dte": "2022-02-24 16:58:39"
     }
-    console.log(JSON.stringify(body))
-    updateResearchCategory(JSON.stringify(body)).then(res => {
-      if (res === "success") {
-     
+    updateResearchCategory(id, JSON.stringify(body)).then(res => {
+      if (res === "success") {    
         props.setIsOpen(!props.modalIsOpen);
       }
     });

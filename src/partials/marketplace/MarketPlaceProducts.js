@@ -14,16 +14,34 @@ import { loadProducts } from "../../redux/actions/products";
 import CircularProgressLoader from "../utils/CircularProgressLoader";
 
 function MarketPlaceProducts(props) {
-  const {loadProductCategory,loadVendors,loadSmes,loadProducts,products, isLoading} = props;
+  const {loadProductCategory,loadVendors,loadSmes,loadProducts,products, isLoading, categories,vendors, smes} = props;
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsDeleteOpen, setIsDeleteOpen] = useState(false);
   const [edit, setEdit] = useState();
   const [modalIsEditOpen, setIsEditOpen] = useState(false);
+  const [role, setRole] = useState("");
+  const [productsList, setProductsList] = useState([]);
+
+  const handleChangeRole = event => {
+    // isLoading = true;
+    if(event.target.value){
+      // console.log(event.target.value)
+      const products_filtered = products?.filter(item => item.category === event.target.value)
+      setProductsList(products_filtered)
+      // isLoading = false
+    } else {
+      setProductsList(products)
+    }
+    // isLoading = false
+    setRole(event.target.value);
+  };
+
 
   // Open Modal
   function openModal() {
     setIsOpen(true);
   }
+
 
   // edit function
   function editItem(row) {
@@ -47,6 +65,10 @@ function MarketPlaceProducts(props) {
     loadProducts()
   },[])
 
+  useEffect(() => {
+    setProductsList(products)
+  },[products])
+
   // console.log("products   ", products)
 
   function getImage(cat){
@@ -57,6 +79,37 @@ function MarketPlaceProducts(props) {
     }
     // console.log(image)
     return image
+  }
+
+  // Get product category
+  function getCategory(cat){
+    const category = categories?.filter(item => item.id === cat)
+    if(category !== undefined){
+      
+      return category[0]?.name || "";
+    } else {
+      return "";
+    }
+    
+  }
+
+
+  // Get product supplier
+  function getSupplier(product){
+    let supplier = "Unknown";
+    if(product.type === 1){
+      const sme = smes?.filter(item => item.id === product.supplier)
+      if(sme !== undefined){
+        supplier = sme[0]?.name || "";
+      }
+    }else if(product.type === 2){
+      const vendor = vendors?.filter(item => item.id === product.supplier)
+      if(vendor !== undefined){
+        supplier = vendor[0]?.name || "";
+      }
+    }
+    
+    return supplier
   }
 
   return (
@@ -85,11 +138,25 @@ function MarketPlaceProducts(props) {
         </div>
       </div>
 
-      <div className="flex sm:flex-row justify-between gap-2">
-        <div>
-          Filters
+      <div className="flex sm:flex-row justify-between gap-2 pt-2">
+        <div className="font-semibold text-xs">
+          <label htmlFor="" className="font-semibold text-sm">Filter by category</label>
+          <div>
+            <select
+              className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md text-xs h-8"
+              value={role}
+              onChange={handleChangeRole}
+              required
+            >
+              <option value="">Select All</option>
+              {categories?.map((cat, i) => (
+                <option key={i} value={cat.id} className="h-2">{cat.name}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
+
       {isLoading ? (
         <CircularProgressLoader/>
       ) : (
@@ -103,8 +170,10 @@ function MarketPlaceProducts(props) {
               </div>
               <div className="p-2">
                 <div className="text-md font-medium">{product.name}</div>
-                <div className="text-sm font-medium">Ksh 12000</div>
-                <div className="text-xs font-normal line-through">Ksh 1500</div>
+                <div className="text-sm font-medium">Ksh {product.price_1}</div>
+                <div className="text-xs"><span className="font-semibold">Category:</span> <span className="font-normal">{getCategory(product.category)}</span></div>
+                {/* <div className="text-xs font-normal line-through">Ksh 1500</div> */}
+                <div className="text-xs"><span className="font-semibold">Supplier:</span> <span className="font-normal">{getSupplier(product)}</span></div>
               </div>
               <div className="flex flex-row justify-center gap-2 pb-4">
                 <div><Link to="/training/:id"><button className="text-slate-500 text-xs view-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">View</button></Link></div>
@@ -128,5 +197,7 @@ const mapStateToProps = state => ({
   categories: state.product_category.product_categories,
   isLoading: state.products.isLoading,
   products: state.products.products,
+  vendors:state.vendors.vendors,
+  smes: state.smes.smes,
 });
 export default connect(mapStateToProps,{loadProductCategory,loadVendors,loadSmes,loadProducts})(React.memo(MarketPlaceProducts));

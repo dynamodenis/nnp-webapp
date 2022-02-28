@@ -30,7 +30,6 @@ const consultants  = (state=initialState, action)=>{
                 isDeleting: true
             }
         case actions_types.GET_CONSULTANT:
-            console.log("consultants from state",action.payload.data)
             return {
                 ...state,
                 consultants:action.payload.data?.consultants || [],

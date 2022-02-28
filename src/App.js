@@ -110,10 +110,16 @@ function App() {
         <Route exact path="/users/consultant/edit/:id">
           <Consultancy/>
         </Route>
+        <Route exact path="/consultancy/details/:id">
+          <Consultancy/>
+        </Route>
         <Route exact path="/research">
           <Researches/>
         </Route>
         <Route exact path="/research/category">
+          <Researches/>
+        </Route>
+        <Route exact path="/research/details/category/:category_id/research/:research_id">
           <Researches/>
         </Route>
         <Route path="*">

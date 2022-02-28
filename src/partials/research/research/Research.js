@@ -82,7 +82,7 @@ function Research(props) {
 
   console.log(researches)
 
-  // Get training category
+  // Get research category
   function getCategory(cat){
     const category = categories?.filter(item => item.id === cat)
     if(category !== undefined){
@@ -97,6 +97,14 @@ function Research(props) {
   function getTrainer(item_id){
     const trainer = trainers?.filter(item => item.id === item_id)
     return trainer[0]?.name
+  }
+  // Get name of the research
+  function getName(research){
+    if(Object.keys(research).length){
+      return research?.rMaterials[0]?.title
+    } else {
+      return "";
+    }
   }
   // console.log("trainings", trainings);
   // console.log("category", t_category);
@@ -149,30 +157,30 @@ function Research(props) {
           {researchesList.length === 0 && <NoDataFound/>  }
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
-          {researchesList.map((training, index) => (
+          {researchesList.map((research, index) => (
             
               <div key={index} className={`bg-white border-radius-10 min-height-20vh ${index % 2 === 0 ? 'courses-card-2' :'courses-card-1'}  p-1 md:p-4 cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-30 duration-300`}>
                 <div className="grid grid-cols-2 justify-between">
                   <div className="font-medium">
                     <CategoryIcon className="text-xs" style={{fontSize:"20px"}} />
-                    <span className="text-xs pl-2 text-slate-500">{getCategory(training.category)}</span>
+                    <span className="text-xs pl-2 text-slate-500">{getCategory(research.category)}</span>
                   </div>
 
                 </div>
-                <div className="text-lg font-semibold pt-4">Sample Course A</div>
+                <div className="text-lg font-semibold pt-4">{getName(research)}</div>
                 <div className="pt-2 flex flex-row justify-start pb-2">
                   <AccountBoxIcon className="text-xs text-slate-500" />
                   <div>
-                    {training.trainers?.trainers?.map((trainer, index) => (
-                      <span className="text-xs pl-2" key={index}>{getTrainer(trainer)}{(training.trainers?.trainers?.length > 1) ? "," :""}</span>
+                    {research.trainers?.trainers?.map((trainer, index) => (
+                      <span className="text-xs pl-2" key={index}>{getTrainer(trainer)}{(research.trainers?.trainers?.length > 1) ? "," :""}</span>
                     ))}
                   </div>
                 </div>
                 <div>
                 <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
-                  <div><Link to={`/trainings-dashboard/category/${training.category}/training/${training.id}`}><button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">View</button></Link></div>
-                  <div><button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(training)} >Edit</button></div>
-                  <div><button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(training)} >Delete</button></div>
+                  <div><Link to={`/research/details/category/${research.category}/research/${research.id}`}><button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">View</button></Link></div>
+                  <div><button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(research)} >Edit</button></div>
+                  <div><button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(research)} >Delete</button></div>
                 </div>
                 </div>
               </div>

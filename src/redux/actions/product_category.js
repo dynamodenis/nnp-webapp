@@ -49,7 +49,7 @@ export const addProductCategory = (vendor) => (dispatch,getState) =>{
 export const updateProductCategory = (id, vendor) => (dispatch,getState) =>{
     dispatch({type: actions_types.UPDATING_PRODUCT_CATEGORY});
     nprogress.start()
-    return apiClient.put(`/api/v1/p-category`,vendor, configHeader(getState))
+    return apiClient.put(`/api/v1/p-category/${id}`,vendor, configHeader(getState))
         .then(res=>{
             dispatch(createMessage({itemAdded:'Product category successfully updated'}))
             dispatch({

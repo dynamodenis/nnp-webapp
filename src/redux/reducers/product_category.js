@@ -42,10 +42,9 @@ const product_category  = (state=initialState, action)=>{
                 isAdding:false
             }
         case actions_types.UPDATE_PRODUCT_CATEGORY:
-            console.log(action.payload.data)
-            const index = state.product_categories.findIndex(el => el.id === action.payload.data.PRODUCT_CATEGORY.id);
+            const index = state.product_categories.findIndex(el => el.id === action.payload.data['p-category'].id);
             const newArray = [...state.product_categories]; 
-            newArray[index] = action.payload.data.PRODUCT_CATEGORY;
+            newArray[index] = action.payload.data['p-category'];
             return{
                 ...state,
                 product_categories:newArray,

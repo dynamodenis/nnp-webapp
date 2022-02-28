@@ -42,10 +42,9 @@ const research_category  = (state=initialState, action)=>{
                 isAdding:false
             }
         case actions_types.UPDATE_RESEARCH_CATEGORY:
-            console.log(action.payload.data)
-            const index = state.research_categories.findIndex(el => el.id === action.payload.data.PRODUCT_CATEGORY.id);
+            const index = state.research_categories.findIndex(el => el.id === action.payload.data['r-category'].id);
             const newArray = [...state.research_categories]; 
-            newArray[index] = action.payload.data.PRODUCT_CATEGORY;
+            newArray[index] = action.payload.data['r-category'];
             return{
                 ...state,
                 research_categories:newArray,

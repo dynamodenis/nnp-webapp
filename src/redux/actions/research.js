@@ -46,6 +46,25 @@ export const loadResearches = () => (dispatch,getState) =>{
         })
 }
 
+// get single research action
+export const loadResearch = (id) => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_RESEARCH});
+    return apiClient.get(`/api/v1/research/${id}`,configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.GET_SINGLE_RESEARCH,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
 // update ResearchS
 export const updateResearch = (id,sme) => (dispatch,getState) =>{
     dispatch({type: actions_types.UPDATING_RESEARCH});

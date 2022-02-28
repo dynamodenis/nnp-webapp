@@ -6,6 +6,7 @@ import Header from '../../partials/Header';
 import Consultants from '../../partials/consultancy/Consultants';
 import CreateConsultantForm from '../../partials/users/consultants/CreateConsultantForm';
 import EditConsultantForm from '../../partials/users/consultants/EditConsultantForm';
+import ConsultantDetails from '../../partials/consultancy/ConsultantDetails';
 
 
 function Consultancy() {
@@ -34,6 +35,7 @@ function Consultancy() {
               {pathname === "/consultancy" && <Consultants/>}   
               {pathname === "/consultancy/create" && <CreateConsultantForm/>}  
               {pathname.includes("/users/consultant/edit") && <EditConsultantForm/>} 
+              {pathname.includes("/consultancy/details") && <ConsultantDetails/> }  
             </div>
 
           </div>

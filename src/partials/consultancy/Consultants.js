@@ -6,14 +6,14 @@ import trainer from "../../images/default.jpg";
 import { connect } from "react-redux";
 import { loadConsultants } from "../../redux/actions/consultants";
 import CircularProgressLoader from "../utils/CircularProgressLoader";
+import { Link } from 'react-router-dom';
 
 function Consultancy(props) {
   const { isLoading, consultants, loadConsultants } = props;
 
   useEffect(() => {
-    // loadConsultants();
+    loadConsultants();
   }, [loadConsultants]);
-  console.log("consultants", consultants);
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between gap-2">
@@ -50,14 +50,14 @@ function Consultancy(props) {
                     <div className="text-xs pt-1">08:00 am - 16:00 pm</div>
                   </div>
                   <div className="flex flex-row gap-4 pt-2 pb-2">
-                    {consultant.consultantsProfileList[0]?.imageDownload ? <img src={`data:image/png;base64,${consultant?.consultantsProfileList[0]?.imageDownload}`} alt="" className="w-20 h-20 border-radius-50" /> : <img src={trainer} alt="" className="w-10 border-radius-50" />}
+                    {consultant?.consultantsProfileList[0]?.imageDownload ? <img src={`data:image/png;base64,${consultant?.consultantsProfileList[0]?.imageDownload}`} alt="" className="w-20 h-20 border-radius-50" /> : <img src={trainer} alt="" className="w-10 border-radius-50" />}
                     <div className="text-sm pl-1 pt-3 font-semibold green">{consultant.name}</div>
                   </div>
                   <div></div>
                   <div>
-                    <button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
+                    <Link to={`/consultancy/details/${consultant.id}`}> <button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
                       Visit consultant
-                    </button>
+                    </button></Link>
                   </div>
                 </div>
                 <div>

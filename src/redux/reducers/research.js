@@ -1,6 +1,7 @@
 import { actions_types } from '../action-types/types';
 const initialState = {
     researches:[],
+    research:{},
     isLoading:false,
     isUpdating:false,
     isDeleting:false,
@@ -33,6 +34,12 @@ const research  = (state=initialState, action)=>{
             return {
                 ...state,
                 researches:action.payload.data.research || [],
+                isLoading:false
+            }
+        case actions_types.GET_SINGLE_RESEARCH:
+            return {
+                ...state,
+                research:action.payload.data.research || {},
                 isLoading:false
             }
         case actions_types.ADD_RESEARCH:
