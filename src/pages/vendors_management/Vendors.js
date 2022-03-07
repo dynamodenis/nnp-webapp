@@ -5,6 +5,7 @@ import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import CreateVendorForm from '../../partials/users/vendors/CreateVendorForm';
 import EditVendorsForm from '../../partials/users/vendors/EditVendorsForm';
+import Footer from '../../partials/Footer';
 
 
 
@@ -25,18 +26,22 @@ function Vendors() {
 
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <div className="page-container">
+          <div className='content-wrap'>
+            <main>
+              <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
-        <main>
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+                {/* Cards */}
+                <div className="flex flex-col gap-6">
+                  {pathname === "/users/vendor/create" && <CreateVendorForm/>}
+                  {pathname.includes("/users/vendor/edit") && <EditVendorsForm/> }   
+                </div>
 
-            {/* Cards */}
-            <div className="flex flex-col gap-6">
-              {pathname === "/users/vendor/create" && <CreateVendorForm/>}
-              {pathname.includes("/users/vendor/edit") && <EditVendorsForm/> }   
-            </div>
-
+              </div>
+            </main>
           </div>
-        </main>
+          <Footer/>
+        </div>
       </div>
     </div>
   );

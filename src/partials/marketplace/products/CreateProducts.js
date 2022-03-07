@@ -70,12 +70,12 @@ function CreateProducts(props) {
       setSelectFilterSuppliers(selectFilterSuppliers.concat(vendors))
     }
     
-  },[smes])
+  },[vendors])
   useEffect(() => {
     if(type === "1"){
       setSelectFilterSuppliers(selectFilterSuppliers.concat(smes))
     }
-  },[vendors])
+  },[smes])
 
   const createCourse = (e) =>{
     e.preventDefault()
@@ -101,8 +101,6 @@ function CreateProducts(props) {
     let data = new FormData();
     data.append('image', selectPictureFormData);
     data.append('product', postData);
-    // console.log("product", body)
-    // console.log("image", selectPictureFormData)
     addProduct(data).then(res => {
       if(res === "success"){
         setname("")

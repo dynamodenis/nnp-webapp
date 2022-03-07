@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 
 import { ValidatorForm } from "react-form-validator-core";
 import TextValidator from "../../utils/TextValidator";
-import SelectInput from "../../utils/SelectInput";
+import SingleSelectInput from '../../utils/SingleSelectInput';
 import Modal from "react-modal";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -21,6 +21,8 @@ function CreateConsultantForm(props) {
   const [desc, setDesc] = useState("");  
   const [specialisation, setSpecialisation] = useState("");  
   const [portfolio, setPortfolio] = useState("");
+  const [mail, setMail] = useState("");
+  const [phone, setPhone] = useState("");
 
   const changename = event => {
     setname(event.target.value);
@@ -31,16 +33,24 @@ function CreateConsultantForm(props) {
   const changeDesc = event => {
     setDesc(event.target.value);
   };
+  const handleChangeMail = event => {
+    setMail(event.target.value);
+  };
+  const changePhone = event => {
+    setPhone(event.target.value);
+  };
   
 
   const createCourse = e => {
     e.preventDefault();
     const body = {
       "name":name,
-      "userId":salesRep.value,
+      "userid":salesRep.value,
       "pdescr":desc,
       "expertise": specialisation,
-      "projects": portfolio
+      "projects": portfolio,
+      "email":mail,
+      "phone":phone
     }
     var postData = JSON.stringify(body);
     let data = new FormData();
@@ -55,6 +65,8 @@ function CreateConsultantForm(props) {
         setDesc("")
         setSpecialisation("")
         setPortfolio("")
+        setMail("")
+        setPhone("")
         props.setIsOpen(!props.modalIsOpen)
       }
     })
@@ -110,7 +122,7 @@ function CreateConsultantForm(props) {
                   Link User
                 </label>
                 <div className="pt-2">
-                  <SelectInput onChange={handleSalesRep} options={rep_options} placeholder="Select User as Consultant.." value={salesRep} />
+                <SingleSelectInput onChange={handleSalesRep} options={rep_options} placeholder="Select User as Consultant.." value={salesRep} />
                 </div>
               </div>
               <div className="pt-2">
@@ -127,6 +139,44 @@ function CreateConsultantForm(props) {
                     onChange={changename}
                     validators={["required"]}
                     errorMessages={["Name is required"]}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
+              <div className="pt-2">
+                <label htmlFor="" className="font-semibold text-sm">
+                  Email Address
+                </label>
+                <div className="pt-2">
+                  <TextValidator
+                    className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                    placeholder="exmple@gmail.com"
+                    type="email"
+                    name="search"
+                    value={mail}
+                    onChange={handleChangeMail}
+                    validators={["isEmail"]}
+                    errorMessages={["Valid email is required"]}
+                  />
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <label htmlFor="" className="font-semibold text-sm">
+                  Phone Number
+                </label>
+                <div className="pt-2">
+                  <TextValidator
+                    className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                    placeholder="+254720000000"
+                    type="text"
+                    name="search"
+                    value={phone}
+                    onChange={changePhone}
+                    validators={["required"]}
+                    errorMessages={["Phone number is required"]}
                   />
                 </div>
               </div>
@@ -203,7 +253,7 @@ function CreateConsultantForm(props) {
                 </button>
                 {isLoading ? 
                   <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
-                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">Save</button>
+                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save" disabled={!salesRep || !name}>Save</button>
                 }
               </div>
             </div>

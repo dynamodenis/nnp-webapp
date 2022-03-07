@@ -31,6 +31,7 @@ import Vendors from './pages/vendors_management/Vendors';
 import Smes from './pages/smes_management/Smes';
 import ErrorNotFound from './pages/ErrorNotFound';
 import Researches from './pages/research _management/Researches';
+import PrivateRoute from './partials/utils/PrivateRoute';
 
 function App() {
 
@@ -55,9 +56,9 @@ function App() {
         <Route exact path="/register">
           <Register/>
         </Route>
-        <Route exact path="/">
-          <LandingPage/>
-        </Route>
+        <PrivateRoute exact path="/" component={LandingPage}>
+          {/* <LandingPage/> */}
+        </PrivateRoute>
         <Route exact path="/dashboard">
           <Dashboard />
         </Route>
@@ -80,6 +81,9 @@ function App() {
         <Route exact path="/users">
           <Users/>
         </Route>
+        <Route exact path="/users/details/:id">
+          <Users/>
+        </Route>
         <Route exact path="/users/vendor/create">
           <Vendors/>
         </Route>
@@ -99,6 +103,9 @@ function App() {
           <MarketPlace/>
         </Route>
         <Route exact path="/marketplace/products/category">
+          <MarketPlace/>
+        </Route>
+        <Route exact path="/marketplace/product/details/:product_id">
           <MarketPlace/>
         </Route>
         <Route exact path="/consultancy">
@@ -126,6 +133,7 @@ function App() {
           <ErrorNotFound/>
         </Route>
       </Switch>
+      {/* <Footer/> */}
     </>
   );
 }

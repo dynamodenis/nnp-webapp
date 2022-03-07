@@ -42,9 +42,9 @@ const consultants  = (state=initialState, action)=>{
                 isAdding:false
             }
         case actions_types.UPDATE_CONSULTANT:
-            const index = state.consultants.findIndex(el => el.id === action.payload.data.sme.id);
+            const index = state.consultants.findIndex(el => el.id === action.payload.data.consultant.id);
             const newArray = [...state.consultants]; 
-            newArray[index] = action.payload.data.vendor;
+            newArray[index] = action.payload.data.consultant;
             return{
                 ...state,
                 consultants:newArray,

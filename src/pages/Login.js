@@ -98,14 +98,14 @@ function Login(props) {
                                 </span>
                             </label>
                         </div>
-                        <div className='flex flex-row margin-left--6rem  gap-4'>
+                        {/* <div className='flex flex-row margin-left--6rem  gap-4'>
                             <div className='space-x-4'>
                                 <input type="checkbox" name='check' className='appearance-none checked:green '/>
                             </div>
                             <div>
                                 <label htmlFor="check" className='text-sm'>Keep me logged in</label>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <div>
                         <div className='btn-container flex flex-row m-auto pt-2'>

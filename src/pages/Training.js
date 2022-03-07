@@ -6,6 +6,7 @@ import Header from '../partials/Header';
 
 import CoursesDashboard from '../partials/courses/CoursesDashboard';
 import CoursesHomePage from '../partials/courses/CoursesHomePage';
+import Footer from '../partials/Footer';
 
 
 function Training() {
@@ -25,22 +26,25 @@ function Training() {
 
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <div className="page-container">
+          <div className='content-wrap'>
+            <main>
+              <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
-        <main>
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+                {/* Cards */}
+                <div className="flex flex-col gap-6">
+                  {/* courses/ trainings */}
+                  {pathname.includes("/trainings-dashboard/category") && <CoursesDashboard/>}
+                  {/* Trainings dashbaord */}
+                  {pathname === "/trainings-dashboard" && <CoursesHomePage/>}
+                  
+                </div>
 
-            {/* Cards */}
-            <div className="flex flex-col gap-6">
-              {/* courses/ trainings */}
-              {pathname.includes("/trainings-dashboard/category") && <CoursesDashboard/>}
-              {/* Trainings dashbaord */}
-              {pathname === "/trainings-dashboard" && <CoursesHomePage/>}
-              
-            </div>
-
+              </div>
+            </main>
           </div>
-        </main>
-
+          <Footer/>
+        </div>
       </div>
     </div>
   );

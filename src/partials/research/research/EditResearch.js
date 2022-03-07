@@ -61,10 +61,9 @@ function EditResearch(props) {
             setUrl(edit?.rMaterials[0]?.url)
             // set the select pictures
             edit?.rMaterials[0]?.rResources?.map(images => {
-                selected_picture.push(`data:image/png;base64,${images.image.data}`)
+                selected_picture.push(`data:image/png;base64,${images.imageDownload}`)
                 
             })
-            console.log(selected_picture)
         } 
         
         setCategory(selected_category)
@@ -76,6 +75,7 @@ function EditResearch(props) {
         if(edit?.description){
             setHasNotes(true)
         }
+        setname(edit?.rMaterials[0]?.title)
         setId(edit?.id)
     },[edit])
 
@@ -91,13 +91,15 @@ function EditResearch(props) {
     let data = new FormData();
     // check if images are selected
     console.log(selectPictureFormData)
-    if (selectPicture.length > 0){
+    if (selectPictureFormData.length > 0){
         selectPictureFormData.forEach(item => {
         // console.log("item")
         data.append('images', item);
         });
     } else {
-        data.append('images', []);
+      const f = new File([""], "", {type: "text/plain", lastModified: ""})
+      console.log("file", f)
+      data.append('images', f);
     }
     // data.append('images', []);
     data.append('research', postData);
@@ -105,14 +107,6 @@ function EditResearch(props) {
     data.append('url', url);
     updateResearch(id,data).then(res => {
       if(res === "success"){
-        setname("")
-        setCategory("")
-        setDuration("")
-        setTrainers("")
-        setDescription("")
-        setSelectPictureFormData([])
-        setUrl("")
-        setSelectPicture([])
         props.setIsOpen(!props.modalIsOpen)
       }
     })
@@ -149,6 +143,7 @@ function EditResearch(props) {
       label:trainer.name
     })
   })
+
   return (
     <>
       {/* New order Modal */}
@@ -276,7 +271,7 @@ function EditResearch(props) {
                 </button>
                 {isLoading ? 
                   <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
-                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm disabled:opacity-50" title="Save" disabled={!name || !category || !trainers}>Save</button>
+                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm disabled:opacity-50" title="Save" disabled={!name || !category || !trainers}>Update</button>
                 }
               </div>
             </div>

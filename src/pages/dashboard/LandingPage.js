@@ -9,6 +9,7 @@ import sales from '../../images/sales.svg'
 import cow from '../../images/cow.svg'
 import consultants from '../../images/consultants.svg'
 import products from '../../images/products.svg'
+import Footer from '../../partials/Footer';
 
 // import Banner from '../partials/Banner';
 
@@ -140,16 +141,14 @@ function LandingPage() {
                         </div>
                       </div>
                     </div>
+                    <Footer/>
                   </div>
                 </div>
               </div>
             </div>
-
           </div>
         </main>
-
         {/* <Banner /> */}
-
       </div>
     </div>
   );

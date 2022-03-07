@@ -83,7 +83,7 @@ function UserMenu(props) {
             <li>
               <Link
                 className="font-medium text-sm text-gray-400 hover:text-gray-600 flex items-center py-1 px-3"
-                to="/"
+                to={`/users/details/${user?.id}`}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 Profile

@@ -109,14 +109,14 @@ function Sidebar({
                 </NavLink>
               </li>
               {/* Dashboard */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === '/dashboard' && 'nav-yellow'}`}>
+              {/* <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === '/dashboard' && 'nav-yellow'}`}>
                 <NavLink exact to="/dashboard" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname === '/dashboard' && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <ModelTrainingIcon className={`fill-current text-gray-500 ${pathname === '/dashboard' && '!text-gray-600'}`}/>
                     <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">My Training</span>
                   </div>
                 </NavLink>
-              </li>
+              </li> */}
               {/* training */}
               <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('trainings-dashboard') && 'nav-yellow'}`}>
                 <NavLink exact to="/trainings-dashboard" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('trainings-dashboard') && 'hover:text-gray-900'}`}>

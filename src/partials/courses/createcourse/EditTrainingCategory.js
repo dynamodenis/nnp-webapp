@@ -47,10 +47,14 @@ function EditTrainingCategory(props) {
     var postData = JSON.stringify(body);
     let data = new FormData();
     if (selectPictureFormData !== ""){
-        data.append('image', selectPictureFormData);
+      data.append('image', selectPictureFormData);
+    } else {
+      const f = new File([""], "", {type: "text/plain", lastModified: ""})
+      data.append('image', f);
     }
+
     data.append('tcategory', postData);
-    updateTrainingCategory(data).then( res => {
+    updateTrainingCategory(id, data).then( res => {
       if(res === "success"){
         props.setIsOpen(!props.modalIsOpen)
       }

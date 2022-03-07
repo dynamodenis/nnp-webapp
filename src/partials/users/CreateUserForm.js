@@ -22,7 +22,6 @@ function CreateUserForm(props) {
     setname(event.target.value);
   };
   const handleChangeRole = event => {
-    console.log(event.target.value)
     setRole(event.target.value);
   };
   const handleChangeMail = event => {

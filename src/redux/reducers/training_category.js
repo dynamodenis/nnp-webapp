@@ -42,9 +42,9 @@ const training_category  = (state=initialState, action)=>{
                 isAdding:false
             }
         case actions_types.UPDATE_TRAINING_CATEGORY:
-            const index = state.training_categories.findIndex(el => el.id === action.payload.data.TRAINING_CATEGORY.id);
+            const index = state.training_categories.findIndex(el => el.id === action.payload.data['t-category'].id);
             const newArray = [...state.training_categories]; 
-            newArray[index] = action.payload.data.TRAINING_CATEGORY;
+            newArray[index] = action.payload.data['t-category'];
             return{
                 ...state,
                 training_categories:newArray,

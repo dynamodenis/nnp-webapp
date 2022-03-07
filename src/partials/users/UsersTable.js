@@ -1,4 +1,5 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useMemo} from 'react'
+import debounce from 'lodash.debounce';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,6 +22,7 @@ import CircularProgressLoader from '../utils/CircularProgressLoader';
 import {connect} from 'react-redux'
 import CreateUserForm from './CreateUserForm';
 import EditUserForm from './EditUserForm';
+import NoDataFound from '../utils/NoDataFound';
 
 
 
@@ -54,7 +56,7 @@ const useStyles = makeStyles({
     },
 });
 function UsersTable(props) {
-    const {isLoading, users,user_roles} = props;
+    let {isLoading, users,user_roles} = props;
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -63,6 +65,7 @@ function UsersTable(props) {
     const [edit, setEdit] = useState();
     const [modalIsEditOpen,setIsEditOpen] = useState(false);
     const [search, setSearch] = useState("")
+    const [usersList, setUsersList] = useState([])
     
   
     const handleChangePage = (event, newPage) => {
@@ -119,11 +122,44 @@ function UsersTable(props) {
     function searchUser(e){
         setSearch(e.target.value);
     }
+    // preload users
+    useEffect(() => {
+        setUsersList(users)
+    },[users])
+
+    // Search usr
+    let filtered_users = []
+    if(search !== ""){
+        
+        filtered_users = usersList.filter(user => {
+            let lowercase_name = user.name.toLowerCase()
+            return lowercase_name.includes(search.toLowerCase())
+        })
+    }
+
+    // check if filtered has value
+    useEffect(() => {
+        if(search !== ""){
+            setUsersList(filtered_users)
+        }else {
+            setUsersList(users)
+        }
+    },[search])
+
+    const debouncedResults = useMemo(() => {
+        return debounce(searchUser, 500);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+          debouncedResults.cancel();
+        };
+    });
     return (
         <div className="survey_container">
             <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
                 <div className="">
-                    <input type="text" value={search} onChange={searchUser} className="w-full border-radius-10 py-1 text-sm border-slate-300 text-slate-500" placeholder="Search a user" />
+                    <input type="text" onChange={debouncedResults} className="w-full border-radius-10 py-1 text-sm border-slate-300 text-slate-500" placeholder="Search a user" />
                 </div>
 
                 <div className="w-full md:w-1/2">
@@ -138,7 +174,8 @@ function UsersTable(props) {
             {isLoading ? 
                 <CircularProgressLoader/> :    
                 <div>
-                    <div className="survey_table pt-4">
+                    { usersList.length === 0 ? <div className="pt-8"><NoDataFound/></div>
+                    : <div className="survey_table pt-4">
                         <TableContainer className={classes.container}>
                             <Table>
                                 <TableHead>
@@ -156,7 +193,7 @@ function UsersTable(props) {
                                 </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                {users.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                                {usersList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                                     return (
                                     
                                     <TableRow hover role="checkbox" tabIndex={-1} key={index} style={{zIndex:"0"}}>
@@ -188,13 +225,14 @@ function UsersTable(props) {
                         <TablePagination
                             rowsPerPageOptions={[10, 25, 100]}
                             component="div"
-                            count={users.length}
+                            count={usersList.length}
                             rowsPerPage={rowsPerPage}
                             page={page}
                             onPageChange={handleChangePage}
                             onRowsPerPageChange={handleChangeRowsPerPage}
                         />
                     </div>
+                    }
                     <DeleteUserModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen}/>
                     <CreateUserForm modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/>
                     <EditUserForm edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen}/>

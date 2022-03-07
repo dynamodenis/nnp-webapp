@@ -83,6 +83,7 @@ function EditCourse(props) {
     }
     setNotes(edit?.notes)
     setId(edit?.id)
+    setname(edit?.topic)
   },[edit])
 
 
@@ -100,9 +101,15 @@ function EditCourse(props) {
     var postData = JSON.stringify(body);
     let data = new FormData();
     // data.append('images', selectPictureFormData);
-    selectPictureFormData.forEach(item => {
-      data.append('images', item);
-     });
+    if(selectPictureFormData.length){
+      selectPictureFormData.forEach(item => {
+        data.append('images', item);
+      });
+    }else{
+      const f = new File([""], "", {type: "text/plain", lastModified: ""})
+      data.append('images', f);
+    }
+    
     data.append('training', postData);
     data.append('topic', name);
     data.append('url', url);

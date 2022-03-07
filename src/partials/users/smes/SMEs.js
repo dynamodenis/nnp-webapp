@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import debounce from "lodash.debounce";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -22,6 +23,7 @@ import { connect } from "react-redux";
 import DeleteSmeModal from "./DeleteSmeModal";
 import CreateSme from "./CreateSme";
 import EditSmeForm from "./EditSmeForm";
+import NoDataFound from "../../utils/NoDataFound";
 
 // Test Table Data
 const columns = [
@@ -64,6 +66,8 @@ function SMEs(props) {
   const [modalIsDeleteOpen, setIsDeleteOpen] = useState(false);
   const [edit, setEdit] = useState();
   const [modalIsEditOpen, setIsEditOpen] = useState(false);
+  const [search, setSearch] = useState("");
+  const [smesList, setSmesList] = useState([]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -85,6 +89,11 @@ function SMEs(props) {
     setEdit(row);
   }
 
+  // search
+  function searchSme(e) {
+    setSearch(e.target.value);
+  }
+
   // Delte user
   function deleteItem(row) {
     setIsDeleteOpen(true);
@@ -93,11 +102,49 @@ function SMEs(props) {
   useEffect(() => {
     setEdit(edit);
   }, [edit]);
+
+  useEffect(() => {
+    setSmesList(smes);
+  }, [smes]);
+
+  // Search smes
+  let filtered_users = [];
+  if (search !== "") {
+    filtered_users = smesList.filter(user => {
+      let lowercase_name = user.name.toLowerCase();
+      return lowercase_name.includes(search.toLowerCase());
+    });
+  }
+
+  // check if filtered has value
+  useEffect(() => {
+    if (search !== "") {
+      setSmesList(filtered_users);
+    } else {
+      setSmesList(smes);
+    }
+  }, [search]);
+
+  const debouncedResults = useMemo(() => {
+    return debounce(searchSme, 500);
+  }, []);
+
+ useEffect(() => {
+    return () => {
+      debouncedResults.cancel();
+     };
+  });
+
   return (
     <div className="survey_container">
       <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
         <div className="">
-          <input type="text" className="w-full border-radius-10 py-1 text-sm border-slate-300 text-slate-500" placeholder="Search a SMEs" />
+          <input
+            type="text"
+            onChange={debouncedResults}
+            className="w-full border-radius-10 py-1 text-sm border-slate-300 text-slate-500"
+            placeholder="Search a SMEs"
+          />
         </div>
 
         <div className="w-full md:w-1/2">
@@ -112,95 +159,103 @@ function SMEs(props) {
       {isLoading ? (
         <CircularProgressLoader />
       ) : (
-        <div className="survey_table pt-2">
-          <TableContainer className={classes.container}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  {columns.map(column => (
-                    <TableCell
-                      key={column.id}
-                      align={column.align}
-                      className="bg-transparent"
-                      style={{
-                        minWidth: column.minWidth,
-                        backgroundColor: "EEF0F3",
-                        color: "rgb(71 85 105)",
-                        fontWeight: "600",
-                        letterSpacing: "0.0355rem",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                        fontSize: "11pt",
-                        zIndex: "1",
-                      }}
-                    >
-                      {column.label}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {smes?.length <= 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={5} className={classes.table_cell_text}>
-                      No data to display
-                    </TableCell>
-                  </TableRow>
-                ) : null}
-                {smes.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                  return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={index} style={{ zIndex: "0" }}>
-                      <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                        {row?.name}
-                      </TableCell>
-                      <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                        {row?.tel}
-                      </TableCell>
-                      <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                        {row?.mail}
-                      </TableCell>
-                      <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                        {row?.town}
-                      </TableCell>
-                      <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                        {row?.address1}
-                      </TableCell>
-                      <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                        {row?.contact}
-                      </TableCell>
-                      <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                        {row?.scounty}
-                      </TableCell>
-                      <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                        <Grid container direction="row" alignItems="center" spacing={1}>
-                          <Grid item>
-                            <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
-                              <VisibilityIcon fontSize="small" />
-                            </IconButton>
-                          </Grid>
-                          <Grid item>
-                            <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
-                              <DeleteIcon fontSize="small" />
-                            </IconButton>
-                          </Grid>
-                        </Grid>
-                      </TableCell>
+        <>
+          {smesList.length === 0 ? (
+            <div className="pt-8">
+              <NoDataFound />
+            </div>
+          ) : (
+            <div className="survey_table pt-2">
+              <TableContainer className={classes.container}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      {columns.map(column => (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          className="bg-transparent"
+                          style={{
+                            minWidth: column.minWidth,
+                            backgroundColor: "EEF0F3",
+                            color: "rgb(71 85 105)",
+                            fontWeight: "600",
+                            letterSpacing: "0.0355rem",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            fontSize: "11pt",
+                            zIndex: "1",
+                          }}
+                        >
+                          {column.label}
+                        </TableCell>
+                      ))}
                     </TableRow>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[10, 25, 100]}
-            component="div"
-            count={smes.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-        </div>
+                  </TableHead>
+                  <TableBody>
+                    {smesList?.length <= 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={5} className={classes.table_cell_text}>
+                          No data to display
+                        </TableCell>
+                      </TableRow>
+                    ) : null}
+                    {smesList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                      return (
+                        <TableRow hover role="checkbox" tabIndex={-1} key={index} style={{ zIndex: "0" }}>
+                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                            {row?.name}
+                          </TableCell>
+                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                            {row?.tel}
+                          </TableCell>
+                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                            {row?.mail}
+                          </TableCell>
+                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                            {row?.town}
+                          </TableCell>
+                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                            {row?.address1}
+                          </TableCell>
+                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                            {row?.contact}
+                          </TableCell>
+                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                            {row?.scounty}
+                          </TableCell>
+                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                            <Grid container direction="row" alignItems="center" spacing={1}>
+                              <Grid item>
+                                <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
+                                  <VisibilityIcon fontSize="small" />
+                                </IconButton>
+                              </Grid>
+                              <Grid item>
+                                <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
+                                  <DeleteIcon fontSize="small" />
+                                </IconButton>
+                              </Grid>
+                            </Grid>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={smesList.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+              />
+            </div>
+          )}
+        </>
       )}
       <DeleteSmeModal edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} />
       <CreateSme modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />

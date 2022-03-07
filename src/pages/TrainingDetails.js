@@ -4,6 +4,7 @@ import Sidebar from '../partials/Sidebar';
 import Header from '../partials/Header';
 
 import CourseDetails from "../partials/courses/CourseDetails";
+import Footer from '../partials/Footer';
 
 function TrainingDetails() {
 
@@ -20,20 +21,23 @@ function TrainingDetails() {
 
         {/*  Site header */}
         <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+        <div className="page-container">
+          <div className="content-wrap">
+            <main>
+              <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
 
-        <main>
-          <div className="px-4 sm:px-6 lg:px-8 py-8 w-full max-w-9xl mx-auto">
+                {/* Cards */}
+                <div className="flex flex-col gap-6">
 
-            {/* Cards */}
-            <div className="flex flex-col gap-6">
+                  <CourseDetails/>
+                  
+                </div>
 
-              <CourseDetails/>
-              
-            </div>
-
+              </div>
+            </main>
           </div>
-        </main>
-
+          <Footer/>
+        </div>
       </div>
     </div>
   );

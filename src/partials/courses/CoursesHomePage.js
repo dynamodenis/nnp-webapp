@@ -13,6 +13,7 @@ import { loadTrainingCategory } from "../../redux/actions/training_category";
 import EditTrainingCategory from "./createcourse/EditTrainingCategory";
 import DeleteTrainingCategory from "./createcourse/DeleteTrainingCategory";
 import CircularProgressLoader from "../utils/CircularProgressLoader";
+import NoDataFound from '../utils/NoDataFound';
 function CoursesHomePage(props) {
 
   const {loadTrainingCategory, categories, isLoading} = props
@@ -88,35 +89,40 @@ function CoursesHomePage(props) {
         {isLoading ? (
           <CircularProgressLoader/>
         ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-          {categories.map((category, index) => (
-            
-              <div key={index} className="bg-white border-radius-10 min-height-20vh shadow-lg cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-30 duration-300">
-                <div className="flex flex-col rounded-md ">
-                  <div>
-                    {/* <img src={pasturisation} alt="" className="h-40 w-full bg-cover bg-center"/> */}
-                    <div className="bg-contain bg-center h-72 w-full bg-no-repeat rounded-md" style={{backgroundImage: `url(${getImage(category)})`}}></div>
-                  </div>
-                  <div className="p-2">
-                    <div className="text-xl font-semibold">{category.name}</div>
-                    <div className="pt-4">
-                      <div className="text-md font-medium underline">About this training.</div>
-                      <p className='font-normal text-xs'>{category.descr}</p> 
+          <>
+            <div className="pt-8">
+              {categories.length === 0 && <NoDataFound/>  }
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+              {categories.map((category, index) => (
+                
+                  <div key={index} className="bg-white border-radius-10 min-height-20vh shadow-lg cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-30 duration-300">
+                    <div className="flex flex-col rounded-md ">
+                      <div>
+                        {/* <img src={pasturisation} alt="" className="h-40 w-full bg-cover bg-center"/> */}
+                        <div className="bg-contain bg-center h-72 w-full bg-no-repeat rounded-md" style={{backgroundImage: `url(${getImage(category)})`}}></div>
+                      </div>
+                      <div className="p-2">
+                        <div className="text-xl font-semibold">{category.name}</div>
+                        <div className="pt-4">
+                          <div className="text-md font-medium underline">About this training.</div>
+                          <p className='font-normal text-xs'>{category.descr}</p> 
+                        </div>
+                        <div className="pt-4">
+                          <div className="text-md font-medium underline">Who is elgible for this training.</div>
+                          <p className='font-normal text-xs'>{category.eligible}</p> 
+                        </div>
+                      </div>
+                      <div className="flex flex-row justify-center gap-2 pb-4">
+                        <div><Link to={`/trainings-dashboard/category/${category.id}`}><button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">View</button></Link></div>
+                        <div><button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(category)} >Edit</button></div>
+                        <div><button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(category)} >Delete</button></div>
+                      </div>
                     </div>
-                    <div className="pt-4">
-                      <div className="text-md font-medium underline">Who is elgible for this training.</div>
-                      <p className='font-normal text-xs'>{category.eligible}</p> 
-                    </div>
                   </div>
-                  <div className="flex flex-row justify-center gap-2 pb-4">
-                    <div><Link to={`/trainings-dashboard/category/${category.id}`}><button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">View</button></Link></div>
-                    <div><button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(category)} >Edit</button></div>
-                    <div><button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(category)} >Delete</button></div>
-                  </div>
-                </div>
-              </div>
-          ))}
-        </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
       <CreateTrainingCategory modalIsOpen={modalIsOpen} setIsOpen={setIsOpen}/>

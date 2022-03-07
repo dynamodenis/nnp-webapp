@@ -46,6 +46,25 @@ export const loadProducts = () => (dispatch,getState) =>{
         })
 }
 
+// get single product action
+export const loadProduct = (id) => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_PRODUCT});
+    return apiClient.get(`/api/v1/products/searchById/${id}`,configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.GET_SINGLE_PRODUCT,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
 // update PRODUCTS
 export const updateProducts = (id,sme) => (dispatch,getState) =>{
     dispatch({type: actions_types.UPDATING_PRODUCT});

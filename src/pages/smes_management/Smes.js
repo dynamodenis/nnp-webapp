@@ -5,6 +5,7 @@ import Sidebar from '../../partials/Sidebar';
 import Header from '../../partials/Header';
 import CreateSme from '../../partials/users/smes/CreateSme';
 import EditSmeForm from '../../partials/users/smes/EditSmeForm';
+import Footer from '../../partials/Footer';
 
 
 
@@ -37,6 +38,7 @@ function Smes() {
 
           </div>
         </main>
+        <Footer/>
       </div>
     </div>
   );

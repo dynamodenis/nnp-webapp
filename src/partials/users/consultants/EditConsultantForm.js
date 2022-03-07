@@ -2,7 +2,6 @@ import React, { useRef, useState,useEffect } from "react";
 
 import { ValidatorForm } from "react-form-validator-core";
 import TextValidator from "../../utils/TextValidator";
-import SelectInput from "../../utils/SelectInput";
 import Modal from "react-modal";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -10,6 +9,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 // redux
 import {connect} from 'react-redux'
 import { updateConsultant } from "../../../redux/actions/consultants";
+import SingleSelectInput from '../../utils/SingleSelectInput';
 
 function EditConsultantForm(props) {
   const {isLoading, users, updateConsultant, edit} = props
@@ -24,6 +24,8 @@ function EditConsultantForm(props) {
   const [hasSpecilaisation, setHasSpecilisation] = useState(false);
   const [hasProject, setHasProject] = useState(false);
   const [id, setId] = useState("");
+  const [mail, setMail] = useState("");
+  const [phone, setPhone] = useState("");
 
   const changename = event => {
     setname(event.target.value);
@@ -34,8 +36,21 @@ function EditConsultantForm(props) {
   const changeDesc = event => {
     setDesc(event.target.value);
   };
+  const handleChangeMail = event => {
+    setMail(event.target.value);
+  };
+  const changePhone = event => {
+    setPhone(event.target.value);
+  };
 
   useEffect(() => {
+    console.log(edit)
+    const user = users?.filter(el => el.id === edit?.userid);
+    let selected_user = {value:"", label:""};
+    if(user !== undefined){
+        selected_user = {value:user[0]?.id, label:user[0]?.name};
+    } 
+
     setId(edit?.id)
     setname(edit?.name)
     setDesc(edit?.pdescr)
@@ -48,6 +63,9 @@ function EditConsultantForm(props) {
       setHasProject(true)
     }
     setSelectPicture(`data:image/png;base64,${edit?.consultantsProfileList[0]?.imageDownload}`)
+    setMail(edit?.email || "")
+    setPhone(edit?.phone || "")
+    setSalesRep(selected_user)
   },[edit, id])
 
   // console.log(portfolio)
@@ -57,18 +75,23 @@ function EditConsultantForm(props) {
     const body = {
       "id":id,
       "name":name,
-      "userId":salesRep.value,
+      "userid":salesRep.value,
       "pdescr":desc,
       "expertise": specialisation,
-      "projects": portfolio
+      "projects": portfolio,
+      "email":mail,
+      "phone":phone
     }
     var postData = JSON.stringify(body);
-    console.log(body)
     let data = new FormData();
     data.append('consultant', postData);
     // Check if picture has been updated
+    
     if (selectPictureFormData !== ""){
       data.append('image', selectPictureFormData);
+    }else{
+      const f = new File([""], "", {type: "text/plain", lastModified: ""})
+      data.append('image', f);
     }
     updateConsultant(id,data).then (res => {
       if(res === "success"){
@@ -127,7 +150,7 @@ function EditConsultantForm(props) {
                   Link User
                 </label>
                 <div className="pt-2">
-                  <SelectInput onChange={handleSalesRep} options={rep_options} placeholder="Select User as Consultant.." value={salesRep} />
+                  <SingleSelectInput onChange={handleSalesRep} options={rep_options} placeholder="Select User as Consultant.." value={salesRep} />
                 </div>
               </div>
               <div className="pt-2">
@@ -148,6 +171,45 @@ function EditConsultantForm(props) {
                 </div>
               </div>
             </div>
+
+            <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
+              <div className="pt-2">
+                <label htmlFor="" className="font-semibold text-sm">
+                  Email Address
+                </label>
+                <div className="pt-2">
+                  <TextValidator
+                    className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                    placeholder="exmple@gmail.com"
+                    type="email"
+                    name="search"
+                    value={mail}
+                    onChange={handleChangeMail}
+                    validators={["isEmail"]}
+                    errorMessages={["Valid email is required"]}
+                  />
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <label htmlFor="" className="font-semibold text-sm">
+                  Phone Number
+                </label>
+                <div className="pt-2">
+                  <TextValidator
+                    className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                    placeholder="+254720000000"
+                    type="text"
+                    name="search"
+                    value={phone}
+                    onChange={changePhone}
+                    validators={["required"]}
+                    errorMessages={["Phone number is required"]}
+                  />
+                </div>
+              </div>
+            </div>
+
 
             <div className="justify-between flex flex-col gap-4 pt-2">
               <div className="pt-2">
@@ -304,7 +366,7 @@ const customStyles = {
 // get the state
 const mapStateToProps = state =>({
   consultants:state.consultants.consultants,
-  isLoading:state.consultants.isAdding,
+  isLoading:state.consultants.isUpdating,
   users:state.users.users,
 })
 

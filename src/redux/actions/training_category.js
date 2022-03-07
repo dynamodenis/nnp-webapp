@@ -49,7 +49,7 @@ export const addTrainingCategory = (vendor) => (dispatch,getState) =>{
 export const updateTrainingCategory = (id, vendor) => (dispatch,getState) =>{
     dispatch({type: actions_types.UPDATING_TRAINING_CATEGORY});
     nprogress.start()
-    return apiClient.put(`/api/v1/t-category`,vendor, configHeader(getState))
+    return apiClient.put(`/api/v1/t-category/${id}`,vendor, configHeader(getState))
         .then(res=>{
             dispatch(createMessage({itemAdded:'Training category successfully updated'}))
             dispatch({

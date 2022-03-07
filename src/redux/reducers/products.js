@@ -5,6 +5,7 @@ const initialState = {
     isUpdating:false,
     isDeleting:false,
     isAdding: false,
+    product:{}
 }
 
 const products  = (state=initialState, action)=>{
@@ -36,6 +37,13 @@ const products  = (state=initialState, action)=>{
                 products:action.payload.data.products || [],
                 isLoading:false
             }
+        case actions_types.GET_SINGLE_PRODUCT:
+            console.log(action.payload.data)
+            return {
+                ...state,
+                product:action.payload.data.product || [],
+                isLoading:false
+            }
         case actions_types.ADD_PRODUCT:
             return{
                 ...state,
@@ -44,9 +52,9 @@ const products  = (state=initialState, action)=>{
             }
         case actions_types.UPDATE_PRODUCT:
             console.log(action.payload.data)
-            const index = state.products.findIndex(el => el.id === action.payload.data.PRODUCT_CATEGORY.id);
+            const index = state.products.findIndex(el => el.id === action.payload.data.product.id);
             const newArray = [...state.products]; 
-            newArray[index] = action.payload.data.PRODUCT_CATEGORY;
+            newArray[index] = action.payload.data.product;
             return{
                 ...state,
                 products:newArray,
