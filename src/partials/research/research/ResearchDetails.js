@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CategoryIcon from "@mui/icons-material/Category";
 import trainer_image from "../../../images/default.jpg";
 import { withRouter } from "react-router";
@@ -11,6 +12,7 @@ import { loadResearch } from "../../../redux/actions/research";
 import { loadResearchCategory } from "../../../redux/actions/research_category";
 import { loadTrainingTrainers } from "../../../redux/actions/training";
 import CircularProgressLoader from "../../utils/CircularProgressLoader";
+import NoDataFound from "../../utils/NoDataFound";
 
 function ResearchDetails(props) {
   const research_id = props.match.params.research_id;
@@ -68,9 +70,9 @@ function ResearchDetails(props) {
   }
 
   // Get name of the research
-  function getName(research){
-    if(Object.keys(research).length){
-      return research?.rMaterials[0]?.title
+  function getName(research) {
+    if (Object.keys(research).length) {
+      return research?.rMaterials[0]?.title;
     } else {
       return "";
     }
@@ -85,21 +87,33 @@ function ResearchDetails(props) {
           <div className="flex flex-row justify-between gap-2 pb-2">
             <div>
               <div className="text-sm md:text-xl font-medium">
-                Welcome to Sample Course by <span className="link">{getTrainer(research.trainers?.trainers)}</span>
+                Welcome to {getName(research)} by <span className="link">{getTrainer(research.trainers?.trainers)}</span>
               </div>
             </div>
-            <div className="w-20 md:float-right ">
-              <button type="button" className="bg-blue success-btn rounded-md text-white text-sm" onClick={goToPreviousPath}>
-                Back
-              </button>
+            <div className="w-1/2 md:w-20 md:float-right ">
+              <div className="">
+                <button type="button" className="bg-error back-btn rounded-lg text-white text-sm" onClick={goToPreviousPath}>
+                  <ArrowBackIcon fontSize="small" style={{ color: "white" }} />
+                  <span className="pt-0.5">Back</span>
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="player-wrapper">
-            {/* <div className="justify-center border-radius-10 min-height-50 h-full p-1 md:p-4 md:w-2/4" style={{width:"100px",height: '10%'}}> */}
-            <ReactPlayer url={getVideoUrl(research)} width="100%" height="100%" className="react-player" />
-            {/* </div> */}
-          </div>
+          {getVideoUrl(research) ? (
+            <div className="player-wrapper">
+              {/* <div className="justify-center border-radius-10 min-height-50 h-full p-1 md:p-4 md:w-2/4" style={{width:"100px",height: '10%'}}> */}
+              <ReactPlayer url={getVideoUrl(research)} width="100%" height="100%" className="react-player" />
+              {/* </div> */}
+            </div>
+          ) : (
+            <div className="player-wrapper">
+              <NoDataFound
+                header="Sorry! This research has no video."
+                body="Good news you can still get the content of the research below."
+              />
+            </div>
+          )}
           <div className="flex flex-col  gap-4 pt-8 justify-between">
             <div className="bg-white border-radius-10 min-height-20vh courses-card-3 p-4 overflow-y-auto h-74">
               <div className="font-medium">

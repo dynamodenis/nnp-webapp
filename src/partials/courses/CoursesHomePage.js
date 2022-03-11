@@ -1,7 +1,5 @@
 import React,{useState, useEffect} from "react";
 import { Link } from 'react-router-dom';
-
-import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 
 import training_dash from '../../images/training-dashboard.png'
@@ -78,11 +76,11 @@ function CoursesHomePage(props) {
         <div className="flex flex-col-reverse md:flex-row justify-end">
 
             <div className="w-full md:w-1/2">
-                <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
-                    <IconButton style={{ padding: 1.5, color:"white" }} className="text-white">
-                        <AddIcon fontSize="small"/>
-                    </IconButton>
+                <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm" onClick={openModal}>
+                  <AddIcon fontSize="small" style={{ color:"white" }}/>
+                  <span className="pt-0.5">
                     Add Training Category
+                  </span>
                 </button>
             </div>
         </div>
@@ -91,7 +89,7 @@ function CoursesHomePage(props) {
         ) : (
           <>
             <div className="pt-8">
-              {categories.length === 0 && <NoDataFound/>  }
+              {categories.length === 0 && <NoDataFound header="No Training Categories Found" body="Training categories are currently not available."/>  }
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
               {categories.map((category, index) => (

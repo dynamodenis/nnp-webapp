@@ -145,10 +145,10 @@ function Consultants(props) {
 
         <div className="w-full md:w-1/2">
           <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
-            <IconButton style={{ padding: 1.5, color: "white" }} className="text-white">
-              <AddIcon fontSize="small" />
-            </IconButton>
-            Add Consultant
+            <AddIcon style={{ color: "white" }} fontSize="small" />
+            <span className="pt-0.5 pl-1">
+              Add Consultant
+            </span>
           </button>
         </div>
       </div>

@@ -78,8 +78,8 @@ function DeleteResearchCategory(props) {
                             <button type="button" className="bg-white cancel-btn shadow-slate-500 rounded-md text-gray-600 text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>Cancel</button>
                             {/* </Link> */}
                             {props.isLoading ? 
-                                <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
-                                <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Delete">Delete</button>
+                                <button className='bg-dark-red delete-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
+                                <button type="submit" className="bg-dark-red delete-btn rounded-md text-white m-auto text-sm" title="Delete">Delete</button>
                             }
                         </div>
                     </div>

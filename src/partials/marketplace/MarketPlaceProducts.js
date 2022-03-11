@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
-import user from "../../images/rice.jpeg";
+import AddIcon from '@mui/icons-material/Add';
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import CreateProducts from "./products/CreateProducts";
 import DeleteProduct from "./products/DeleteProduct";
 import EditProduct from "./products/EditProduct";
@@ -124,16 +127,22 @@ function MarketPlaceProducts(props) {
             <div className="text-sm link">Below is a list of available goods and services by our vendors and smes.</div>
           </div>
         </div>
-        <div className="flex flex-row gap-4 justify-between md:w-2/4">
+        <div className="flex flex-col md:flex-row justify-between gap-2 md:justify-end md:w-2/4">
           <div className="w-full">
-            <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm md:w-full" onClick={openModal}>
-              Add Product
+            <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
+              <LocalGroceryStoreIcon fontSize="small" style={{ color:"white" }}/>
+              <span className="pt-0.5">
+                Add Product
+              </span>
             </button>
           </div>
           <div className="w-full">
             <Link to="/marketplace/products/category">
-              <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm md:w-full" onClick={openModal}>
-                Product categories
+              <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm">
+                <AddIcon fontSize="small" style={{ color:"white" }}/>
+                <span className="pt-0.5">
+                  Add Product Category
+                </span>
               </button>
             </Link>
           </div>
@@ -198,28 +207,32 @@ function MarketPlaceProducts(props) {
                         <span className="font-semibold">Supplier:</span> <span className="font-normal">{getSupplier(product)}</span>
                       </div>
                     </div>
-                    <div className="flex flex-row justify-center gap-2 pb-4">
+
+                    <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
                       <div>
                         <Link to={`/marketplace/product/details/${product.id}`}>
-                          <button className="text-slate-500 text-xs view-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
-                            View
+                          <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
+                            <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                            <span className="pl-1">
+                              View
+                            </span>
                           </button>
-                        </Link>
-                      </div>
+                          </Link>
+                        </div>
                       <div>
-                        <button
-                          className="text-slate-500 text-xs edit-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300"
-                          onClick={() => editItem(product)}
-                        >
-                          Edit
+                        <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(product)} >
+                          <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                          <span className="pl-1">
+                            Edit
+                          </span>
                         </button>
                       </div>
                       <div>
-                        <button
-                          className="text-slate-500 text-xs delete-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300"
-                          onClick={() => deleteItem(product)}
-                        >
-                          Delete
+                        <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(product)} >
+                          <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                          <span className="pl-1">
+                            Delete
+                          </span>
                         </button>
                       </div>
                     </div>

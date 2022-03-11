@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import CategoryIcon from "@mui/icons-material/Category";
+import UploadIcon from '@mui/icons-material/Upload';
 import { Link } from "react-router-dom";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 // Redux
 import { connect } from "react-redux";
@@ -96,10 +100,13 @@ function TrainerCourses(props) {
             Welcome, {user?.name}.<div className="text-sm link">This are the current uploaded trainings below.</div>
           </div>
         </div>
-        <div className="w-full md:w-1/2">
-          <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
-            Add Training
-          </button>
+        <div className="">
+            <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
+              <UploadIcon fontSize="small" style={{ color:"white" }}/>
+              <span className="pt-0.5 pl-0.5">
+                Add Training
+              </span>
+            </button>
         </div>
       </div>
 
@@ -131,7 +138,7 @@ function TrainerCourses(props) {
         <>
           {trainingsList.length === 0 ? (
             <div className="pt-8">
-              <NoDataFound />
+              <NoDataFound header="No trainings found." body="Sorry! No trainings available you can create a training to get started." />
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
@@ -164,31 +171,33 @@ function TrainerCourses(props) {
                       ))}
                     </div>
                   </div>
-                  <div>
-                    <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
-                      <div>
-                        <Link to={`/trainings-dashboard/category/${training.category}/training/${training.id}`}>
-                          <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
+
+                  <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
+                    <div>
+                      <Link to={`/trainings-dashboard/category/${training.category}/training/${training.id}`}>
+                        <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-6 md:pl-6 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
+                          <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                          <span className="pl-1">
                             View
-                          </button>
-                        </Link>
-                      </div>
-                      <div>
-                        <button
-                          className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300"
-                          onClick={() => editItem(training)}
-                        >
+                          </span>
+                        </button>
+                      </Link>
+                    </div>
+                    <div>
+                      <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(training)} >
+                        <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                        <span className="pl-1">
                           Edit
-                        </button>
-                      </div>
-                      <div>
-                        <button
-                          className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300"
-                          onClick={() => deleteItem(training)}
-                        >
+                        </span>
+                      </button>
+                    </div>
+                    <div>
+                      <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(training)} >
+                        <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                        <span className="pl-1">
                           Delete
-                        </button>
-                      </div>
+                        </span>
+                      </button>
                     </div>
                   </div>
                 </div>

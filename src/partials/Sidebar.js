@@ -4,7 +4,6 @@ import logo from '../images/logo.jpeg';
 
 // import SidebarLinkGroup from './SidebarLinkGroup';
 import HomeIcon from '@mui/icons-material/Home';
-import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
 import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
 import UploadIcon from '@mui/icons-material/Upload';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';

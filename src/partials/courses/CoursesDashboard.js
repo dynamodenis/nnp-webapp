@@ -103,7 +103,7 @@ function CoursesDashboard(props) {
           <CircularProgressLoader/>
         ) : (
       <div className="flex flex-col gap-4 pt-8">
-        {trainingsList.length === 0 && <NoDataFound/> }
+        {trainingsList.length === 0 && <NoDataFound header="No Training Categories Found" body="Training categories are currently not available"/> }
         {trainingsList?.map((training,index) => (
           <Link to={`/trainings-dashboard/category/${category_id}/training/${training.id}`}>
             <div className="bg-white border-radius-10 min-height-20vh border-training-card" key={index}>

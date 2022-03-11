@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import CategoryIcon from '@mui/icons-material/Category';
 import { Link } from "react-router-dom";
-import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@mui/icons-material/Add";
-
+import ScienceIcon from '@mui/icons-material/Science';
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 // Redux
 import { connect } from "react-redux";
-// import CreateCourses from "./CreateCourses";
 import CircularProgressLoader from "../../utils/CircularProgressLoader";
-// import EditCourse from "./EditCourse";
-// import DeleteCourse from "./DeleteCourse";
 import { loadResearchCategory } from "../../../redux/actions/research_category";
 import { loadResearches } from "../../../redux/actions/research";
 import { loadTrainingTrainers } from "../../../redux/actions/training";
@@ -116,19 +114,28 @@ function Research(props) {
             Welcome, {user?.name}.<div className="text-sm link">This are the current uploaded researches done below.</div>
           </div>
         </div>
-        <div className="flex flex-row gap-4 justify-between md:w-2/4">
-          <div className="w-full">
-            <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm md:w-full" onClick={openModal}>
-              Add Research
+        
+        <div className="flex flex-row gap-4 justify-between md:justify-end md:w-1/2">
+          <div className="">
+            <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
+              <ScienceIcon fontSize="small" style={{ color:"white" }}/>
+              <span className="pt-0.5">
+                Add Research
+              </span>
             </button>
           </div>
-          <div className="w-full">
-            <Link to="/research/category"><button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm md:w-full" onClick={openModal}>
-              Research categories
-            </button>
+          <div className="">
+            <Link to="/research/category">
+              <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm">
+                <AddIcon fontSize="small" style={{ color:"white" }}/>
+                <span className="pt-0.5">
+                  Research categories
+                </span>
+              </button>
             </Link>
           </div>
         </div>
+
       </div>
 
       <div className="flex sm:flex-row justify-between gap-2 pt-2">
@@ -178,9 +185,32 @@ function Research(props) {
                 </div>
                 <div>
                 <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
-                  <div><Link to={`/research/details/category/${research.category}/research/${research.id}`}><button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">View</button></Link></div>
-                  <div><button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(research)} >Edit</button></div>
-                  <div><button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(research)} >Delete</button></div>
+                  <div>
+                    <Link to={`/research/details/category/${research.category}/research/${research.id}`}>
+                      <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
+                        <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                        <span className="pl-1">
+                          View
+                        </span>
+                      </button>
+                      </Link>
+                    </div>
+                  <div>
+                    <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(research)} >
+                      <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                      <span className="pl-1">
+                        Edit
+                      </span>
+                    </button>
+                  </div>
+                  <div>
+                    <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(research)} >
+                      <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                      <span className="pl-1">
+                        Delete
+                      </span>
+                    </button>
+                  </div>
                 </div>
                 </div>
               </div>

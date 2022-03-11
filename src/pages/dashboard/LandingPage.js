@@ -141,7 +141,9 @@ function LandingPage() {
                         </div>
                       </div>
                     </div>
-                    <Footer/>
+                    <div className='pt-4'>
+                      <Footer/>
+                    </div>
                   </div>
                 </div>
               </div>

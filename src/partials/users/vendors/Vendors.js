@@ -146,10 +146,10 @@ function Vendors(props) {
 
         <div className="w-full md:w-1/2">
           <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
-            <IconButton style={{ padding: 1.5, color: "white" }} className="text-white">
-              <AddIcon fontSize="small" />
-            </IconButton>
-            Add Vendor
+            <AddIcon style={{color: "white" }} fontSize="small" />
+              <span className="pt-0.5">
+                Add Vendor
+              </span>
           </button>
         </div>
       </div>

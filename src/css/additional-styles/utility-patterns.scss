@@ -142,9 +142,15 @@ input:focus, textarea:focus{
 .error{
     color: $error;
 }
+.dark-red{
+    color: $dark-red;
+}
 
 .green{
     color: $green;
+}
+.dark-blue{
+    color: $dark-blue;
 }
 
 .bg-success{
@@ -155,6 +161,9 @@ input:focus, textarea:focus{
 }
 .bg-error{
     background-color: $error;
+}
+.bg-dark-red{
+    background-color: $dark-red !important;
 }
 
 .bg-green{

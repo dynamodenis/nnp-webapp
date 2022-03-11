@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
+import debounce from "lodash.debounce";
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
 // import MessageIcon from '@mui/icons-material/Message';
@@ -11,10 +12,49 @@ import NoDataFound from "../utils/NoDataFound";
 
 function Consultancy(props) {
   const { isLoading, consultants, loadConsultants } = props;
+  const [consultantList, setConsultantList] = useState([]);
+  const [search, setSearch] = useState("");
+
+  // search
+  function searchConsultant(e) {
+    setSearch(e.target.value);
+  }
 
   useEffect(() => {
     loadConsultants();
   }, [loadConsultants]);
+
+  useEffect(() => {
+    setConsultantList(consultants);
+  }, [consultants]);
+
+  // Search smes
+  let filtered_users = [];
+  if (search !== "") {
+    filtered_users = consultantList.filter(user => {
+      let lowercase_name = user.name.toLowerCase();
+      return lowercase_name.includes(search?.toLowerCase());
+    });
+  }
+
+  // check if filtered has value
+  useEffect(() => {
+    if (search !== "") {
+      setConsultantList(filtered_users);
+    } else {
+      setConsultantList(consultants);
+    }
+  }, [search]);
+
+  const debouncedResults = useMemo(() => {
+    return debounce(searchConsultant, 500);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      debouncedResults.cancel();
+    };
+  });
 
   return (
     <div>
@@ -30,6 +70,7 @@ function Consultancy(props) {
             type="text"
             className="border-radius-10 py-0.5 text-sm border-slate-300 text-slate-500"
             placeholder="Search a consultant"
+            onChange={debouncedResults}
           />
         </div>
       </div>
@@ -38,13 +79,13 @@ function Consultancy(props) {
         <CircularProgressLoader />
       ) : (
         <>
-          {consultants.length === 0 ? (
+          {consultantList.length === 0 ? (
             <div className="pt-8">
               <NoDataFound />
             </div>
           ) : (
             <div className="flex flex-col gap-4 pt-8">
-              {consultants.map((consultant, i) => (
+              {consultantList.map((consultant, i) => (
                 <div className="bg-white border-radius-10 min-height-20vh border-training-card" key={i}>
                   <div className="flex flex-col md:grid md:grid-cols-3 justify-between px-4 py-4 gap-4">
                     <div className="flex flex-col gap-2">
@@ -64,7 +105,7 @@ function Consultancy(props) {
                             className="w-20 h-20 border-radius-50"
                           />
                         ) : (
-                          <img src={trainer} alt="" className="w-10 border-radius-50" />
+                          <img src={trainer} alt="" className="w-20 h-20 border-radius-50" />
                         )}
                         <div className="text-sm pl-1 pt-3 font-semibold green">{consultant.name}</div>
                       </div>
@@ -72,8 +113,8 @@ function Consultancy(props) {
                       <div>
                         <Link to={`/consultancy/details/${consultant.id}`}>
                           {" "}
-                          <button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
-                            Visit consultant
+                          <button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:text-white ease-in-out duration-300 hover:bg-slate-800">
+                            Visit Consultant
                           </button>
                         </Link>
                       </div>
