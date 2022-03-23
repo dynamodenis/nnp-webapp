@@ -87,11 +87,8 @@ function Register(props) {
     const register = (e) =>{
         e.preventDefault()
         const slice_number = phone.slice(-9);
-        console.log("07 phone ", slice_number)
         const form = {phone:`254${slice_number}`, mail,password, name,"sel": 0,"admin": 0,"status": 1,"type": parseInt(type)}
-        console.log(form)
         registerUser(form).then( res => {
-            console.log("response", res)
             if(res === "success"){
                 history.push("/verify-user");
             }     

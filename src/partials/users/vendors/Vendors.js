@@ -18,6 +18,7 @@ import CircularProgressLoader from "../../utils/CircularProgressLoader";
 
 // redux
 import { connect } from "react-redux";
+import { loadVendors } from "../../../redux/actions/vendors";
 import DeleteVendorModal from "./DeleteVendorModal";
 import CreateVendorForm from "./CreateVendorForm";
 import EditVendorsForm from "./EditVendorsForm";
@@ -55,7 +56,7 @@ const useStyles = makeStyles({
   },
 });
 function Vendors(props) {
-  const { isLoading, vendors } = props;
+  const { isLoading, vendors,loadVendors } = props;
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -99,6 +100,10 @@ function Vendors(props) {
   useEffect(() => {
     setEdit(edit);
   }, [edit]);
+
+  useEffect(() => {
+    loadVendors()
+  },[])
 
   useEffect(() => {
     setVendorsList(vendors);
@@ -264,4 +269,4 @@ const mapStateToProps = state => ({
   isLoading: state.vendors.isLoading,
 });
 
-export default connect(mapStateToProps)(React.memo(Vendors));
+export default connect(mapStateToProps,{loadVendors})(React.memo(Vendors));

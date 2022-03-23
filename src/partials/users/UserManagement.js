@@ -15,10 +15,11 @@ import SMEs from "./smes/SMEs";
 
 // Redux
 import {connect} from 'react-redux'
-import { loadUserRoles,loadUsers } from '../../redux/actions/users';
+import { loadUsers } from '../../redux/actions/users';
 import { loadVendors } from "../../redux/actions/vendors";
 import { loadSmes } from "../../redux/actions/smes";
 import { loadConsultants } from "../../redux/actions/consultants";
+import { loadUserRoles } from "../../redux/actions/user_roles";
 
 function UserManagement(props) {
   const {loadUserRoles,loadUsers,loadVendors,loadSmes,loadConsultants} = props;
@@ -35,11 +36,11 @@ function UserManagement(props) {
 
   // get all data
   useEffect(() => {
-    loadUserRoles()
-    loadUsers()
-    loadVendors()
-    loadSmes()
-    loadConsultants()
+    // loadUserRoles()
+    // loadUsers()
+    // loadVendors()
+    // loadSmes()
+    // loadConsultants()
   },[])
   return (
     <div>
@@ -66,11 +67,11 @@ function UserManagement(props) {
      
       <div className="flex flex-col pt-3">
 
-        <SwipeableViews
+        {/* <SwipeableViews
             axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
             index={value}
             onChangeIndex={handleChangeIndex}
-        >
+        > */}
             <TabPanel value={value} index={0} dir={theme.direction}>
                 <UsersTable/>
             </TabPanel>
@@ -83,7 +84,7 @@ function UserManagement(props) {
             <TabPanel value={value} index={3} dir={theme.direction}>
                 <SMEs/>
             </TabPanel>
-        </SwipeableViews>
+        {/* </SwipeableViews> */}
      
       </div>
       
@@ -148,4 +149,4 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default connect(null, {loadUserRoles,loadUsers,loadVendors,loadSmes,loadConsultants})(React.memo(UserManagement));
+export default connect(null, {loadUsers,loadVendors,loadSmes,loadConsultants})(React.memo(UserManagement));

@@ -20,6 +20,7 @@ import CircularProgressLoader from "../../utils/CircularProgressLoader";
 
 // redux
 import { connect } from "react-redux";
+import { loadConsultants } from "../../../redux/actions/consultants";
 import DeleteConsultantModal from "./DeleteConsultantModal";
 import CreateConsultantForm from "./CreateConsultantForm";
 import EditConsultantForm from "./EditConsultantForm";
@@ -56,7 +57,7 @@ const useStyles = makeStyles({
 });
 function Consultants(props) {
   const classes = useStyles();
-  const { isLoading, consultants } = props;
+  const { isLoading, consultants,loadConsultants } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -99,6 +100,9 @@ function Consultants(props) {
   useEffect(() => {
     setEdit(edit);
   }, [edit]);
+  useEffect(() => {
+    loadConsultants()
+  },[])
 
   useEffect(() => {
     setConsultantsList(consultants);
@@ -253,4 +257,4 @@ const mapStateToProps = state => ({
   isLoading: state.consultants.isLoading,
 });
 
-export default connect(mapStateToProps)(React.memo(Consultants));
+export default connect(mapStateToProps,{loadConsultants})(React.memo(Consultants));

@@ -20,10 +20,10 @@ import CircularProgressLoader from '../utils/CircularProgressLoader';
 
 // redux
 import {connect} from 'react-redux'
+import { loadUsers } from '../../redux/actions/users';
 import CreateUserForm from './CreateUserForm';
 import EditUserForm from './EditUserForm';
 import NoDataFound from '../utils/NoDataFound';
-
 
 
 // Test Table Data
@@ -56,7 +56,7 @@ const useStyles = makeStyles({
     },
 });
 function UsersTable(props) {
-    let {isLoading, users,user_roles} = props;
+    let {isLoading, users,loadUsers} = props;
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -76,6 +76,10 @@ function UsersTable(props) {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
+
+    useEffect(() => {
+        loadUsers()
+    }, [])
 
     // Open Modal
     function openModal() {
@@ -103,19 +107,28 @@ function UsersTable(props) {
         if(parseInt(type_field) === 1){
             type = "Nnp user"
         } else if(parseInt(type_field) === 2){
-            type = "SME"
+            type = "SME/Vendor"
         }else if(parseInt(type_field) === 3){
             type = "Farmer"
         }
         return type;
     }
-    // console.log(users)
-    // console.log("roles",user_roles)
 
     // Get role name
     function getRole(role_item){
-        const selected_role = user_roles.filter(role => role.id = role_item)
-        return selected_role[0]?.name
+        let name = ""
+        if(role_item === 'b854640e-3969-4989-a0bc-6ee513a9954c'){
+            name = "Vendors"
+        } else if(role_item === 'd25daf55-89d6-4e19-ba8b-824a988940c6'){
+            name = "End user/Farmer"
+        } else if(role_item === '1124c48-d8ac-11eb-b8bc-0242ac130003'){
+            name = "Trainer"
+        } else if(role_item === 'a24b72bb-c58c-412f-9d9d-8df266b1c89a'){
+            name = "SME/Enterprises"
+        } else if(role_item === '0d85902c-fba3-46fe-97a7-24e7d0d72dec'){
+            name = "Administrator"
+        }
+        return name
     }
 
     // search 
@@ -246,7 +259,6 @@ function UsersTable(props) {
 const mapStateToProps = state =>({
   users:state.users.users,
   isLoading:state.users.isLoading,
-  user_roles:state.users.user_roles
 })
-export default connect(mapStateToProps)(React.memo(UsersTable))
+export default connect(mapStateToProps, {loadUsers})(React.memo(UsersTable))
 

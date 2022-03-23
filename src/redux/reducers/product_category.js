@@ -32,19 +32,19 @@ const product_category  = (state=initialState, action)=>{
         case actions_types.GET_PRODUCT_CATEGORY:
             return {
                 ...state,
-                product_categories:action.payload.data['p-category'] || [],
+                product_categories:action.payload.data.pcategory || [],
                 isLoading:false
             }
         case actions_types.ADD_PRODUCT_CATEGORY:
             return{
                 ...state,
-                product_categories:[...state.product_categories,action.payload.data['p-category']],
+                product_categories:[...state.product_categories,action.payload.data.pcategory],
                 isAdding:false
             }
         case actions_types.UPDATE_PRODUCT_CATEGORY:
-            const index = state.product_categories.findIndex(el => el.id === action.payload.data['p-category'].id);
+            const index = state.product_categories.findIndex(el => el.id === action.payload.data.pcategory.id);
             const newArray = [...state.product_categories]; 
-            newArray[index] = action.payload.data['p-category'];
+            newArray[index] = action.payload.data.pcategory;
             return{
                 ...state,
                 product_categories:newArray,

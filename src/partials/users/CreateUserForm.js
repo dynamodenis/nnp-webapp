@@ -34,9 +34,9 @@ function CreateUserForm(props) {
     setPhone(event.target.value);
   };
 
-  useEffect(() => {
-    loadUserRoles();
-  }, [loadUserRoles]);
+  // useEffect(() => {
+  //   loadUserRoles();
+  // }, []);
 
   const togglePassword = () => {
     const input = document.getElementsByClassName("myInput")[0];
@@ -262,8 +262,8 @@ const customStyles = {
 
 // get the state
 const mapStateToProps = state => ({
-  user_roles: state.users.user_roles,
+  user_roles: state.user_roles.user_roles,
   isLoading: state.users.isAdding,
 });
 
-export default connect(mapStateToProps, { addUser, loadUserRoles })(React.memo(CreateUserForm));
+export default connect(mapStateToProps, { addUser })(React.memo(CreateUserForm));

@@ -6,7 +6,6 @@ const initialState = {
     isUpdating:false,
     isDeleting:false,
     isAdding: false,
-    user_roles:[]
 }
 
 const users  = (state=initialState, action)=>{
@@ -41,12 +40,6 @@ const users  = (state=initialState, action)=>{
                 ...state,
                 users:action.payload.data.userList || [],
                 isLoading:false
-            }
-        case actions_types.USER_ROLES:
-            console.log("user roles from state", action.payload.data.roles)
-            return {
-                ...state,
-                user_roles:action.payload.data.roles || [],
             }
         case actions_types.ADD_USER:
             return{

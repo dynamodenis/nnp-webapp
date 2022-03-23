@@ -19,7 +19,6 @@ function OTP(props) {
     }
 
     useEffect(() => {
-        console.log(registration.user)
         setUser(registration.user)
     })
     // On otp
@@ -36,7 +35,6 @@ function OTP(props) {
             "phone": user.phone,
             "otpNumber": parseInt(otp)
         }
-        console.log(body)
 
         try{
             await props.verifyUser(body)

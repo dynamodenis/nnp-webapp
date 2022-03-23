@@ -33,8 +33,9 @@ import ErrorNotFound from './pages/ErrorNotFound';
 import Researches from './pages/research _management/Researches';
 import PrivateRoute from './partials/utils/PrivateRoute';
 
-function App() {
-
+import { connect } from 'react-redux';
+import Appointments from './pages/appointment/Appointments';
+function App(props) {
   const location = useLocation();
 
   useEffect(() => {
@@ -42,6 +43,8 @@ function App() {
     window.scroll({ top: 0 })
     document.querySelector('html').style.scrollBehavior = ''
   }, [location.pathname]); // triggered on route change
+
+
 
   return (
     <>
@@ -129,6 +132,9 @@ function App() {
         <Route exact path="/research/details/category/:category_id/research/:research_id">
           <Researches/>
         </Route>
+        <Route exact path="/appointments">
+          <Appointments/>
+        </Route>
         <Route path="*">
           <ErrorNotFound/>
         </Route>
@@ -138,4 +144,4 @@ function App() {
   );
 }
 
-export default App;
+export default connect(null)(React.memo(App));

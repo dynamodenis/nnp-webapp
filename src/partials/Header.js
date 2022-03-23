@@ -68,6 +68,12 @@ function Header({
                   <p className='text-lg font-medium'>Innovation</p>
                 </div>
               }
+              {pathname.includes("appointments") &&
+                <div>
+                  <p className='text-lg font-medium'>Consultants</p>
+                  <p className='text-lg font-medium'>Appointments</p>
+                </div>
+              }
               
             </div>
           </div>

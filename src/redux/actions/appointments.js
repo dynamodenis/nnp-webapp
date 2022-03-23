@@ -1,0 +1,93 @@
+import {returnErrors, createMessage} from './messages'
+import { configHeader } from './auth'
+import nprogress from 'nprogress'
+import { actions_types } from '../action-types/types';
+import apiClient from '../../config/apiConfig';
+
+// Add appointment
+export const addAppointment = (vendor) => (dispatch,getState) =>{
+    dispatch({type: actions_types.ADDING_APPOINTMENT});
+    nprogress.start()
+    return apiClient.post('/api/v1/consultants/new-appointment',vendor, configHeader(getState))
+        .then(res=>{
+            dispatch(createMessage({itemAdded:'Appointment successfully created'}))
+            dispatch({
+                type:actions_types.ADD_APPOINTMENT,
+                payload:res?.data
+            })
+            nprogress.done();
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data?.message, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+            nprogress.done()
+        })
+}
+
+// get appointment action
+export const loadAppointments = () => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_APPOINTMENT});
+    return apiClient.get('/api/v1/consultants/getAllAppointments',configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.GET_APPOINTMENT,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
+// update consultant
+export const updateConsultant = (id,vendor) => (dispatch,getState) =>{
+    dispatch({type: actions_types.UPDATING_APPOINTMENT});
+    nprogress.start()
+    return apiClient.put(`/api/v1/consultants/edit-consultant/${id}`,vendor, configHeader(getState))
+        .then(res=>{
+            dispatch(createMessage({itemAdded:'Consultant successfully updated'}))
+            dispatch({
+                type:actions_types.UPDATE_APPOINTMENT,
+                payload:res?.data
+            })
+            nprogress.done();
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+            nprogress.done()
+        })
+}
+
+// Delete CONSULTANT
+export const deleteConsultant = (id) => (dispatch,getState) =>{
+    dispatch({type: actions_types.DELETING_APPOINTMENT});
+    nprogress.start()
+    return apiClient.delete(`/api/v1/consultants/delete/${id}`, configHeader(getState))
+        .then(()=>{
+            dispatch(createMessage({itemAdded:'Consultant successfully deleted'}))
+            dispatch({
+                type:actions_types.DELETE_APPOINTMENT,
+                payload:id
+            })
+            nprogress.done()
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+            nprogress.done()
+        })
+}

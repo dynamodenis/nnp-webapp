@@ -37,13 +37,19 @@ function EditUserForm(props) {
   };
 
   useEffect(() => {
+    const roles = user_roles?.filter(role => role.id === edit?.role)
+    let selected_role = {value:"", label:""};
+    if(roles !== undefined){
+        selected_role = {value:roles[0]?.id, label:roles[0]?.name};
+    } 
     setname(edit?.name);
-    setRole(edit?.role);
+    setRole(selected_role);
     setMail(edit?.mail);
     setPhone(edit?.phone);
     setCurrentPassword(edit?.password);
     setId(edit?.id);
   }, [id, edit]);
+  
 
   const togglePassword = () => {
     const input = document.getElementsByClassName("myInput")[0];
@@ -257,7 +263,7 @@ const customStyles = {
 
 // get the state
 const mapStateToProps = state => ({
-  user_roles: state.users.user_roles,
+  user_roles: state.user_roles.user_roles,
   isLoading: state.users.isUpdating,
   users: state.users.users,
 });

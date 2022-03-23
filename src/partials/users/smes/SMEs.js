@@ -20,6 +20,7 @@ import CircularProgressLoader from "../../utils/CircularProgressLoader";
 
 // redux
 import { connect } from "react-redux";
+import { loadSmes } from "../../../redux/actions/smes";
 import DeleteSmeModal from "./DeleteSmeModal";
 import CreateSme from "./CreateSme";
 import EditSmeForm from "./EditSmeForm";
@@ -59,7 +60,7 @@ const useStyles = makeStyles({
 });
 function SMEs(props) {
   const classes = useStyles();
-  const { isLoading, smes } = props;
+  const { isLoading, smes,loadSmes } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -102,6 +103,10 @@ function SMEs(props) {
   useEffect(() => {
     setEdit(edit);
   }, [edit]);
+
+  useEffect(() => {
+    loadSmes();
+  },[])
 
   useEffect(() => {
     setSmesList(smes);
@@ -270,4 +275,4 @@ const mapStateToProps = state => ({
   isLoading: state.smes.isLoading,
 });
 
-export default connect(mapStateToProps)(React.memo(SMEs));
+export default connect(mapStateToProps,{loadSmes})(React.memo(SMEs));

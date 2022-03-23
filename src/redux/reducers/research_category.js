@@ -32,19 +32,19 @@ const research_category  = (state=initialState, action)=>{
         case actions_types.GET_RESEARCH_CATEGORY:
             return {
                 ...state,
-                research_categories:action.payload.data['r-category'] || [],
+                research_categories:action.payload.data.rcategory || [],
                 isLoading:false
             }
         case actions_types.ADD_RESEARCH_CATEGORY:
             return{
                 ...state,
-                research_categories:[...state.research_categories,action.payload.data['r-category']],
+                research_categories:[...state.research_categories,action.payload.data.rcategory],
                 isAdding:false
             }
         case actions_types.UPDATE_RESEARCH_CATEGORY:
-            const index = state.research_categories.findIndex(el => el.id === action.payload.data['r-category'].id);
+            const index = state.research_categories.findIndex(el => el.id === action.payload.data.rcategory.id);
             const newArray = [...state.research_categories]; 
-            newArray[index] = action.payload.data['r-category'];
+            newArray[index] = action.payload.data.rcategory;
             return{
                 ...state,
                 research_categories:newArray,

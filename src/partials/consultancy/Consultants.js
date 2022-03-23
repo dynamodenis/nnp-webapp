@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import debounce from "lodash.debounce";
 import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 // import MessageIcon from '@mui/icons-material/Message';
 import trainer from "../../images/default.jpg";
 import { connect } from "react-redux";
@@ -9,11 +10,38 @@ import { loadConsultants } from "../../redux/actions/consultants";
 import CircularProgressLoader from "../utils/CircularProgressLoader";
 import { Link } from "react-router-dom";
 import NoDataFound from "../utils/NoDataFound";
+import Appointment from './Appointment';
 
 function Consultancy(props) {
   const { isLoading, consultants, loadConsultants } = props;
   const [consultantList, setConsultantList] = useState([]);
   const [search, setSearch] = useState("");
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [edit, setEdit] = useState();
+  const [modalIsEditOpen, setIsEditOpen] = useState(false);
+  const [selectedConsultant, setSelectedConsultant] = useState("");
+
+  // Open Modal
+  function openModal(id) {
+    setIsOpen(true);
+    setSelectedConsultant(id)
+  }
+
+  // edit function
+  function editItem(row) {
+    setIsEditOpen(true);
+    setEdit(row);
+  }
+
+  // Delte user
+  function deleteItem(row) {
+    setIsDeleteOpen(true);
+    setEdit(row);
+  }
+  useEffect(() => {
+    setEdit(edit);
+  }, [edit]);
 
   // search
   function searchConsultant(e) {
@@ -55,6 +83,15 @@ function Consultancy(props) {
       debouncedResults.cancel();
     };
   });
+
+  function getImage(consultant){
+    let imageList = consultant?.consultantsProfileList
+    if(imageList?.length){
+      return true
+    }
+    return false
+  }
+
 
   return (
     <div>
@@ -98,7 +135,7 @@ function Consultancy(props) {
                         <div className="text-xs pt-1">08:00 am - 16:00 pm</div>
                       </div>
                       <div className="flex flex-row gap-4 pt-2 pb-2">
-                        {consultant?.consultantsProfileList[0]?.imageDownload ? (
+                        {getImage(consultant) ? (
                           <img
                             src={`data:image/png;base64,${consultant?.consultantsProfileList[0]?.imageDownload}`}
                             alt=""
@@ -123,14 +160,15 @@ function Consultancy(props) {
                       <div className="text-sm text-slate-500">{consultant.pdescr}</div>
                     </div>
                     <div className="flex flex-row gap-2 justify-end ">
+                      <div ><EventAvailableIcon onClick={() => openModal(consultant.id)} titleAccess="Schedule appointment" className="hover:text-gray-900 cursor-pointer" /></div>
                       {consultant.phone && (
                         <a title="Call number" href="tel:0758818394">
-                          <CallIcon className="hover:text-gray-900 cursor-pointer" />
+                          <CallIcon className="hover:text-gray-900 cursor-pointer" titleAccess="Direct phonecall" />
                         </a>
                       )}
                       {consultant.email && (
                         <a href="mailto: insertemailhere@xyz.com?subject=Mail from xyz.com" target="_blank" title="Send Email">
-                          <EmailIcon className="hover:text-gray-900 cursor-pointer" />
+                          <EmailIcon className="hover:text-gray-900 cursor-pointer" titleAccess="Direct email"/>
                         </a>
                       )}
                       {/* <div>
@@ -142,6 +180,7 @@ function Consultancy(props) {
               ))}
             </div>
           )}
+          <Appointment modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} selectedConsultant={selectedConsultant} />
         </>
       )}
     </div>

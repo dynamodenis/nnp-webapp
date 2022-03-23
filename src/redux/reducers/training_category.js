@@ -32,19 +32,19 @@ const training_category  = (state=initialState, action)=>{
         case actions_types.GET_TRAINING_CATEGORY:
             return {
                 ...state,
-                training_categories:action.payload.data['t-category'] || [],
+                training_categories:action.payload.data.tcategory || [],
                 isLoading:false
             }
         case actions_types.ADD_TRAINING_CATEGORY:
             return{
                 ...state,
-                training_categories:[...state.training_categories,action.payload.data['t-category']],
+                training_categories:[...state.training_categories,action.payload.data.tcategory],
                 isAdding:false
             }
         case actions_types.UPDATE_TRAINING_CATEGORY:
-            const index = state.training_categories.findIndex(el => el.id === action.payload.data['t-category'].id);
+            const index = state.training_categories.findIndex(el => el.id === action.payload.data.tcategory.id);
             const newArray = [...state.training_categories]; 
-            newArray[index] = action.payload.data['t-category'];
+            newArray[index] = action.payload.data.tcategory;
             return{
                 ...state,
                 training_categories:newArray,
