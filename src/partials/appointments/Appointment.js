@@ -28,6 +28,7 @@ import { loadUsers } from '../../redux/actions/users';
 import NoDataFound from "../utils/NoDataFound";
 import CreateAppointment from "./CreateAppointment";
 import EditAppointment from "./EditAppointment";
+import DeleteAppointment from "./DeleteAppointment";
 
 // Tables CSS
 const useStyles = makeStyles({
@@ -252,9 +253,8 @@ const columns = [
       )}
       <CreateAppointment modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
       <EditAppointment edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen} />
-      {/* 
-      <EditProductCategory edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen} />
-      <DeleteProductCategory edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} /> */}
+      <DeleteAppointment edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} /> 
+      
     </div>
   );
 }
@@ -262,7 +262,7 @@ const columns = [
 // get the state
 const mapStateToProps = state => ({
   categories: state.product_category.product_categories,
-  isLoading: state.product_category.isLoading,
+  isLoading: state.appointments.isLoading,
   appointments:state.appointments.appointments,
   consultants: state.consultants.consultants,
   users:state.users.users,

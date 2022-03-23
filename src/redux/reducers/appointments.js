@@ -36,16 +36,15 @@ const appointments  = (state=initialState, action)=>{
                 isLoading:false
             }
         case actions_types.ADD_APPOINTMENT:
-            console.log(action.payload.data)
             return{
                 ...state,
                 appointments:[...state.appointments,action.payload.data?.appointment],
                 isAdding:false
             }
         case actions_types.UPDATE_APPOINTMENT:
-            const index = state.appointments.findIndex(el => el.id === action.payload.data.consultant.id);
+            const index = state.appointments.findIndex(el => el.id === action.payload.data.appointment.id);
             const newArray = [...state.appointments]; 
-            newArray[index] = action.payload.data.consultant;
+            newArray[index] = action.payload.data.appointment;
             return{
                 ...state,
                 appointments:newArray,

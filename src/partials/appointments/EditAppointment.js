@@ -6,10 +6,10 @@ import Modal from "react-modal";
 import SingleSelectInput from "../utils/SingleSelectInput";
 // redux
 import { connect } from "react-redux";
-import { addAppointment } from "../../redux/actions/appointments";
+import { updateAppointment } from "../../redux/actions/appointments";
 
 function EditAppointment(props) {
-  const { addAppointment, isLoading,consultants,edit } = props;
+  const { isLoading,consultants,edit,updateAppointment } = props;
   let {user} = props;
   const form = useRef();
   const [name, setname] = useState("");
@@ -19,6 +19,7 @@ function EditAppointment(props) {
   const [dfactor, setDfactor] = useState("hrs");
   const [desc, setDesc] = useState("");
   const [consultant, setConsultant] = useState("");
+  const [id, setId] = useState("");
 
   const changename = event => {
     setname(event.target.value);
@@ -61,11 +62,20 @@ function EditAppointment(props) {
     setDuration(edit?.duration)
     setDfactor(edit?.dfactor)
     setDesc(edit?.notes)
+    setId(edit?.id)
+    const date_time = edit?.stime?.split(" ")
+    console.log(date_time)
+    if(date_time !=="undefined"){
+      setDate(date_time[0])
+      setTime(date_time[1])
+    }
+
   },[edit])
 
   const createCourse = e => {
     e.preventDefault();
     const body = {
+      "id": id,
       "topic": name,
       "consultant": consultant.value,
       "stime": `${date} ${time}:00`,
@@ -75,16 +85,8 @@ function EditAppointment(props) {
       "notes": desc,
       "appuser":user?.id
     };
-    console.log(JSON.stringify(body))
-    addAppointment(JSON.stringify(body)).then(res => {
+    updateAppointment(id,JSON.stringify(body)).then(res => {
       if (res === "success") {
-        setname("");
-        setDate("");
-        setTime("");
-        setDuration("");
-        setDfactor("hrs");
-        setDesc("");
-        setConsultant("")
         props.setIsOpen(!props.modalIsOpen);
       }
     });
@@ -113,7 +115,7 @@ function EditAppointment(props) {
         <div className="md:pl-8 md:pr-8">
           <div className="flex flex-col sm:flex-row justify-between gap-2">
             <div>
-              <div className="text-2xl font-medium">Schedule Appointment</div>
+              <div className="text-2xl font-medium">Edit Schedule Appointment</div>
             </div>
           </div>
 
@@ -256,7 +258,7 @@ function EditAppointment(props) {
                       </button>
                     ) : (
                       <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">
-                        Save
+                        Update
                       </button>
                     )}
                   </div>
@@ -289,9 +291,9 @@ const customStyles = {
 
 // get the state
 const mapStateToProps = state => ({
-  isLoading: state.appointments.isAdding,
+  isLoading: state.appointments.isUpdating,
   user: state.auth.user,
   consultants: state.consultants.consultants,
 });
 
-export default connect(mapStateToProps, { addAppointment })(EditAppointment);
+export default connect(mapStateToProps, { updateAppointment })(EditAppointment);

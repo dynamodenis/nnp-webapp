@@ -46,13 +46,13 @@ export const loadAppointments = () => (dispatch,getState) =>{
         })
 }
 
-// update consultant
-export const updateConsultant = (id,vendor) => (dispatch,getState) =>{
+// update appointment
+export const updateAppointment = (id,appointment) => (dispatch,getState) =>{
     dispatch({type: actions_types.UPDATING_APPOINTMENT});
     nprogress.start()
-    return apiClient.put(`/api/v1/consultants/edit-consultant/${id}`,vendor, configHeader(getState))
+    return apiClient.put(`/api/v1/consultants/edit-appointment/${id}`,appointment, configHeader(getState))
         .then(res=>{
-            dispatch(createMessage({itemAdded:'Consultant successfully updated'}))
+            dispatch(createMessage({itemAdded:'Appointment successfully updated'}))
             dispatch({
                 type:actions_types.UPDATE_APPOINTMENT,
                 payload:res?.data
@@ -69,13 +69,13 @@ export const updateConsultant = (id,vendor) => (dispatch,getState) =>{
         })
 }
 
-// Delete CONSULTANT
-export const deleteConsultant = (id) => (dispatch,getState) =>{
+// Delete appointment
+export const deleteAppointment = (id) => (dispatch,getState) =>{
     dispatch({type: actions_types.DELETING_APPOINTMENT});
     nprogress.start()
-    return apiClient.delete(`/api/v1/consultants/delete/${id}`, configHeader(getState))
+    return apiClient.delete(`/api/v1/consultants/delete-appointment/${id}`, configHeader(getState))
         .then(()=>{
-            dispatch(createMessage({itemAdded:'Consultant successfully deleted'}))
+            dispatch(createMessage({itemAdded:'Appointment successfully deleted'}))
             dispatch({
                 type:actions_types.DELETE_APPOINTMENT,
                 payload:id
