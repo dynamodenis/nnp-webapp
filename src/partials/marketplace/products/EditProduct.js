@@ -108,7 +108,9 @@ function EditProduct(props) {
 
     const selected_picture = [];
     if(edit !== undefined && Object.keys(edit).length){
-        setSelectPicture(`data:image/png;base64,${edit.pImages[0]?.imageDownload}`)
+      if(edit?.pImage){
+        setSelectPicture(`data:image/png;base64,${edit.pImage}`)
+      }
     } 
   },[edit])
 

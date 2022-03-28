@@ -34,8 +34,8 @@ function ConsultantDetails(props) {
     }
 
     function checkImage(consultant){
-        if(Object.keys(consultant).length && consultant?.consultantsProfileList.length){
-            // return consultant?.consultantsProfileList[0]?.imageDownload
+        if(Object.keys(consultant).length){
+            return consultant?.imageDownloads
             return true
         } else {
             return false;
@@ -58,9 +58,9 @@ function ConsultantDetails(props) {
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2  justify-start gap-4 bg-white min-height-8rem pt-4 pb-4 md:pt-0 md:pb-0'>
                 <div className="flex flex-row gap-8 my-auto ml-4">
-                    {checkImage(consultant) ? <img src={`data:image/png;base64,${consultant?.consultantsProfileList[0]?.imageDownload}`} alt="" className="w-20 h-20 border-radius-50" /> : <img src={trainer_image} alt="" className="w-20 h-20 border-radius-50" />}
+                    {checkImage(consultant) ? <img src={`data:image/png;base64,${consultant?.imageDownloads}`} alt="" className="w-20 h-20 border-radius-50" /> : <img src={trainer_image} alt="" className="w-20 h-20 border-radius-50" />}
                     <div className="text-sm font-semibold ">
-                        <div className='link'>{consultant?.name}</div>
+                        <div className='badge badge_light_primary'>{consultant?.name}</div>
                         <div className="text-xs font-normal flex flex-row hover:text-gray-600 gap-4 pt-2">
                             <div><PhoneIcon style={{ fontSize:"1rem"}} /></div>
                             <div>{consultant.phone || "No phone number"}</div>

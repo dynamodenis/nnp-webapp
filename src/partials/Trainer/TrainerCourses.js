@@ -77,7 +77,7 @@ function TrainerCourses(props) {
 
   // Get training category
   function getCategory(cat) {
-    const category = t_category["t-category"]?.filter(item => item.id === cat);
+    const category = t_category?.filter(item => item.id === cat);
     if (category !== undefined) {
       // console.log("category", category)
       return category[0]?.name || "";
@@ -96,7 +96,7 @@ function TrainerCourses(props) {
     <div>
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
-          <div className="text-2xl font-medium">
+          <div className="text-2xl font-semibold">
             Welcome, {user?.name}.<div className="text-sm link">This are the current uploaded trainings below.</div>
           </div>
         </div>
@@ -123,7 +123,7 @@ function TrainerCourses(props) {
               required
             >
               <option value="">Select All</option>
-              {t_category["t-category"]?.map((cat, i) => (
+              {t_category?.map((cat, i) => (
                 <option key={i} value={cat.id} className="h-2">
                   {cat.name}
                 </option>

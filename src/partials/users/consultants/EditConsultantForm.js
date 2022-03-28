@@ -62,7 +62,7 @@ function EditConsultantForm(props) {
     if(edit?.projects){
       setHasProject(true)
     }
-    setSelectPicture(`data:image/png;base64,${edit?.consultantsProfileList[0]?.imageDownload}`)
+    setSelectPicture(`data:image/png;base64,${edit?.imageDownloads}`)
     setMail(edit?.email || "")
     setPhone(edit?.phone || "")
     setSalesRep(selected_user)

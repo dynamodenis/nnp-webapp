@@ -31,7 +31,7 @@ function CoursesDashboard(props) {
   useEffect(() => {
     const category = categories?.filter(cat => cat.id === category_id)
     setCategoryName(category[0]?.name)
-  },[category_id, categories])
+  },[category_id])
 
   // Filter trainings
   useEffect(() => {
@@ -60,20 +60,6 @@ function CoursesDashboard(props) {
     return trainer[0]?.name
   }
   function truncate(desc){
-    // let separator= "";
-    // let segments = 30
-    // const split = Math.ceil(segments / 2);
-    // const elContent = desc.split(separator);
-    // console.log(elContent)
-    // if (elContent.length <= 30) {
-    //   return desc;
-    // }
-    // const newContent = [].concat(
-    //   elContent.slice(0, split),
-    //   ["..."],
-    //   elContent.slice(-(segments-split))
-    // ).join(` ${separator} `);
-    // return newContent;
     return desc.length > 300 ? desc.substring(0, 299) + "..." : desc;
   }
 

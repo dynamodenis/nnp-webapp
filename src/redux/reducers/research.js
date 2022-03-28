@@ -30,6 +30,11 @@ const research  = (state=initialState, action)=>{
                 ...state,
                 isDeleting: true
             }
+        case actions_types.SELECTED_RESEARCH_IMAGE:
+            return {
+                ...state,
+                selected_image: action.payload
+            }  
         case actions_types.GET_RESEARCH:
             return {
                 ...state,

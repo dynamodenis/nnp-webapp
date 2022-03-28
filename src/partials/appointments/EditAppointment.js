@@ -64,11 +64,13 @@ function EditAppointment(props) {
     setDesc(edit?.notes)
     setId(edit?.id)
     const date_time = edit?.stime?.split(" ")
-    console.log(date_time)
-    if(date_time !=="undefined"){
-      setDate(date_time[0])
-      setTime(date_time[1])
-    }
+    if(edit?.stime){
+
+      if(date_time !== "undefined"){
+        setDate(date_time[0])
+        setTime(date_time[1])
+      }    }
+    
 
   },[edit])
 

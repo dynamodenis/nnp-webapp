@@ -19,12 +19,9 @@ import CircularProgressLoader from "../utils/CircularProgressLoader";
 
 // redux
 import { connect } from "react-redux";
-import { loadAppointments } from "../../redux/actions/appointments";
+import { loadAppointments, loadUserAppointments,loadConsultantAppointments, loadFilterUserAppointments,loadFilterConsultantAppointments } from "../../redux/actions/appointments";
 import { loadConsultants } from "../../redux/actions/consultants";
 import { loadUsers } from '../../redux/actions/users';
-// import CreateProductCategory from "./CreateProductCategory";
-// import EditProductCategory from "./EditProductCategory";
-// import DeleteProductCategory from "./DeleteProductCategory";
 import NoDataFound from "../utils/NoDataFound";
 import CreateAppointment from "./CreateAppointment";
 import EditAppointment from "./EditAppointment";
@@ -52,24 +49,27 @@ const useStyles = makeStyles({
 });
 function Appointment(props) {
   const classes = useStyles();
-  const { isLoading, users, loadAppointments, appointments,loadConsultants,consultants,loadUsers } = props;
+  const { isLoading, users, loadAppointments,loadFilterConsultantAppointments,loadConsultantAppointments,loadFilterUserAppointments, appointments,loadConsultants,consultants,loadUsers,loadUserAppointments } = props;
+  let {user} = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalIsDeleteOpen, setIsDeleteOpen] = useState(false);
   const [edit, setEdit] = useState();
+  const [status, setStatus] = useState("");
   const [modalIsEditOpen, setIsEditOpen] = useState(false);
+  const [appointmentList, setAppointmentList] = useState([]);
 
   // Test Table Data
-const columns = [
-  { id: "name", label: "Topic", minWidth: 5 },
-  { id: "consultant", label: "Consultant", minWidth: 5 },
-  { id: "topic", label: "User", minWidth: 5 },
-  { id: "time", label: "Time", minWidth: 5 },
-  { id: "duration", label: "Duration", minWidth: 5 },
-  { id: "status", label: "Status", minWidth: 5 },
-  { id: "", label: "Actions", minWidth: 5 },
-];
+  const columns = [
+    { id: "name", label: "Topic", minWidth: 5 },
+    { id: "consultant", label: "Consultant", minWidth: 5 },
+    { id: "topic", label: "User", minWidth: 5 },
+    { id: "time", label: "Time", minWidth: 5 },
+    { id: "duration", label: "Duration", minWidth: 5 },
+    { id: "status", label: "Status", minWidth: 5 },
+    { id: "", label: "Actions", minWidth: 5 },
+  ];
 
 
   const handleChangePage = (event, newPage) => {
@@ -81,8 +81,51 @@ const columns = [
     setPage(0);
   };
 
+  // check if user is undefined
+  if (user !== 'undefined') {
+    user = JSON.parse(user);
+  } else {
+    user = {}
+  }
+
+  const handleChangeStatus = event => {
+    // isLoading = true;
+    if (event.target.value) {
+      
+      // isLoading = false
+      if(user.role == "User 01"){
+        loadFilterUserAppointments(user?.id, event.target.value)
+      }else if(user.role == "Trainers"){
+        loadFilterConsultantAppointments(user?.id, event.target.value)
+      } else {
+        const appointment_filtered = appointments?.filter(item => item.status === parseInt(event.target.value));
+        setAppointmentList(appointment_filtered);
+      }
+       
+    } else {
+      setAppointmentList(appointments);
+    }
+    // isLoading = false
+    setStatus(event.target.value);
+  };
+
   useEffect(() => {
-    loadAppointments()
+    setAppointmentList(appointments);
+  }, [appointments]);
+
+  useEffect(() => {
+    // load appointments based on roles
+    if(user.role == "User 01"){
+      // users
+      loadUserAppointments(user.id)
+      console.log("loading user appointments")
+    }else if(user.role == 'Trainers'){
+      // consultants
+      loadConsultantAppointments(user.id)
+      console.log("loading consultant")
+    }else {
+      loadAppointments()
+    }
     loadConsultants()
     loadUsers()
   }, []);
@@ -131,10 +174,11 @@ const columns = [
       value = "Pending"
     } else if (status === 2){
       value = "Approved"
+    }else if (status === 3){
+      value = "Rejected"
     }
     return value
   }
-  console.log("appointments", appointments)
   return (
     <div className="survey_container">
       <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
@@ -153,13 +197,35 @@ const columns = [
           </div>
         </div>
       </div>
+
+      <div className="flex sm:flex-row justify-between gap-2 pt-2">
+        <div className="font-semibold text-xs">
+          <label htmlFor="" className="font-semibold text-sm">
+            Filter by category
+          </label>
+          <div>
+            <select
+              className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md text-xs h-8"
+              value={status}
+              onChange={handleChangeStatus}
+              required
+            >
+              <option value="">Select All</option>
+              <option value="1">Open</option>
+              <option value="2">Confirmed</option>
+              <option value="3">Rejected</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       {isLoading ? (
         <CircularProgressLoader />
       ) : (
         <>
-          {appointments.length === 0 ? (
+          {appointmentList.length === 0 ? (
             <div className="pt-8">
-              <NoDataFound />
+              <NoDataFound header="Opps! No appointments found for you." body="You currently don't have any scheduled appointment."/>
             </div>
           ) : (
             <div className="survey_table pt-2">
@@ -190,14 +256,14 @@ const columns = [
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {appointments?.length <= 0 ? (
+                    {appointmentList?.length <= 0 ? (
                       <TableRow>
                         <TableCell colSpan={8} className={classes.table_cell_text}>
                           No data to display
                         </TableCell>
                       </TableRow>
                     ) : null}
-                    {appointments.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                    {appointmentList.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                       return (
                         <TableRow hover role="checkbox" tabIndex={-1} key={index} style={{ zIndex: "0" }}>
                           <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
@@ -216,7 +282,9 @@ const columns = [
                             {`${row?.duration} ${row?.dfactor}`}
                           </TableCell>
                           <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                            {getStatus(row?.status)}
+                            {row?.status === 1 && <span className="badge badge_light_primary">{getStatus(row?.status)}</span>}
+                            {row?.status === 2 && <span className="badge badge_light_success">{getStatus(row?.status)}</span>}
+                            {row?.status === 3 && <span className="badge badge_light_danger">{getStatus(row?.status)}</span>}
                           </TableCell>
                           <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
                             <Grid container direction="row" alignItems="center" spacing={1}>
@@ -241,7 +309,7 @@ const columns = [
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
                 component="div"
-                count={appointments.length}
+                count={appointmentList.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
@@ -266,6 +334,7 @@ const mapStateToProps = state => ({
   appointments:state.appointments.appointments,
   consultants: state.consultants.consultants,
   users:state.users.users,
+  user: state.auth.user,
 });
 
-export default connect(mapStateToProps, { loadAppointments,loadConsultants,loadUsers })(React.memo(Appointment));
+export default connect(mapStateToProps, { loadAppointments,loadFilterUserAppointments,loadFilterConsultantAppointments, loadConsultantAppointments,loadConsultants,loadUsers,loadUserAppointments })(React.memo(Appointment));

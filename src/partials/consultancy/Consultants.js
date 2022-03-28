@@ -85,8 +85,8 @@ function Consultancy(props) {
   });
 
   function getImage(consultant){
-    let imageList = consultant?.consultantsProfileList
-    if(imageList?.length){
+    let imageList = consultant?.imageDownloads
+    if(imageList){
       return true
     }
     return false
@@ -137,7 +137,7 @@ function Consultancy(props) {
                       <div className="flex flex-row gap-4 pt-2 pb-2">
                         {getImage(consultant) ? (
                           <img
-                            src={`data:image/png;base64,${consultant?.consultantsProfileList[0]?.imageDownload}`}
+                            src={`data:image/png;base64,${consultant?.imageDownloads}`}
                             alt=""
                             className="w-20 h-20 border-radius-50"
                           />

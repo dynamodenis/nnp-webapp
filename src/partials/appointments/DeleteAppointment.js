@@ -33,6 +33,7 @@ function DeleteAppointment(props) {
         setSelectName(props.edit?.name)
         setSelectId(props.edit?.id)
         Modal.setAppElement('body');
+        console.log(props.edit)
     },[props.edit])
 
     return (
@@ -49,7 +50,7 @@ function DeleteAppointment(props) {
 
             <div className="flex flex-row justify-between">
                 <span className="text-lg font-semibold">
-                    Delete Consultant
+                    Delete Appointment
                 </span>
                 <IconButton  style={{ padding: 2, color:"#FF5C5C"}} onClick={() => props.setIsOpen(!props.modalIsOpen)}>
                     <HighlightOffIcon fontSize="small"/>

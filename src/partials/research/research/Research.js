@@ -78,8 +78,6 @@ function Research(props) {
     setResearchesList(researches)
   },[researches])
 
-  console.log(researches)
-
   // Get research category
   function getCategory(cat){
     const category = categories?.filter(item => item.id === cat)
@@ -222,9 +220,6 @@ function Research(props) {
       <CreateResearch modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
       <DeleteResearch edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} />
       <EditResearch edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen} />
-      {/* <CreateCourses modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
-      <EditCourse edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen} />
-      <DeleteCourse edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} /> */}
     </div>
   );
 }

@@ -28,50 +28,50 @@ function Header({
               </div>
               {pathname.includes("trainings-dashboard")&&
                 <div>
-                  <p className='text-lg font-medium'>Farmers</p>
-                  <p className='text-lg font-medium'>Learning Center</p>
+                  <p className='text-lg font-semibold'>Farmers</p>
+                  <p className='text-lg font-semibold'>Learning Center</p>
                 </div>
               }
               {pathname === "/dashboard" &&
                 <div>
-                  <p className='text-lg font-medium'>Farmers</p>
-                  <p className='text-lg font-medium'>Learning Center</p>
+                  <p className='text-lg font-semibold'>Farmers</p>
+                  <p className='text-lg font-semibold'>Learning Center</p>
                 </div>
               }
               {pathname.includes("consultancy") &&
                 <div>
-                  <p className='text-lg font-medium'>Available</p>
-                  <p className='text-lg font-medium'>Consultants</p>
+                  <p className='text-lg font-semibold'>Available</p>
+                  <p className='text-lg font-semibold'>Consultants</p>
                 </div>
               }
               {pathname.includes("marketplace") &&
                 <div>
-                  <p className='text-lg font-medium'>Product and services</p>
-                  <p className='text-lg font-medium'>Marketplace</p>
+                  <p className='text-lg font-semibold'>Product and services</p>
+                  <p className='text-lg font-semibold'>Marketplace</p>
                 </div>
               }
               {pathname.includes("trainer") &&
                 <div>
-                  <p className='text-lg font-medium'>Trainers</p>
-                  <p className='text-lg font-medium'>Dashboard</p>
+                  <p className='text-lg font-semibold'>Trainers</p>
+                  <p className='text-lg font-semibold'>Dashboard</p>
                 </div>
               }
               {pathname.includes("users") &&
                 <div>
-                  <p className='text-lg font-medium'>Users</p>
-                  <p className='text-lg font-medium'>Management</p>
+                  <p className='text-lg font-semibold'>Users</p>
+                  <p className='text-lg font-semibold'>Management</p>
                 </div>
               }
               {pathname.includes("research") &&
                 <div>
-                  <p className='text-lg font-medium'>Research</p>
-                  <p className='text-lg font-medium'>Innovation</p>
+                  <p className='text-lg font-semibold'>Research</p>
+                  <p className='text-lg font-semibold'>Innovation</p>
                 </div>
               }
               {pathname.includes("appointments") &&
                 <div>
-                  <p className='text-lg font-medium'>Consultants</p>
-                  <p className='text-lg font-medium'>Appointments</p>
+                  <p className='text-lg font-semibold'>Consultants</p>
+                  <p className='text-lg font-semibold'>Appointments</p>
                 </div>
               }
               

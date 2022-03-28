@@ -46,6 +46,82 @@ export const loadAppointments = () => (dispatch,getState) =>{
         })
 }
 
+// get USER appointment action
+export const loadUserAppointments = (id) => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_APPOINTMENT});
+    return apiClient.get(`/api/v1/consultants/getAllUserAppointments/${id}`,configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.USER_APPOINTMENT,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
+// get consultant appointment action
+export const loadConsultantAppointments = (id) => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_APPOINTMENT});
+    return apiClient.get(`/api/v1/consultants/getAllConsultantAppointments/${id}`,configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.USER_APPOINTMENT,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
+// get filter USER appointment action
+export const loadFilterUserAppointments = (id,status) => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_APPOINTMENT});
+    return apiClient.get(`/api/v1/consultants/filterUserAppointments/${id}/${status}`,configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.USER_APPOINTMENT,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
+// get filter Consultant appointment action
+export const loadFilterConsultantAppointments = (id,status) => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_APPOINTMENT});
+    return apiClient.get(`/api/v1/consultants/filterConsultantAppointments/${id}/${status}`,configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.USER_APPOINTMENT,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
 // update appointment
 export const updateAppointment = (id,appointment) => (dispatch,getState) =>{
     dispatch({type: actions_types.UPDATING_APPOINTMENT});

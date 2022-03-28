@@ -48,8 +48,7 @@ function EditCourse(props) {
 
   // get items
   useEffect(() => {
-    // console.log(edit)
-    const category = t_category['t-category']?.filter(el => el.id === edit?.category);
+    const category = t_category?.filter(el => el.id === edit?.category);
     let selected_category = {value:"", label:""};
     if(category !== undefined){
         selected_category = {value:category[0]?.id, label:category[0]?.name};
@@ -113,10 +112,6 @@ function EditCourse(props) {
     data.append('training', postData);
     data.append('topic', name);
     data.append('url', url);
-    // console.log("images",selectPictureFormData)
-    // console.log("url", url)
-    // console.log("topic", name)
-    // console.log("training", postData)
 
     updateTraining(id, data).then(res => {
         if(res === "success"){
@@ -142,7 +137,7 @@ function EditCourse(props) {
 
    // Select 2 users
   const cat_options = [];
-  t_category['t-category']?.map( cat => {
+  t_category?.map( cat => {
     cat_options.push({
       value:cat.id,
       label:cat.name

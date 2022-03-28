@@ -48,7 +48,7 @@ const trainings  = (state=initialState, action)=>{
         case actions_types.GET_TRAINING_CATEGORY:
             return {
                 ...state,
-                training_category:action.payload.data || [],
+                training_category:action.payload.data.tcategory || [],
             }
         case actions_types.GET_TRAINERS:
             return {

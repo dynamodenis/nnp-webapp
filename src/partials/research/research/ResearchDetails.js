@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CategoryIcon from "@mui/icons-material/Category";
 import trainer_image from "../../../images/default.jpg";
@@ -8,15 +8,17 @@ import { useHistory } from "react-router-dom";
 
 // redux
 import { connect } from "react-redux";
-import { loadResearch } from "../../../redux/actions/research";
+import { loadResearch, loadSelectedImage } from "../../../redux/actions/research";
 import { loadResearchCategory } from "../../../redux/actions/research_category";
 import { loadTrainingTrainers } from "../../../redux/actions/training";
 import CircularProgressLoader from "../../utils/CircularProgressLoader";
 import NoDataFound from "../../utils/NoDataFound";
+import ResearchImages from "./ResearchImages";
 
 function ResearchDetails(props) {
   const research_id = props.match.params.research_id;
-  const { loadResearch, isLoading, research, categories, trainers, loadResearchCategory, loadTrainingTrainers } = props;
+  const { loadResearch, isLoading, research, categories,loadSelectedImage, trainers, loadResearchCategory, loadTrainingTrainers } = props;
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   let history = useHistory();
   const goToPreviousPath = () => {
@@ -28,8 +30,6 @@ function ResearchDetails(props) {
     loadResearchCategory();
     loadTrainingTrainers();
   }, [research_id]);
-  console.log(research_id);
-  //   console.log(research);
 
   // get trainer
   function getTrainer(items) {
@@ -77,6 +77,24 @@ function ResearchDetails(props) {
       return "";
     }
   }
+
+  // Open Modal
+  function openModal(image) {
+    setIsOpen(true);
+    loadSelectedImage(image)
+  }
+
+  function getResearchImages(research){
+    if(Object.keys(research).length){
+      const images = []
+      research?.rMaterials[0]?.rResources?.map((pic, i) => (
+        images.push(<img src={`data:image/png;base64,${pic.imageDownload}`} alt="" id="img" className="cursor-pointer product_img" key={i} onClick={() => openModal(pic.imageDownload)} />)
+      ))
+
+      return images
+    }
+  }
+  // console.log(research)
 
   return (
     <>
@@ -133,10 +151,15 @@ function ResearchDetails(props) {
               </div>
               <div className="text-base font-semibold pt-4">{getName(research)}</div>
               <p className="text-xs text-slate-500 pt-2 pb-4" dangerouslySetInnerHTML={createMarkup(research.description)}></p>
+              <p className="font-semibold text-sm text-slate-600 pt-2">Research Image(s)</p>
+              <div className="grid grid-cols-2 md:grid-cols-6 gap-2 pt-2">
+                  {getResearchImages(research)}
+              </div>
             </div>
           </div>
         </div>
       )}
+      <ResearchImages modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </>
   );
 }
@@ -148,6 +171,6 @@ const mapStateToProps = state => ({
   trainers: state.trainings.trainers,
 });
 
-export default connect(mapStateToProps, { loadResearch, loadResearchCategory, loadTrainingTrainers })(
+export default connect(mapStateToProps, { loadResearch,loadSelectedImage, loadResearchCategory, loadTrainingTrainers })(
   withRouter(React.memo(ResearchDetails))
 );

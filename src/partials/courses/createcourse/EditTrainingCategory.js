@@ -32,7 +32,11 @@ function EditTrainingCategory(props) {
     setname(edit?.name)
     setDesc(edit?.descr)
     setEligible(edit?.eligible)
-    setSelectPicture(`data:image/png;base64,${edit?.tCategoryResourcesList[0]?.imageDownload}`)
+    console.log(edit)
+    if(edit?.tCategoryResourcesList){
+      setSelectPicture(`data:image/png;base64,${edit?.tCategoryResourcesList[0]?.imageDownload}`)
+    }
+    
   },[edit])
 
   const createCourse = e => {

@@ -100,23 +100,14 @@ function Sidebar({
             </h3>
             <ul className="mt-3">
               {/* Home */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === '/' && 'nav-yellow'}`}>
-                <NavLink exact to="/" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname === '/' && 'hover:text-gray-900'}`}>
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === '/home' && 'nav-yellow'}`}>
+                <NavLink exact to="/home" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname === '/home' && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
-                    <HomeIcon className={`fill-current text-gray-400 ${pathname === '/' && '!text-gray-500'}`}/>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Home</span>
+                    <HomeIcon className={`fill-current text-gray-400 ${pathname === '/home' && '!text-gray-500'}`}/>
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Home</span>
                   </div>
                 </NavLink>
               </li>
-              {/* Dashboard */}
-              {/* <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === '/dashboard' && 'nav-yellow'}`}>
-                <NavLink exact to="/dashboard" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname === '/dashboard' && 'hover:text-gray-900'}`}>
-                  <div className="flex items-center">
-                    <ModelTrainingIcon className={`fill-current text-gray-500 ${pathname === '/dashboard' && '!text-gray-600'}`}/>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">My Training</span>
-                  </div>
-                </NavLink>
-              </li> */}
               {/* training */}
               <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('trainings-dashboard') && 'nav-yellow'}`}>
                 <NavLink exact to="/trainings-dashboard" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('trainings-dashboard') && 'hover:text-gray-900'}`}>
@@ -125,7 +116,7 @@ function Sidebar({
                       <path className={`fill-current text-gray-600 ${pathname.includes('trainings-dashboard') && 'text-gray-500'}`} d="M0 20h24v2H0z" />
                       <path className={`fill-current text-gray-400 ${pathname.includes('trainings-dashboard') && 'text-gray-300'}`} d="M4 18h2a1 1 0 001-1V8a1 1 0 00-1-1H4a1 1 0 00-1 1v9a1 1 0 001 1zM11 18h2a1 1 0 001-1V3a1 1 0 00-1-1h-2a1 1 0 00-1 1v14a1 1 0 001 1zM17 12v5a1 1 0 001 1h2a1 1 0 001-1v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1z" />
                     </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Trainings</span>
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Trainings</span>
                   </div>
                 </NavLink>
               </li>
@@ -135,7 +126,7 @@ function Sidebar({
                 <NavLink exact to="/marketplace" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('marketplace') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <LocalGroceryStoreIcon className={`fill-current text-gray-500 ${pathname.includes('marketplace') && 'text-gray-600'}`} />
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Market Place</span>
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Market Place</span>
                   </div>
                 </NavLink>
               </li>
@@ -144,7 +135,7 @@ function Sidebar({
                 <NavLink exact to="/trainer/courses" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/trainer/courses') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <UploadIcon className={`fill-current text-gray-500 ${pathname.includes('/trainer/courses') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Training Upload</span>
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Training Upload</span>
                   </div>
                 </NavLink>
               </li>
@@ -153,7 +144,7 @@ function Sidebar({
                 <NavLink exact to="/consultancy" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/consultancy') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <HelpIcon className={`fill-current text-gray-500 ${pathname.includes('/consultancy') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Consultancy</span>
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Consultancy</span>
                   </div>
                 </NavLink>
               </li>
@@ -162,7 +153,7 @@ function Sidebar({
                 <NavLink exact to="/research" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/research') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <ScienceIcon className={`fill-current text-gray-500 ${pathname.includes('/research') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Research & Innovation</span>
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Research & Innovation</span>
                   </div>
                 </NavLink>
               </li>
@@ -171,7 +162,7 @@ function Sidebar({
                 <NavLink exact to="/appointments" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/appointments') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <EventAvailableIcon className={`fill-current text-gray-500 ${pathname.includes('/appointments') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Appointment</span>
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Appointment</span>
                   </div>
                 </NavLink>
               </li>
@@ -180,7 +171,7 @@ function Sidebar({
                 <NavLink exact to="/users" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('users') && 'hover:text-gray-900'}`}>
                   <div className="flex items-center">
                     <PeopleAltIcon className={`fill-current text-gray-500 ${pathname.includes('users') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Users</span>
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Users</span>
                   </div>
                 </NavLink>
               </li>

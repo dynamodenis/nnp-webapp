@@ -57,17 +57,17 @@ function CreateCourses(props) {
     var postData = JSON.stringify(body);
     let data = new FormData();
     // data.append('images', selectPictureFormData);
-    selectPictureFormData.forEach(item => {
-      // console.log("item")
-      data.append('images', item);
-     });
+    if(selectPictureFormData.length){
+      selectPictureFormData.forEach(item => {
+        data.append('images', item);
+      });
+    }else{
+      const f = new File([""], "", {type: "text/plain", lastModified: ""})
+      data.append('images', f);
+    }
     data.append('training', postData);
     data.append('topic', name);
     data.append('url', url);
-    // console.log("images",selectPictureFormData)
-    // console.log("url", url)
-    // console.log("topic", name)
-    // console.log("training", postData)
     addTraining(data).then(res => {
       if(res === "success"){
         setname("")
@@ -100,7 +100,7 @@ function CreateCourses(props) {
 
    // Select 2 users
   const cat_options = [];
-  t_category['t-category']?.map( cat => {
+  t_category?.map( cat => {
     cat_options.push({
       value:cat.id,
       label:cat.name

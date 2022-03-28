@@ -45,7 +45,7 @@ function UserManagement(props) {
   return (
     <div>
       <div className="pb-3">
-        <h2 className="font-semibold text-xl">Users Management</h2>
+        <h2 className="text-gray-600 font-semibold text-xl">Users Management</h2>
       </div>
   
       <div className="profile_details_rowTwo">

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import trainer_image from "../../images/default.jpg";
@@ -11,10 +11,13 @@ import CircularProgressLoader from "../utils/CircularProgressLoader";
 // redux
 import { connect } from "react-redux";
 import { loadTraining, loadTrainingTrainers } from "../../redux/actions/training";
+import { loadSelectedImage } from "../../redux/actions/research";
+import CourseImages from './CourseImages';
 
 function CourseDetails(props) {
   const training_id = props.match.params.training_id;
-  const { loadTraining, isLoading, training, t_category, trainers, loadTrainingTrainers } = props;
+  const { loadTraining, isLoading, training, t_category, trainers, loadTrainingTrainers,loadSelectedImage } = props;
+  const [modalIsOpen, setIsOpen] = useState(false);
 
   let history = useHistory();
   const goToPreviousPath = () => {
@@ -52,6 +55,24 @@ function CourseDetails(props) {
     } else {
       return "";
     }
+  }
+
+  // training images
+  function getTrainingImages(training){
+    if(Object.keys(training).length){
+      const images = []
+      training?.tMaterials[0]?.tMaterialsData?.map((pic, i) => (
+        images.push(<img src={`data:image/png;base64,${pic?.contentDownload}`} alt="" id="img" className="border-radius-10 cursor-pointer product_img" key={i} onClick={() => openModal(pic?.contentDownload)} />)
+      ))
+
+      return images
+    }
+  }
+
+  // Open Modal
+  function openModal(image) {
+    setIsOpen(true);
+    loadSelectedImage(image)
   }
   return (
     <div>
@@ -103,16 +124,23 @@ function CourseDetails(props) {
                   </span>
                 ))}
               </div>
+              <p className="font-semibold text-sm text-slate-600 pt-2">Training Image(s)</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2 pt-2">
+                {getTrainingImages(training)}
+              </div>
             </div>
             <div className="border-radius-10 min-height-20vh h-full md:w-1/2 overflow-y-auto h-80">
               <div
                 className="bg-white border-radius-10 p-1 md:p-4 text-xs editor courses-card-2"
                 dangerouslySetInnerHTML={createMarkup(training.notes)}
-              ></div>
+              >
+              </div>
             </div>
           </div>
         </div>
       )}
+
+      <CourseImages modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }
@@ -124,4 +152,4 @@ const mapStateToProps = state => ({
   trainers: state.trainings.trainers,
 });
 
-export default connect(mapStateToProps, { loadTraining, loadTrainingTrainers })(withRouter(React.memo(CourseDetails)));
+export default connect(mapStateToProps, { loadTraining, loadTrainingTrainers,loadSelectedImage })(withRouter(React.memo(CourseDetails)));

@@ -27,6 +27,13 @@ export const addResearch = (vendor) => (dispatch,getState) =>{
         })
 }
 
+export const loadSelectedImage = (image) => (dispatch) => {
+    dispatch({
+        type:actions_types.SELECTED_RESEARCH_IMAGE,
+        payload:image
+    })
+}
+
 // get Research action
 export const loadResearches = () => (dispatch,getState) =>{
     dispatch({type: actions_types.GETTING_RESEARCH});

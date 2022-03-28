@@ -89,8 +89,6 @@ function EditResearch(props) {
     }
     var postData = JSON.stringify(body);
     let data = new FormData();
-    // check if images are selected
-    console.log(selectPictureFormData)
     if (selectPictureFormData.length > 0){
         selectPictureFormData.forEach(item => {
         // console.log("item")

@@ -35,6 +35,7 @@ import PrivateRoute from './partials/utils/PrivateRoute';
 
 import { connect } from 'react-redux';
 import Appointments from './pages/appointment/Appointments';
+import Website from './pages/website/Website';
 function App(props) {
   const location = useLocation();
 
@@ -50,6 +51,9 @@ function App(props) {
     <>
       <Alert/>
       <Switch>
+        <Route exact path="/">
+          <Website/>
+        </Route>
         <Route exact path="/login">
           <Login />
         </Route>
@@ -59,7 +63,7 @@ function App(props) {
         <Route exact path="/register">
           <Register/>
         </Route>
-        <PrivateRoute exact path="/" component={LandingPage}>
+        <PrivateRoute exact path="/home" component={LandingPage}>
           {/* <LandingPage/> */}
         </PrivateRoute>
         <Route exact path="/dashboard">

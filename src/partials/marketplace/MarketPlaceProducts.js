@@ -81,12 +81,8 @@ function MarketPlaceProducts(props) {
   // console.log("products   ", products)
 
   function getImage(cat) {
-    let imageList = cat?.pImages;
-    let image = "";
-    if (imageList?.length) {
-      image = `data:image/png;base64,${imageList[0]?.imageDownload}`;
-    }
-    // console.log(image)
+    let imageList = cat?.pImage;
+    let image = `data:image/png;base64,${imageList}`;
     return image;
   }
 
@@ -127,8 +123,8 @@ function MarketPlaceProducts(props) {
             <div className="text-sm link">Below is a list of available goods and services by our vendors and smes.</div>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-between gap-2 md:justify-end md:w-2/4">
-          <div className="w-full">
+        <div className="flex flex-col md:flex-row justify-between gap-2 md:justify-end md:w-1/2">
+          <div className="">
             <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
               <LocalGroceryStoreIcon fontSize="small" style={{ color:"white" }}/>
               <span className="pt-0.5">
@@ -136,7 +132,7 @@ function MarketPlaceProducts(props) {
               </span>
             </button>
           </div>
-          <div className="w-full">
+          <div className="">
             <Link to="/marketplace/products/category">
               <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm">
                 <AddIcon fontSize="small" style={{ color:"white" }}/>
@@ -211,26 +207,26 @@ function MarketPlaceProducts(props) {
                     <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
                       <div>
                         <Link to={`/marketplace/product/details/${product.id}`}>
-                          <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
+                          <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-2 md:pl-2 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
                             <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                            <span className="pl-1">
+                            <span className="pl-0.5">
                               View
                             </span>
                           </button>
                           </Link>
                         </div>
                       <div>
-                        <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(product)} >
+                        <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-2 md:pl-2 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(product)} >
                           <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                          <span className="pl-1">
+                          <span className="pl-0.5">
                             Edit
                           </span>
                         </button>
                       </div>
                       <div>
-                        <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(product)} >
+                        <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-2 md:pl-2 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(product)} >
                           <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                          <span className="pl-1">
+                          <span className="pl-0.5">
                             Delete
                           </span>
                         </button>

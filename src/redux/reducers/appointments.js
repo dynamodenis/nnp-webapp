@@ -35,6 +35,13 @@ const appointments  = (state=initialState, action)=>{
                 appointments:action.payload.data?.appointments || [],
                 isLoading:false
             }
+        case actions_types.USER_APPOINTMENT:
+            console.log("user appointment", action.payload.data)
+            return {
+                ...state,
+                appointments:action.payload.data?.appointments || [],
+                isLoading:false
+            }
         case actions_types.ADD_APPOINTMENT:
             return{
                 ...state,

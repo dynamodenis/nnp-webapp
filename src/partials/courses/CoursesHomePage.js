@@ -1,6 +1,9 @@
 import React,{useState, useEffect} from "react";
 import { Link } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 import training_dash from '../../images/training-dashboard.png'
 import CreateTrainingCategory from "./createcourse/CreateTrainingCategory";
@@ -111,10 +114,34 @@ function CoursesHomePage(props) {
                           <p className='font-normal text-xs'>{category.eligible}</p> 
                         </div>
                       </div>
-                      <div className="flex flex-row justify-center gap-2 pb-4">
-                        <div><Link to={`/trainings-dashboard/category/${category.id}`}><button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">View</button></Link></div>
-                        <div><button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(category)} >Edit</button></div>
-                        <div><button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(category)} >Delete</button></div>
+                      
+                      <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
+                        <div>
+                          <Link to={`/trainings-dashboard/category/${category.id}`}>
+                            <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
+                              <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                              <span className="pl-1">
+                                View
+                              </span>
+                            </button>
+                          </Link>
+                        </div>
+                        <div>
+                          <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(category)} >
+                            <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                            <span className="pl-1">
+                              Edit
+                            </span>
+                          </button>
+                        </div>
+                        <div>
+                          <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(category)} >
+                            <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                            <span className="pl-1">
+                              Delete
+                            </span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>

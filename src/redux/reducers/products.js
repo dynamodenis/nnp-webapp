@@ -45,6 +45,7 @@ const products  = (state=initialState, action)=>{
                 isLoading:false
             }
         case actions_types.ADD_PRODUCT:
+            console.log(action.payload.data)
             return{
                 ...state,
                 products:[...state.products,action.payload.data.product],

@@ -9,7 +9,7 @@ function Footer() {
         return year
     }
   return (
-    <footer className='footer w-full'>
+    <footer className='app_footer w-full'>
         <hr/>
         <div className='pt-4 pb-4 text-sm'>
             <div>&#169; 2022 - {getYear()} All Rights Reserved.</div>
