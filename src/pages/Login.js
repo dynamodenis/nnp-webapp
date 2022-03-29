@@ -63,11 +63,11 @@ function Login(props) {
     }
 
     if (props.isAuthenticated){
-        return <Redirect to="/" />
+        return <Redirect to="/home" />
     }
 
     return <>
-    <div className='flex flex-row justify-between h-screen'>
+    <div className='flex flex-row justify-between h-screen bg-white'>
         <div className='flex flex-col sm:m-auto border-radius-10 login-form'>
             <div className='login-form-container min-w-full'>
                 <div className='flex justify-center item-center pt-1'>
@@ -75,7 +75,7 @@ function Login(props) {
                 </div>
                 <form onSubmit={loginUser} autoComplete='off'>
                     <div className='flex flex-col gap-3 items-center login-fields'>
-                        <div>
+                        <div className='login-fields__div'>
                             <label htmlFor="phone" className='text-sm'>Phone Number</label>
                                 <label className="relative block text-sm md:text-base">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -85,7 +85,7 @@ function Login(props) {
                             </label>
                         </div>
                         
-                        <div>
+                        <div className='login-fields__div'>
                             <label htmlFor="phone" className='text-sm'>Password</label>
                                 <label className="relative block text-sm md:text-base">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
@@ -108,7 +108,7 @@ function Login(props) {
                         </div> */}
                     </div>
                     <div>
-                        <div className='btn-container flex flex-row m-auto pt-2'>
+                        <div className='btn-container flex flex-row m-auto pt-6'>
                             {props.isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
                                 <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto" title="Login"/>
                             }

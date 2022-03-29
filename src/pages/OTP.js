@@ -45,11 +45,11 @@ function OTP(props) {
     }
 
     if (props.isAuthenticated){
-        return <Redirect to="/" />
+        return <Redirect to="/home" />
     }
 
     return <>
-    <div className='flex flex-row justify-between h-screen'>
+    <div className='flex flex-row justify-between h-screen bg-white'>
         <div className='flex flex-col sm:m-auto border-radius-10 login-form'>
             <div className='login-form-container min-w-full h-60'>
                 <div className='flex justify-center item-center pt-1'>
@@ -57,7 +57,7 @@ function OTP(props) {
                 </div>
                 <form onSubmit={confirmUser} autoComplete='off'>
                     <div className='flex flex-col gap-3 items-center login-fields'>
-                        <div>
+                        <div className='login-fields__div'>
                             <label htmlFor="phone" className='text-sm'>Enter OTP sent on your mobile phone</label>
                             <label className="relative block text-sm md:text-base pt-2">
                                 <input required className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3" placeholder="45775" type="text" name="search" value={otp} onChange={changeOtp}/>

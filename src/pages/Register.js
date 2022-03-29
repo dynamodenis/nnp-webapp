@@ -96,11 +96,11 @@ function Register(props) {
     }
 
     return <>
-    <div className='flex flex-row justify-between h-screen'>
+    <div className='flex flex-row justify-between h-screen bg-white overflow-auto'>
         <div className='sm_display_none'>
-            <img src={register_logo} alt="Login" className='h-screen w-50vh'/>
+            <img src={register_logo} alt="Login" className='h-screen w-50vh overflow-auto'/>
         </div>
-        <div className='flex flex-col sm:m-auto border-radius-10 login-form'>
+        <div className='flex flex-col sm:m-auto border-radius-10 registration-form'>
             <div className='login-form-container registration-form-container min-w-full'>
                 <div className='flex flex-row ml-5 md:ml-14 pt-1'>
                     <p className='text-center text-sm md:text-lg font-semibold'>Hello there, welcome.</p>
@@ -125,7 +125,7 @@ function Register(props) {
 
                         <div>
                             <label htmlFor="phone" className='text-sm'>Phone Number</label>
-                            <label className="relative block text-sm md:text-base">
+                            <label className="relative block text-sm md:text-base width-17rem">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     <i className="fa fa-phone h-5 w-5 fill-slate-100"></i>
                                 </span>
@@ -136,7 +136,7 @@ function Register(props) {
 
                         <div>
                             <label htmlFor="phone" className='text-sm'>Username</label>
-                                <label className="relative block text-sm md:text-base">
+                                <label className="relative block text-sm md:text-base width-17rem">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     {/* <img src={Vector} alt="" className="h-5 w-5 fill-slate-300"/> */}
                                     <i className="fa fa-user"></i>
@@ -148,7 +148,7 @@ function Register(props) {
 
                         <div>
                             <label htmlFor="phone" className='text-sm'>Email</label>
-                                <label className="relative block text-sm md:text-base">
+                                <label className="relative block text-sm md:text-base width-17rem">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     <img src={Vector} alt="" className="h-5 w-5 fill-slate-300"/>
                                 </span>
@@ -158,7 +158,7 @@ function Register(props) {
 
                         <div>
                             <label htmlFor="phone" className='text-sm'>Password</label>
-                                <label className="relative block text-sm md:text-base">
+                                <label className="relative block text-sm md:text-base width-17rem">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     <img src={lock} alt="" className="h-5 w-5 fill-slate-300"/>
                                 </span>
@@ -173,7 +173,7 @@ function Register(props) {
 
                         <div>
                             <label htmlFor="phone" className='text-sm'>Confirm Password</label>
-                                <label className="relative block text-sm md:text-base">
+                                <label className="relative block text-sm md:text-base width-17rem">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     <img src={lock} alt="" className="h-5 w-5 fill-slate-300"/>
                                 </span>
@@ -188,8 +188,8 @@ function Register(props) {
                         </div>
                     </div>
                     <div>
-                        <div className='btn-container flex flex-row m-auto pt-2'>
-                            {isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-75' disabled>Loading...</button> :
+                        <div className='btn-container flex flex-row m-auto pt-2 width-17rem'>
+                            {isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-75 w-full' disabled>Loading...</button> :
                                 <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto" title="Register"/>
                             }
                             

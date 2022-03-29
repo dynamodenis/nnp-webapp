@@ -1,4 +1,6 @@
 import React,{useEffect} from "react";
+import { Link } from 'react-router-dom';
+
 import "./css/animate.min.css"
 // import "./css/bootstrap.min.css"
 import "./css/font-awesome.min.css"
@@ -35,6 +37,39 @@ function Website() {
     useEffect(() => {
         showSlides(slideIndex);
     },[])
+    function smoothScroll(){
+      // Smooth scrolling
+      const headerEl = document.querySelector(".header");
+      const allLinks = document.querySelectorAll("nav_link");
+      allLinks.forEach(link =>
+        link.addEventListener("click", e => {
+          e.preventDefault();
+          const href = link.getAttribute("href");
+          // Scroll back to top
+          if (href === "#"){
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }
+          console.log(href)
+          // Scroll to other links
+          if (href != "#" && href.startsWith("#")) {
+            const sectionEl = document.querySelector(href);
+            sectionEl.scrollIntoView({ behavior: "smooth" });
+          }
+
+          // if(!href.startsWith("#")){
+          //   window.open(href, "_blank");
+          // }
+
+          // Close mobile navigation
+          if (link.classList.contains("main-nav__link")) {
+            headerEl.classList.toggle("nav-open");
+          }
+        })
+      );
+    }
     
     function openMenu(){
         console.log("open")
@@ -78,6 +113,12 @@ function Website() {
         slides[slideIndex - 1].style.display = "block";
     }
 
+    function openWebapp(){
+      const link = document.querySelector(".login_button--link");
+      const href = link.getAttribute("href");
+      window.open(href, "_blank");
+    }
+
   return (
     <>
       <div id="fullpage">
@@ -88,18 +129,18 @@ function Website() {
           <div className="overlay"></div>
           <header className="header-top">
             <div className="header">
-              <a href="#home">
+              <a href="/" onClick={smoothScroll}>
                 <img src={logo} className="logo" alt="Theree cousins energy company logo" />
               </a>
               <nav className="main-nav">
                 <ul className="main-nav__list gap-4 ">
                   <li className="main-nav__item">
-                    <a className="main-nav__link text-lg" href="#work">
+                    <a className="main-nav__link nav_link" href="#work" onClick={smoothScroll}>
                       Our Services
                     </a>
                   </li>
                   <li>
-                    <a className="main-nav__link" href="#about">
+                    <a className="main-nav__link" href="#about" onClick={smoothScroll}>
                       About Us
                     </a>
                   </li>
@@ -115,7 +156,7 @@ function Website() {
                   </li>
                   <li className="main-nav__item">
                     <button className="login_button">
-                      <a href="http://178.62.41.139:3000" className="login_button--link" target="_blank">
+                      <a href="http://178.62.41.139:3000/home" className="login_button--link" target="_blank" onClick={openWebapp}>
                         Login
                       </a>
                     </button>
@@ -184,7 +225,9 @@ function Website() {
                   <div className="media-body">
                     <img src={training} className="img-responsive" alt="portfolio img" />
                     <h3 className="h3-b p-2">Training & Extention Services</h3>
-                    <p className="pl-2 pr-2 pb-2 text-base">Vivamus lacinia odio ut euismod eleifend. Cum sociis natoque penatibus et magnis dis parturient montes..</p>
+                    <p className="pl-2 pr-2 pb-2 text-base">NDRIC is state-of-the-art facility, one of its kinds in the country. We pride ourselves on
+                      providing cutting edge training in dairy processing. Our core focus is to disseminate actionable
+                      know-how on value addition to small scale and medium-sized enterprises (SMEs)...</p>
                   </div>
                 </div>
               </div>
@@ -196,7 +239,9 @@ function Website() {
                       <img src={innovation} className="img-responsive" alt="consultation img" />
                     </div>
                     <h3 className="h3-b p-2">Research, Consultancy & Innovation</h3>
-                    <p className="pl-2 pr-2 pb-2 text-base">Vivamus lacinia odio ut euismod eleifend. Cum sociis natoque penatibus et magnis dis parturient montes..</p>
+                    <p className="pl-2 pr-2 pb-2 text-base">NDRIC will run an incubation program that will encourage partnerships that will stimulate
+                      mutual benefit to our trainees industry. Budding youth and women entrepreneurs in dairy
+                      processing will be given priority in terms of space allocation and resource mobilization...</p>
                   </div>
                 </div>
               </div>
@@ -208,7 +253,9 @@ function Website() {
                       <img src={market} className="img-responsive" alt="consultation img" />
                     </div>
                     <h3 className="h3-b p-2">Services & Products market place</h3>
-                    <p className="pl-2 pr-2 pb-2 text-base">Vivamus lacinia odio ut euismod eleifend. Cum sociis natoque penatibus et magnis dis parturient montes..</p>
+                    <p className="pl-2 pr-2 pb-2 text-base">NDRIC provides a digital marketplace through a digital platform that creates an avenue for both
+                      buyers and sellers to transact over a product or a service. A digital dairy platform is a
+                      software/hardware system that matches the supply and the demand ...</p>
                   </div>
                 </div>
               </div>
@@ -235,7 +282,8 @@ function Website() {
                   institutional research and innovation centre was established in 2022 to leverage on research and innovation needs of dairy
                   value chain. This is in line the Nyeri National Polytechnic (NNP)’s mandate of training, research and consultancy. It’s
                   mandated to undertake training, multidisciplinary research in industrial and allied technologies in agro processing....
-                  <a href="/about.html" className="link">Show more</a>
+                  <Link to="/about" className='link about_link' rel="noopener noreferrer" >Show more.</Link>
+                  {/* <a href="/about" className='link about_link' rel="noopener noreferrer">Show more</a> */}
                 </p>
               </div>
             </div>
@@ -455,17 +503,17 @@ function Website() {
                 </div>
               </div>
                 <div className="flex flex-col md:grid md:grid-cols-2 justify-bwtween gap-4 pl-4 pr-4 md:pr-12 md:pl-12">
-                    <div className=" wow fadeInUp" data-wow-delay="0.2s">
-                        <address>
-                        <p>
-                            <i className="fa fa-phone"></i> 090-080-0760
-                        </p>
-                        <p>
-                            <i className="fa fa-envelope-o"></i> info@company.com
-                        </p>
-                        <p>
-                            <i className="fa fa-map-marker"></i> 120 Old Walking Street, GL 16060
-                        </p>
+                    <div className="gap-4 wow fadeInUp" data-wow-delay="0.2s">
+                        <address className="gap-4">
+                          <p className="pt-2">
+                              <i className="fa fa-phone"></i> 090-080-0760
+                          </p>
+                          <p className="pt-2">
+                              <i className="fa fa-envelope-o"></i> info@company.com
+                          </p>
+                          <p className="pt-2">
+                              <i className="fa fa-map-marker"></i> 120 Old Walking Street, GL 16060
+                          </p>
                         </address>
                     </div>
                     <div className="flex flex-col justify-between gap-4 w-full wow fadeInUp" data-wow-delay="0.2s">

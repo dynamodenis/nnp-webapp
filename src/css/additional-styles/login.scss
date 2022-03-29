@@ -3,6 +3,11 @@
     top: 50%;
     width: 25vw;
 }
+.registration-form {
+    left: 50%;
+    top: 50%;
+    width: 30vw;
+}
 
 .login-form-container{
     border: none;
@@ -52,9 +57,15 @@
 .width-17rem{
     width: 17rem;
 }
+.login-fields__div{
+    width: 81%;
+}
 @media only screen and (max-width: 650px) {
     .login-fields{
         margin: auto 0rem;
+    }
+    .login-fields__div{
+        width: 85%;
     }
     .login-form-container{
         box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
