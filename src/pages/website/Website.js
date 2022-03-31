@@ -156,7 +156,7 @@ function Website() {
                   </li>
                   <li className="main-nav__item">
                     <button className="login_button">
-                      <a href="http://178.62.41.139:3000/home" className="login_button--link" target="_blank" onClick={openWebapp}>
+                      <a href="/home" className="login_button--link" target="_blank" onClick={openWebapp}>
                         Login
                       </a>
                     </button>
@@ -174,18 +174,18 @@ function Website() {
             </div>
           </header>
           <div className="container">
-            <div className="flex flex-row gap-4">
+            <div className="">
               {/* <div className="col-md-2"></div> */}
-              <div className="col-md-8 wow fadeIn" data-wow-delay="0.4s">
-                <h1 className="headline-heading text-xl w-4/5 md:w-3/5 p-4">
+              <div className="flex flex-col justify-between items-center gap-8 m-auto wow fadeIn" data-wow-delay="0.4s">
+                <h1 className="headline-heading text-base md:text-xl w-4/5 md:w-3/5 p-4 md:pt-12">
                   Nyeri National Polytechnic- Supporting Innovation and Training in Vocational Education Sector( NNP-SITVES) Project.
                 </h1>
-                <h2 className="rotate text-lg">
+                <h2 className="rotate text-base md:text-lg md:pt-10 ">
                   TRAINING & EXTENTION SERVICES, PROFESSIONAL CONSULTANCY, SERVICES & PRODUCTS MARKET PLACE, RESEARCH &
                   INNOVATION
                 </h2>
 
-                <a href="#work" className="btn btn-default smoothScroll wow fadeInUp" data-wow-delay="1s">
+                <a href="#work" className="btn btn-default smoothScroll wow fadeInUp pb-4 md:pt-6" data-wow-delay="1s">
                   Get started
                 </a>
               </div>

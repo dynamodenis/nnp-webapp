@@ -385,6 +385,7 @@ login_button--link:visited {
   text-align: center;
   background-size: cover;
   background-repeat: no-repeat;
+  height: 100vh !important;
 }
 #specific_home {
   /* background: url('../images/new.jpg'); */
