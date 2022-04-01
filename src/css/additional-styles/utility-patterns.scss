@@ -167,10 +167,17 @@ input:focus, textarea:focus{
 }
 
 .bg-green{
-    background-color: $green;
+    background-color: $green !important;
 }
 .bg-blue{
     background-color: $blue;
+}
+.color-white{
+    color: white !important;
+}
+
+.success-border{
+    border: 2px solid $green !important;
 }
 
 

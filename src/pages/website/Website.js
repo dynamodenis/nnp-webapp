@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React,{useEffect,useState} from "react";
 import { Link } from 'react-router-dom';
 
 import "./css/animate.min.css"
@@ -24,6 +24,10 @@ import research2 from './images/research.jpeg'
 import female from './images/female.png'
 import male from "./images/male.png"
 
+
+import { contactUser } from "../../redux/actions/users";
+import { connect } from "react-redux";
+
 export const appendScript = (scriptToAppend) => {
     const script = document.createElement("script");
     script.src = scriptToAppend;
@@ -31,8 +35,59 @@ export const appendScript = (scriptToAppend) => {
     document.body.appendChild(script);
 }
 
-function Website() {
+function Website(props) {
     // consultants corousel
+    const {contactUser} = props
+    const [username, setUsername] = useState("")
+    const [email, setEmail] = useState("")
+    const [number, setNumber] = useState("")
+    const [subject, setSubject] = useState("")
+    const [description, setDescription] = useState("")
+
+    function handleName(e){
+      setUsername(e.target.value)
+    }
+
+    function handleEmail(e){
+      setEmail(e.target.value)
+    }
+
+    function handleNumber(e){
+      setNumber(e.target.value)
+    }
+
+    function handleDescription(e){
+      setDescription(e.target.value)
+    }
+
+    function handleSubject(e){
+      setSubject(e.target.value)
+    }
+
+    // contact us
+    function contactUs(e){
+      e.preventDefault()
+
+      const body = {
+        "name":username,
+        "subject":subject,
+        "message":description,
+        "email":email,
+        "phone":number
+      }
+
+      contactUser().then(res =>{
+        if(res === 'success'){
+          setUsername("")
+          setEmail("")
+          setNumber("")
+          setSubject("")
+          setDescription("")
+        }
+      })
+    }
+
+    
     var slideIndex = 1;
     useEffect(() => {
         showSlides(slideIndex);
@@ -517,11 +572,16 @@ function Website() {
                         </address>
                     </div>
                     <div className="flex flex-col justify-between gap-4 w-full wow fadeInUp" data-wow-delay="0.2s">
-                        <form role="form" method="post" action="#">
-                        <input name="name" type="text" className="form-control" id="name" placeholder="Your Name" />
-                        <input name="email" type="email" className="form-control" id="email" placeholder="Your Email" />
-                        <textarea name="message" rows="5" cols={3} type="text" className="form-control" id="message" placeholder="Your Message"></textarea>
-                        <input name="send" type="submit" className="form-control" id="send" value="Send Message" />
+                        <form role="form" onSubmit={contactUs} autoComplete='off'>
+                          <input name="name" type="text" className="form-control" id="name" placeholder="Your Name" value={username} onChange={handleName} required/>
+                          <input name="email" type="email" className="form-control" id="email" placeholder="Your Email" value={email} onChange={handleEmail} required/>
+                          <input name="phone" type="text" className="form-control" id="phone" placeholder="Your Phone Number" value={number} onChange={handleNumber}/>
+                          <input name="subject" type="text" className="form-control" id="phone" placeholder="Subject" value={subject} onChange={handleSubject}/>
+                          <textarea name="message" rows="5" cols={3} type="text" className="form-control" id="message" placeholder="Your Message" value={description} onChange={handleDescription} required></textarea>
+                          {/* <input name="send" type="submit" className="form-control" id="send" value="Send Message" /> */}
+                          {props.isLoading ? <button className='form-control bg-green color-white success-border m-auto disabled:opacity-50' disabled>Loading...</button>:
+                              <button type="submit" className="form-control bg-green color-white success-border m-auto cursor-pointer">Send Message</button>
+                          }
                         </form>
                     </div>
                 </div>
@@ -566,5 +626,8 @@ function Website() {
     </>
   );
 }
+const mapStateToProps = state =>({
+  isLoading:state.users.isAdding,
+})
 
-export default Website;
+export default connect(mapStateToProps,{contactUser})(React.memo(Website));

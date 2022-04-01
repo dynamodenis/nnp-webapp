@@ -91,3 +91,22 @@ export const deleteUser = (id) => (dispatch,getState) =>{
             nprogress.done()
         })
 }
+
+// contact us form
+export const contactUser = () => (dispatch,getState) =>{
+    dispatch({type: actions_types.ADDING_CONTACT});
+    return apiClient.post('/api/v1/user/contact-us',configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.GET_CONTACT,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}

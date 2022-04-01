@@ -20,6 +20,11 @@ const users  = (state=initialState, action)=>{
                 ...state,
                 isAdding: true
             }
+        case actions_types.ADDING_CONTACT:
+            return {
+                ...state,
+                isAdding: true
+            }
         case actions_types.UPDATING_USER:
             return {
                 ...state,
@@ -45,6 +50,11 @@ const users  = (state=initialState, action)=>{
             return{
                 ...state,
                 users:[...state.users,action.payload.data?.user],
+                isAdding:false
+            }
+        case actions_types.ADD_CONTACT:
+            return{
+                ...state,
                 isAdding:false
             }
         case actions_types.UPDATE_USER:
