@@ -121,7 +121,7 @@ function UsersTable(props) {
             name = "Vendors"
         } else if(role_item === 'd25daf55-89d6-4e19-ba8b-824a988940c6'){
             name = "End user/Farmer"
-        } else if(role_item === '1124c48-d8ac-11eb-b8bc-0242ac130003'){
+        } else if(role_item === '91124c48-d8ac-11eb-b8bc-0242ac130003'){
             name = "Trainer"
         } else if(role_item === 'a24b72bb-c58c-412f-9d9d-8df266b1c89a'){
             name = "SME/Enterprises"
@@ -168,6 +168,8 @@ function UsersTable(props) {
           debouncedResults.cancel();
         };
     });
+
+    console.log(usersList)
     return (
         <div className="survey_container">
             <div className="flex flex-col-reverse md:flex-row justify-between gap-2">

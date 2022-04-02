@@ -391,6 +391,12 @@ input:focus, textarea:focus{
     background-color: $light-green;
     font-weight: 600;
 }
+
+.badge_light_info {
+    color: $primary-yellow;
+    background-color: $light-yellow;
+    font-weight: 600;
+}
 .group{
     outline: none !important;
 }

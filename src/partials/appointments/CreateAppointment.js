@@ -61,7 +61,6 @@ function CreateAppointment(props) {
       "notes": desc,
       "appuser":user?.id
     };
-    console.log(JSON.stringify(body))
     addAppointment(JSON.stringify(body)).then(res => {
       if (res === "success") {
         setname("");

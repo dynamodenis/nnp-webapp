@@ -47,10 +47,10 @@ function CoursesHomePage(props) {
   },[])
 
   function getImage(cat){
-    let imageList = cat?.tCategoryResourcesList
+    let imageList = cat?.imageDownloads
     let image = ""
-    if(imageList?.length){
-      image = `data:image/png;base64,${imageList[0]?.imageDownload}`
+    if(imageList){
+      image = `data:image/png;base64,${imageList}`
     }
     return image
   }

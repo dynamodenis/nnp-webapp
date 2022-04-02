@@ -26,9 +26,9 @@ function LogoutModal(props) {
         Modal.setAppElement('body');
     },[])
 
-    // if (!props.isAuthenticated){
-    //     return <Redirect to="/login" />
-    // }
+    if (!props.isAuthenticated){
+        return <Redirect to="/login" />
+    }
     
     return (
         <>

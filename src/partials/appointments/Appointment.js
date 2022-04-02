@@ -26,6 +26,7 @@ import NoDataFound from "../utils/NoDataFound";
 import CreateAppointment from "./CreateAppointment";
 import EditAppointment from "./EditAppointment";
 import DeleteAppointment from "./DeleteAppointment";
+import EditStatusAppointment from './EditStatusAppointment';
 
 // Tables CSS
 const useStyles = makeStyles({
@@ -54,14 +55,15 @@ function Appointment(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsStatusOpen, setIsStatusOpen] = useState(false);
   const [modalIsDeleteOpen, setIsDeleteOpen] = useState(false);
-  const [edit, setEdit] = useState();
+  const [edit, setEdit] = useState({});
   const [status, setStatus] = useState("");
   const [modalIsEditOpen, setIsEditOpen] = useState(false);
   const [appointmentList, setAppointmentList] = useState([]);
 
   // Test Table Data
-  const columns = [
+  let columns = [
     { id: "name", label: "Topic", minWidth: 5 },
     { id: "consultant", label: "Consultant", minWidth: 5 },
     { id: "topic", label: "User", minWidth: 5 },
@@ -118,11 +120,9 @@ function Appointment(props) {
     if(user.role == "User 01"){
       // users
       loadUserAppointments(user.id)
-      console.log("loading user appointments")
     }else if(user.role == 'Trainers'){
       // consultants
       loadConsultantAppointments(user.id)
-      console.log("loading consultant")
     }else {
       loadAppointments()
     }
@@ -138,6 +138,12 @@ function Appointment(props) {
   // edit function
   function editItem(row) {
     setIsEditOpen(true);
+    setEdit(row);
+  }
+
+  // edit appointment status
+  function openStatusModal(row) {
+    setIsStatusOpen(true);
     setEdit(row);
   }
 
@@ -159,6 +165,28 @@ function Appointment(props) {
     }
   }
 
+  function ifConsultantLoggedIn(consultant){
+    if(consultant === user?.id){
+      // logged user is the addressed consutant
+      console.log("is consultant")
+      return true
+    } else {
+      console.log("is not consultant")
+      return false
+    }
+  }
+
+  function ifUserLoggedIn(appuser){
+    if(appuser === user?.id){
+      console.log("is appuser")
+      // logged user is the addressed consutant
+      return true
+    } else {
+      console.log("not appuser")
+      return false
+    }
+  }
+
   function getUser(user){
     const select = users?.filter( item => item.id === user)
     if(select.length){
@@ -176,9 +204,12 @@ function Appointment(props) {
       value = "Approved"
     }else if (status === 3){
       value = "Rejected"
+    }else if (status === 4){
+      value = "Re-scheduled"
     }
     return value
   }
+
   return (
     <div className="survey_container">
       <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
@@ -214,6 +245,7 @@ function Appointment(props) {
               <option value="1">Open</option>
               <option value="2">Confirmed</option>
               <option value="3">Rejected</option>
+              <option value="4">Rescheduled</option>
             </select>
           </div>
         </div>
@@ -232,6 +264,7 @@ function Appointment(props) {
               <TableContainer className={classes.container}>
                 <Table>
                   <TableHead>
+                    
                     <TableRow>
                       {columns.map(column => (
                         <TableCell
@@ -282,23 +315,38 @@ function Appointment(props) {
                             {`${row?.duration} ${row?.dfactor}`}
                           </TableCell>
                           <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                            {row?.status === 1 && <span className="badge badge_light_primary">{getStatus(row?.status)}</span>}
-                            {row?.status === 2 && <span className="badge badge_light_success">{getStatus(row?.status)}</span>}
-                            {row?.status === 3 && <span className="badge badge_light_danger">{getStatus(row?.status)}</span>}
+                            {ifConsultantLoggedIn(row?.consultant) === false ? (
+                                <div>
+                                  {row?.status === 1 && <span className="badge badge_light_primary">{getStatus(row?.status)}</span>}
+                                  {row?.status === 2 && <span className="badge badge_light_success">{getStatus(row?.status)}</span>}
+                                  {row?.status === 3 && <span className="badge badge_light_danger">{getStatus(row?.status)}</span>}
+                                  {row?.status === 4 && <span className="badge badge_light_info">{getStatus(row?.status)}</span>}
+                                </div>
+                              )
+                            : 
+                              <div onClick={() => openStatusModal(row)}>
+                                {row?.status === 1 && <span className="badge badge_light_primary cursor-pointer">{getStatus(row?.status)}</span>}
+                                {row?.status === 2 && <span className="badge badge_light_success cursor-pointer">{getStatus(row?.status)}</span>}
+                                {row?.status === 3 && <span className="badge badge_light_danger cursor-pointer">{getStatus(row?.status)}</span>}
+                                {row?.status === 4 && <span className="badge badge_light_info cursor-pointer">{getStatus(row?.status)}</span>}
+                              </div>
+                            }
                           </TableCell>
                           <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                            <Grid container direction="row" alignItems="center" spacing={1}>
-                              <Grid item>
-                                <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
-                                  <VisibilityIcon fontSize="small" />
-                                </IconButton>
+                            {ifUserLoggedIn(row?.appuser) && 
+                              <Grid container direction="row" alignItems="center" spacing={1}>
+                                <Grid item>
+                                  <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
+                                    <VisibilityIcon fontSize="small" />
+                                  </IconButton>
+                                </Grid>
+                                <Grid item>
+                                  <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
+                                    <DeleteIcon fontSize="small" />
+                                  </IconButton>
+                                </Grid>
                               </Grid>
-                              <Grid item>
-                                <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
-                                  <DeleteIcon fontSize="small" />
-                                </IconButton>
-                              </Grid>
-                            </Grid>
+                            }
                           </TableCell>
                         </TableRow>
                       );
@@ -322,7 +370,7 @@ function Appointment(props) {
       <CreateAppointment modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} />
       <EditAppointment edit={edit} modalIsOpen={modalIsEditOpen} setIsOpen={setIsEditOpen} />
       <DeleteAppointment edit={edit} modalIsOpen={modalIsDeleteOpen} setIsOpen={setIsDeleteOpen} /> 
-      
+      <EditStatusAppointment edit={edit} modalIsOpen={modalIsStatusOpen} setIsOpen={setIsStatusOpen} />
     </div>
   );
 }
