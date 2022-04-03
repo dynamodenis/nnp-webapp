@@ -58,7 +58,6 @@ const users  = (state=initialState, action)=>{
                 isAdding:false
             }
         case actions_types.UPDATE_USER:
-            console.log("response", action.payload.data)
             const index = state.users.findIndex(el => el.id === action.payload.data.user.id);
             const newArray = [...state.users]; 
             newArray[index] = action.payload.data.user;

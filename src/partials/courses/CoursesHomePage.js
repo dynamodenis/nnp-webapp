@@ -15,9 +15,11 @@ import EditTrainingCategory from "./createcourse/EditTrainingCategory";
 import DeleteTrainingCategory from "./createcourse/DeleteTrainingCategory";
 import CircularProgressLoader from "../utils/CircularProgressLoader";
 import NoDataFound from '../utils/NoDataFound';
+import { canTrainingCreate, canTrainingEdit, canTrainingDelete  } from '../utils/Roles';
 function CoursesHomePage(props) {
 
   const {loadTrainingCategory, categories, isLoading} = props
+  let {user} = props;
   const [modalIsOpen,setIsOpen] = useState(false);
   const [modalIsDeleteOpen,setIsDeleteOpen] = useState(false);
   const [edit, setEdit] = useState();
@@ -26,6 +28,13 @@ function CoursesHomePage(props) {
   // Open Modal
   function openModal() {
     setIsOpen(true);
+  }
+
+  // check if user is undefined
+  if (user !== 'undefined') {
+    user = JSON.parse(user);
+  } else {
+    user = {}
   }
 
   // edit function
@@ -54,7 +63,7 @@ function CoursesHomePage(props) {
     }
     return image
   }
-
+  
   return (
     <div>
       <div className="flex flex-col justify-between gap-2">
@@ -75,18 +84,21 @@ function CoursesHomePage(props) {
                 <input type="text" className="border-radius-10 py-0.5 text-sm border-slate-300 text-slate-500 md:bottom-0 md:right-0 m-auto" placeholder="Search a topic" />
             </div>
         </div>
+        
+        {/* Can create */}
+        {canTrainingCreate(user) ===  true &&
+          <div className="flex flex-col-reverse md:flex-row justify-end">
+              <div className="w-full md:w-1/2">
+                  <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm" onClick={openModal}>
+                    <AddIcon fontSize="small" style={{ color:"white" }}/>
+                    <span className="pt-0.5">
+                      Add Training Category
+                    </span>
+                  </button>
+              </div>
+          </div>
+        }
 
-        <div className="flex flex-col-reverse md:flex-row justify-end">
-
-            <div className="w-full md:w-1/2">
-                <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm" onClick={openModal}>
-                  <AddIcon fontSize="small" style={{ color:"white" }}/>
-                  <span className="pt-0.5">
-                    Add Training Category
-                  </span>
-                </button>
-            </div>
-        </div>
         {isLoading ? (
           <CircularProgressLoader/>
         ) : (
@@ -126,22 +138,26 @@ function CoursesHomePage(props) {
                             </button>
                           </Link>
                         </div>
-                        <div>
-                          <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(category)} >
-                            <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                            <span className="pl-1">
-                              Edit
-                            </span>
-                          </button>
-                        </div>
-                        <div>
-                          <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(category)} >
-                            <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                            <span className="pl-1">
-                              Delete
-                            </span>
-                          </button>
-                        </div>
+                        {canTrainingEdit(user) ===  true &&
+                          <div>
+                            <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(category)} >
+                              <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                              <span className="pl-1">
+                                Edit
+                              </span>
+                            </button>
+                          </div>
+                        }
+                        {canTrainingDelete(user) ===  true &&
+                          <div>
+                            <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(category)} >
+                              <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                              <span className="pl-1">
+                                Delete
+                              </span>
+                            </button>
+                          </div>
+                        }
                       </div>
                     </div>
                   </div>
@@ -161,6 +177,7 @@ function CoursesHomePage(props) {
 const mapStateToProps = state =>({
   isLoading:state.training_category.isLoading,
   categories:state.training_category.training_categories,
+  user: state.auth.user,
 })
 
 export default connect(mapStateToProps, {loadTrainingCategory})(React.memo(CoursesHomePage))

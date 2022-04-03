@@ -76,7 +76,7 @@ function Website(props) {
         "phone":number
       }
 
-      contactUser().then(res =>{
+      contactUser(body).then(res =>{
         if(res === 'success'){
           setUsername("")
           setEmail("")

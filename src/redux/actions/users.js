@@ -93,12 +93,13 @@ export const deleteUser = (id) => (dispatch,getState) =>{
 }
 
 // contact us form
-export const contactUser = () => (dispatch,getState) =>{
+export const contactUser = (body) => (dispatch,getState) =>{
     dispatch({type: actions_types.ADDING_CONTACT});
-    return apiClient.post('/api/v1/user/contact-us',configHeader(getState))
+    return apiClient.post('/api/v1/user/contact-us', body,configHeader(getState))
         .then(res=>{
+            dispatch(createMessage({itemAdded:'Information sent successfully'}))
             dispatch({
-                type:actions_types.GET_CONTACT,
+                type:actions_types.ADD_CONTACT,
                 payload:res?.data || []
             })
             return "success";

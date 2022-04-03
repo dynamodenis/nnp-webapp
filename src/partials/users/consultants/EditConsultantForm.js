@@ -26,9 +26,13 @@ function EditConsultantForm(props) {
   const [id, setId] = useState("");
   const [mail, setMail] = useState("");
   const [phone, setPhone] = useState("");
+  const [title, setTitle] = useState("");
 
   const changename = event => {
     setname(event.target.value);
+  };
+  const changeTitle = event => {
+    setTitle(event.target.value);
   };
   const handleSalesRep = rep => {
     setSalesRep(rep);
@@ -66,6 +70,7 @@ function EditConsultantForm(props) {
     setMail(edit?.email || "")
     setPhone(edit?.phone || "")
     setSalesRep(selected_user)
+    setTitle(edit?.title)
   },[edit, id])
 
   // console.log(portfolio)
@@ -80,7 +85,8 @@ function EditConsultantForm(props) {
       "expertise": specialisation,
       "projects": portfolio,
       "email":mail,
-      "phone":phone
+      "phone":phone,
+      "title":title
     }
     var postData = JSON.stringify(body);
     let data = new FormData();
@@ -205,6 +211,24 @@ function EditConsultantForm(props) {
                     onChange={changePhone}
                     validators={["required"]}
                     errorMessages={["Phone number is required"]}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="md:grid md:grid-cols-2 justify-between flex flex-col gap-4">
+              <div className="pt-2">
+                <label htmlFor="" className="font-semibold text-sm">
+                  Consultant Title
+                </label>
+                <div className="pt-2">
+                  <TextValidator
+                    className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3 text-sm"
+                    placeholder="Head of Departments"
+                    type="title"
+                    name="search"
+                    value={title}
+                    onChange={changeTitle}
                   />
                 </div>
               </div>
