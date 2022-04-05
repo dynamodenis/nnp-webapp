@@ -564,7 +564,7 @@ function Website(props) {
                               <i className="fa fa-phone"></i> 090-080-0760
                           </p>
                           <p className="pt-2">
-                              <i className="fa fa-envelope-o"></i> info@company.com
+                              <i className="fa fa-envelope-o"></i> dairy@thenyeripoly.ac.ke
                           </p>
                           <p className="pt-2">
                               <i className="fa fa-map-marker"></i> 120 Old Walking Street, GL 16060

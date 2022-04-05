@@ -27,13 +27,9 @@ function ProductDetails(props) {
     }, [product_id]);
 
     function getImage(cat){
-        let imageList = cat?.pImages
-        let image = ""
-        if(imageList?.length){
-          image = `data:image/png;base64,${imageList[0]?.imageDownload}`
-        }
-        // console.log(image)
-        return image
+      let imageList = cat?.pImage;
+      let image = `data:image/png;base64,${imageList}`;
+      return image;
     }
 
     // Get product category

@@ -18,6 +18,8 @@ import NoDataFound from '../../utils/NoDataFound';
 import DeleteResearch from "./DeleteResearch";
 import EditResearch from './EditResearch';
 
+import { canResearchCreate, canResearchEdit, canResearchDelete, canResearchView  } from '../../utils/Roles';
+
 function Research(props) {
   let { loadResearchCategory, user, researches, isLoading, categories, trainers,loadResearches,loadTrainingTrainers } = props;
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -112,28 +114,28 @@ function Research(props) {
             Welcome, {user?.name}.<div className="text-sm link">This are the current uploaded researches done below.</div>
           </div>
         </div>
-        
-        <div className="flex flex-row gap-4 justify-between md:justify-end md:w-1/2">
-          <div className="">
-            <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
-              <ScienceIcon fontSize="small" style={{ color:"white" }}/>
-              <span className="pt-0.5">
-                Add Research
-              </span>
-            </button>
-          </div>
-          <div className="">
-            <Link to="/research/category">
-              <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm">
-                <AddIcon fontSize="small" style={{ color:"white" }}/>
+        {canResearchCreate(user) === true && 
+          <div className="flex flex-row gap-4 justify-between md:justify-end md:w-1/2">
+            <div className="">
+              <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
+                <ScienceIcon fontSize="small" style={{ color:"white" }}/>
                 <span className="pt-0.5">
-                  Research categories
+                  Add Research
                 </span>
               </button>
-            </Link>
+            </div>
+            <div className="">
+              <Link to="/research/category">
+                <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm">
+                  <AddIcon fontSize="small" style={{ color:"white" }}/>
+                  <span className="pt-0.5">
+                    Research categories
+                  </span>
+                </button>
+              </Link>
+            </div>
           </div>
-        </div>
-
+        }
       </div>
 
       <div className="flex sm:flex-row justify-between gap-2 pt-2">
@@ -161,7 +163,7 @@ function Research(props) {
         <div className="pt-8">
           {researchesList.length === 0 && <NoDataFound/>  }
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
           {researchesList.map((research, index) => (
             
               <div key={index} className={`bg-white border-radius-10 min-height-20vh ${index % 2 === 0 ? 'courses-card-2' :'courses-card-1'}  p-1 md:p-4 cursor-pointer transition ease-in-out hover:-translate-y-1 hover:scale-30 duration-300`}>
@@ -183,32 +185,38 @@ function Research(props) {
                 </div>
                 <div>
                 <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
-                  <div>
-                    <Link to={`/research/details/category/${research.category}/research/${research.id}`}>
-                      <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
-                        <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                        <span className="pl-1">
-                          View
-                        </span>
-                      </button>
+                  {canResearchView(user) === true && 
+                    <div>
+                      <Link to={`/research/details/category/${research.category}/research/${research.id}`}>
+                        <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
+                          <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                          <span className="pl-1">
+                            View
+                          </span>
+                        </button>
                       </Link>
                     </div>
-                  <div>
-                    <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(research)} >
-                      <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                      <span className="pl-1">
-                        Edit
-                      </span>
-                    </button>
-                  </div>
-                  <div>
-                    <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(research)} >
-                      <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                      <span className="pl-1">
-                        Delete
-                      </span>
-                    </button>
-                  </div>
+                  }
+                  {canResearchEdit(user) === true && 
+                    <div>
+                      <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(research)} >
+                        <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                        <span className="pl-1">
+                          Edit
+                        </span>
+                      </button>
+                    </div>
+                  }
+                  {canResearchDelete(user) === true && 
+                    <div>
+                      <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(research)} >
+                        <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                        <span className="pl-1">
+                          Delete
+                        </span>
+                      </button>
+                    </div>
+                  }
                 </div>
                 </div>
               </div>

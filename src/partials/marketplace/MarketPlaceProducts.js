@@ -16,6 +16,7 @@ import { loadSmes } from "../../redux/actions/smes";
 import { loadProducts } from "../../redux/actions/products";
 import CircularProgressLoader from "../utils/CircularProgressLoader";
 import NoDataFound from "../utils/NoDataFound";
+import { canMarketplaceCreate,canMarketplaceView,canMarketplaceEdit,canMarketplaceDelete } from '../utils/Roles';
 
 function MarketPlaceProducts(props) {
   let { loadProductCategory, loadVendors, loadSmes, loadProducts, products, isLoading, categories, vendors, smes, user } = props;
@@ -123,26 +124,28 @@ function MarketPlaceProducts(props) {
             <div className="text-sm link">Below is a list of available goods and services by our vendors and smes.</div>
           </div>
         </div>
-        <div className="flex flex-col md:flex-row justify-between gap-2 md:justify-end md:w-1/2">
-          <div className="">
-            <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
-              <LocalGroceryStoreIcon fontSize="small" style={{ color:"white" }}/>
-              <span className="pt-0.5">
-                Add Product
-              </span>
-            </button>
-          </div>
-          <div className="">
-            <Link to="/marketplace/products/category">
-              <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm">
-                <AddIcon fontSize="small" style={{ color:"white" }}/>
+        {canMarketplaceCreate(user) === true && 
+          <div className="flex flex-col md:flex-row justify-between gap-2 md:justify-end md:w-1/2">
+            <div className="">
+              <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
+                <LocalGroceryStoreIcon fontSize="small" style={{ color:"white" }}/>
                 <span className="pt-0.5">
-                  Add Product Category
+                  Add Product
                 </span>
               </button>
-            </Link>
+            </div>
+            <div className="">
+              <Link to="/marketplace/products/category">
+                <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm">
+                  <AddIcon fontSize="small" style={{ color:"white" }}/>
+                  <span className="pt-0.5">
+                    Add Product Category
+                  </span>
+                </button>
+              </Link>
+            </div>
           </div>
-        </div>
+        }
       </div>
 
       <div className="flex sm:flex-row justify-between gap-2 pt-2">
@@ -205,32 +208,39 @@ function MarketPlaceProducts(props) {
                     </div>
 
                     <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
-                      <div>
-                        <Link to={`/marketplace/product/details/${product.id}`}>
-                          <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-2 md:pl-2 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
-                            <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                            <span className="pl-0.5">
-                              View
-                            </span>
-                          </button>
+                      {canMarketplaceView(user) === true && 
+                        <div>
+                          <Link to={`/marketplace/product/details/${product.id}`}>
+                            <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-2 md:pl-2 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300 w-full">
+                              <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                              <span className="pl-0.5">
+                                View
+                              </span>
+                            </button>
                           </Link>
                         </div>
-                      <div>
-                        <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-2 md:pl-2 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(product)} >
-                          <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                          <span className="pl-0.5">
-                            Edit
-                          </span>
-                        </button>
-                      </div>
-                      <div>
-                        <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-2 md:pl-2 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(product)} >
-                          <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                          <span className="pl-0.5">
-                            Delete
-                          </span>
-                        </button>
-                      </div>
+                      }
+
+                      {canMarketplaceEdit(user) === true && 
+                        <div>
+                          <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-2 md:pl-2 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(product)} >
+                            <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                            <span className="pl-0.5">
+                              Edit
+                            </span>
+                          </button>
+                        </div>
+                      }
+                      {canMarketplaceDelete(user) === true && 
+                        <div>
+                          <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-2 md:pl-2 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(product)} >
+                            <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                            <span className="pl-0.5">
+                              Delete
+                            </span>
+                          </button>
+                        </div>
+                      }
                     </div>
                   </div>
                 </div>

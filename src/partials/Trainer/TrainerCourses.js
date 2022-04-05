@@ -11,6 +11,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 // Redux
 import { connect } from "react-redux";
 import { loadTrainingCategory, loadTrainingTrainers, loadTrainings } from "../../redux/actions/training";
+import { canTrainingCreate, canTrainingEdit, canTrainingDelete, canTrainingView  } from '../utils/Roles';
 import CreateCourses from "./CreateCourses";
 import CircularProgressLoader from "../utils/CircularProgressLoader";
 import EditCourse from "./EditCourse";
@@ -100,14 +101,16 @@ function TrainerCourses(props) {
             Welcome, {user?.name}.<div className="text-sm link">This are the current uploaded trainings below.</div>
           </div>
         </div>
-        <div className="">
-            <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
-              <UploadIcon fontSize="small" style={{ color:"white" }}/>
-              <span className="pt-0.5 pl-0.5">
-                Add Training
-              </span>
-            </button>
-        </div>
+        {canTrainingCreate(user) === true && 
+          <div className="">
+              <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
+                <UploadIcon fontSize="small" style={{ color:"white" }}/>
+                <span className="pt-0.5 pl-0.5">
+                  Add Training
+                </span>
+              </button>
+          </div>
+        }
       </div>
 
       <div className="flex sm:flex-row justify-between gap-2 pt-2">
@@ -173,32 +176,38 @@ function TrainerCourses(props) {
                   </div>
 
                   <div className="flex flex-row justify-center gap-2 pb-2 pt-2">
-                    <div>
-                      <Link to={`/trainings-dashboard/category/${training.category}/training/${training.id}`}>
-                        <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-6 md:pl-6 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
-                          <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                    {canTrainingView(user) === true && 
+                      <div>
+                        <Link to={`/trainings-dashboard/category/${training.category}/training/${training.id}`}>
+                          <button className="text-slate-500 text-xs view-button pl-4 pr-4 md:pr-6 md:pl-6 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">
+                            <VisibilityIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                            <span className="pl-1">
+                              View
+                            </span>
+                          </button>
+                        </Link>
+                      </div>
+                    }
+                    {canTrainingEdit(user) === true && 
+                      <div>
+                        <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(training)} >
+                          <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
                           <span className="pl-1">
-                            View
+                            Edit
                           </span>
                         </button>
-                      </Link>
-                    </div>
-                    <div>
-                      <button className="text-slate-500 text-xs edit-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={() => editItem(training)} >
-                        <EditIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                        <span className="pl-1">
-                          Edit
-                        </span>
-                      </button>
-                    </div>
-                    <div>
-                      <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(training)} >
-                        <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
-                        <span className="pl-1">
-                          Delete
-                        </span>
-                      </button>
-                    </div>
+                      </div>
+                    }
+                    {canTrainingDelete(user) === true && 
+                      <div>
+                        <button className="text-slate-500 text-xs delete-button pl-4 pr-4 md:pr-8 md:pl-8 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300" onClick={()=>deleteItem(training)} >
+                          <DeleteIcon fontSize="small" style={{fontSize:"20px",paddingRight:"5px" }}/>
+                          <span className="pl-1">
+                            Delete
+                          </span>
+                        </button>
+                      </div>
+                    }
                   </div>
                 </div>
               ))}
