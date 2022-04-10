@@ -17,7 +17,7 @@ import AddIcon from "@mui/icons-material/Add";
 // Forms
 // import DeleteUserModal from './DeleteUserModal';
 import CircularProgressLoader from "../../utils/CircularProgressLoader";
-
+import { canUsersCreate, canUsersEdit, canUsersDelete } from "../../utils/Roles";
 // redux
 import { connect } from "react-redux";
 import { loadSmes } from "../../../redux/actions/smes";
@@ -25,18 +25,6 @@ import DeleteSmeModal from "./DeleteSmeModal";
 import CreateSme from "./CreateSme";
 import EditSmeForm from "./EditSmeForm";
 import NoDataFound from "../../utils/NoDataFound";
-
-// Test Table Data
-const columns = [
-  { id: "name", label: "Name", minWidth: 5 },
-  { id: "number", label: "Phone Number", minWidth: 5 },
-  { id: "email", label: "Email", minWidth: 5 },
-  { id: "role", label: "Town", minWidth: 5 },
-  { id: "address", label: "Address", minWidth: 5 },
-  { id: "contact", label: "Contact Number", minWidth: 5 },
-  { id: "county", label: "Sub County", minWidth: 5 },
-  { id: "", label: "Actions", minWidth: 5 },
-];
 
 // Tables CSS
 const useStyles = makeStyles({
@@ -60,7 +48,8 @@ const useStyles = makeStyles({
 });
 function SMEs(props) {
   const classes = useStyles();
-  const { isLoading, smes,loadSmes } = props;
+  const { isLoading, smes, loadSmes } = props;
+  let { user } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -69,6 +58,29 @@ function SMEs(props) {
   const [modalIsEditOpen, setIsEditOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [smesList, setSmesList] = useState([]);
+
+  // check if user is undefined
+  if (user !== "undefined") {
+    user = JSON.parse(user);
+  } else {
+    user = {};
+  }
+
+  // Test Table Data
+  let columns = [
+    { id: "name", label: "Name", minWidth: 5 },
+    { id: "number", label: "Phone Number", minWidth: 5 },
+    { id: "email", label: "Email", minWidth: 5 },
+    { id: "role", label: "Town", minWidth: 5 },
+    { id: "address", label: "Address", minWidth: 5 },
+    { id: "contact", label: "Contact Number", minWidth: 5 },
+    { id: "county", label: "Sub County", minWidth: 5 },
+    { id: "", label: "Actions", minWidth: 5 },
+  ];
+
+  if (!canUsersEdit(user)) {
+    columns.pop();
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -106,7 +118,7 @@ function SMEs(props) {
 
   useEffect(() => {
     loadSmes();
-  },[])
+  }, []);
 
   useEffect(() => {
     setSmesList(smes);
@@ -134,10 +146,10 @@ function SMEs(props) {
     return debounce(searchSme, 500);
   }, []);
 
- useEffect(() => {
+  useEffect(() => {
     return () => {
       debouncedResults.cancel();
-     };
+    };
   });
 
   return (
@@ -151,15 +163,14 @@ function SMEs(props) {
             placeholder="Search a SMEs"
           />
         </div>
-
-        <div className="w-full md:w-1/2">
-          <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
-            <AddIcon style={{ color: "white" }} fontSize="small" />
-            <span className="pt-0.5">
-              Add Smes
-            </span>
-          </button>
-        </div>
+        {canUsersCreate(user) && (
+          <div className="w-full md:w-1/2">
+            <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
+              <AddIcon style={{ color: "white" }} fontSize="small" />
+              <span className="pt-0.5">Add Smes</span>
+            </button>
+          </div>
+        )}
       </div>
       {isLoading ? (
         <CircularProgressLoader />
@@ -229,20 +240,24 @@ function SMEs(props) {
                           <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
                             {row?.scounty}
                           </TableCell>
-                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                            <Grid container direction="row" alignItems="center" spacing={1}>
-                              <Grid item>
-                                <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
-                                  <VisibilityIcon fontSize="small" />
-                                </IconButton>
+                          {canUsersEdit(user) && (
+                            <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                              <Grid container direction="row" alignItems="center" spacing={1}>
+                                <Grid item>
+                                  <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
+                                    <VisibilityIcon fontSize="small" />
+                                  </IconButton>
+                                </Grid>
+                                {canUsersDelete(user) && (
+                                  <Grid item>
+                                    <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
+                                      <DeleteIcon fontSize="small" />
+                                    </IconButton>
+                                  </Grid>
+                                )}
                               </Grid>
-                              <Grid item>
-                                <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
-                                  <DeleteIcon fontSize="small" />
-                                </IconButton>
-                              </Grid>
-                            </Grid>
-                          </TableCell>
+                            </TableCell>
+                          )}
                         </TableRow>
                       );
                     })}
@@ -273,6 +288,7 @@ function SMEs(props) {
 const mapStateToProps = state => ({
   smes: state.smes.smes,
   isLoading: state.smes.isLoading,
+  user: state.auth.user,
 });
 
-export default connect(mapStateToProps,{loadSmes})(React.memo(SMEs));
+export default connect(mapStateToProps, { loadSmes })(React.memo(SMEs));

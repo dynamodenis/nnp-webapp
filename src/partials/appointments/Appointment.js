@@ -117,12 +117,14 @@ function Appointment(props) {
 
   useEffect(() => {
     // load appointments based on roles
+    
     if(user.role == "User 01"){
       // users
       loadUserAppointments(user.id)
-    }else if(user.role == 'Trainers'){
+    }else if(user.consultantId){
       // consultants
-      loadConsultantAppointments(user.id)
+      console.log("is consultant ", user)
+      loadConsultantAppointments(user.consultantId)
     }else {
       loadAppointments()
     }
@@ -166,9 +168,8 @@ function Appointment(props) {
   }
 
   function ifConsultantLoggedIn(consultant){
-    if(consultant === user?.id){
+    if(consultant === user?.consultantId){
       // logged user is the addressed consutant
-      console.log("is consultant")
       return true
     } else {
       console.log("is not consultant")
@@ -178,7 +179,6 @@ function Appointment(props) {
 
   function ifUserLoggedIn(appuser){
     if(appuser === user?.id){
-      console.log("is appuser")
       // logged user is the addressed consutant
       return true
     } else {

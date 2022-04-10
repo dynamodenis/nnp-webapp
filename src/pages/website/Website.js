@@ -12,9 +12,9 @@ import "./css/mislider-custom.css"
 // images
 import logo from './images/logo.jpeg'
 import one from './images/1.png'
-import training from './images/training2_11zon.jpg'
+import training from './images/training.JPG'
 import innovation from './images/innovation_11zon.jpg'
-import market from './images/market.jpg'
+import market from './images/market.jpeg'
 import innovation2 from './images/innovation2_11zon.jpg'
 import training2 from './images/training.jpeg'
 import innovate from './images/innovate.jpg'
@@ -211,7 +211,7 @@ function Website(props) {
                   </li>
                   <li className="main-nav__item">
                     <button className="login_button">
-                      <a href="/home" className="login_button--link" target="_blank" onClick={openWebapp}>
+                      <a href="http://178.62.41.139:3000/home" className="login_button--link" target="_blank" onClick={openWebapp}>
                         Login
                       </a>
                     </button>
@@ -561,13 +561,13 @@ function Website(props) {
                     <div className="gap-4 wow fadeInUp" data-wow-delay="0.2s">
                         <address className="gap-4">
                           <p className="pt-2">
-                              <i className="fa fa-phone"></i> 090-080-0760
+                              <i className="fa fa-phone"></i> 0712 265 579 / 0731 049 294
                           </p>
                           <p className="pt-2">
                               <i className="fa fa-envelope-o"></i> dairy@thenyeripoly.ac.ke
                           </p>
                           <p className="pt-2">
-                              <i className="fa fa-map-marker"></i> 120 Old Walking Street, GL 16060
+                              <i className="fa fa-map-marker"></i> The Nyeri National Polytechnic, Along Mumbi Road, Nyeri, Kenya.
                           </p>
                         </address>
                     </div>
@@ -607,10 +607,10 @@ function Website(props) {
                   <hr />
                   <ul className="social-icon">
                     <li>
-                      <a href="#" className="fa fa-facebook"></a>
+                      <a href="https://www.facebook.com/Nyeri-Poly-Digi-Dairy-110260514979697" className="fa fa-facebook"></a>
                     </li>
                     <li>
-                      <a href="#" className="fa fa-twitter"></a>
+                      <a href="https://twitter.com/DigidairyNyeri" className="fa fa-twitter"></a>
                     </li>
                     <li>
                       <a href="#" className="fa fa-instagram"></a>

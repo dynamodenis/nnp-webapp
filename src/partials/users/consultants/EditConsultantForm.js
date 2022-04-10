@@ -48,7 +48,6 @@ function EditConsultantForm(props) {
   };
 
   useEffect(() => {
-    console.log(edit)
     const user = users?.filter(el => el.id === edit?.userid);
     let selected_user = {value:"", label:""};
     if(user !== undefined){
@@ -72,9 +71,7 @@ function EditConsultantForm(props) {
     setSalesRep(selected_user)
     setTitle(edit?.title)
   },[edit, id])
-
-  // console.log(portfolio)
-  // console.log(selectPicture)
+  
   const createCourse = e => {
     e.preventDefault();
     const body = {
@@ -259,7 +256,6 @@ function EditConsultantForm(props) {
                         onChange={ ( event, editor ) => {
                             const data = editor.getData();
                             setSpecialisation(data)
-                            // console.log( { event, editor, data } );
                         } }
                     />
                   </div>
@@ -280,7 +276,6 @@ function EditConsultantForm(props) {
                         onChange={ ( event, editor ) => {
                             const data = editor.getData();
                             setSpecialisation(data)
-                            // console.log( { event, editor, data } );
                         } }
                     />
                   </div>
@@ -300,7 +295,6 @@ function EditConsultantForm(props) {
                       onChange={ ( event, editor ) => {
                           const data = editor.getData();
                           setPortfolio(data)
-                          // console.log( { event, editor, data } );
                       } }
                   />
                 </div>
@@ -321,7 +315,6 @@ function EditConsultantForm(props) {
                         onChange={ ( event, editor ) => {
                             const data = editor.getData();
                             setPortfolio(data)
-                            // console.log( { event, editor, data } );
                         } }
                     />
                   </div>

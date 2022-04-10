@@ -117,7 +117,7 @@ function Register(props) {
                                     <select name="" id="" value={type} onChange={changeType} className="text_inputs--pl block bg-white width-17rem border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3" required>
                                         <option value="" className="text-slate-400">Select user type</option>
                                         <option value="3" className="text-slate-400">Farmer</option>
-                                        <option value="2" className="text-slate-400">SME/Vendor</option>
+                                        <option value="2" className="text-slate-400">SME</option>
                                     </select>
                                 </div>
                             </label>
@@ -197,7 +197,7 @@ function Register(props) {
                     </div>
                 </ValidatorForm>
                 <div className='flex flex-row text-center pt-2 text-xs ml-5 md:ml-6 pb-4'>
-                    <div>
+                    <div className='md:pl-8'>
                         <p>Already have an account? <Link to="/login" className='link'>Back to Login.</Link></p>
                     </div>
                 </div>

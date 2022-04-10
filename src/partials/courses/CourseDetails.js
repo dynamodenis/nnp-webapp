@@ -25,7 +25,6 @@ function CourseDetails(props) {
   };
 
   useEffect(() => {
-    console.log("this training");
     loadTraining(training_id);
     loadTrainingTrainers();
   }, []);
@@ -51,7 +50,7 @@ function CourseDetails(props) {
   // video url
   function getVideoUrl(training) {
     if (Object.keys(training).length) {
-      return training?.tMaterials[0]?.url;
+      return training?.tMaterials?.url;
     } else {
       return "";
     }
@@ -61,8 +60,8 @@ function CourseDetails(props) {
   function getTrainingImages(training){
     if(Object.keys(training).length){
       const images = []
-      training?.tMaterials[0]?.tMaterialsData?.map((pic, i) => (
-        images.push(<img src={`data:image/png;base64,${pic?.contentDownload}`} alt="" id="img" className="border-radius-10 cursor-pointer product_img" key={i} onClick={() => openModal(pic?.contentDownload)} />)
+      training?.tMaterials?.tMImages?.map((pic, i) => (
+        images.push(<img src={`data:image/png;base64,${pic}`} alt="" id="img" className="border-radius-10 cursor-pointer product_img" key={i} onClick={() => openModal(pic)} />)
       ))
 
       return images

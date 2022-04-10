@@ -71,82 +71,31 @@ function App(props) {
         <PrivateRoute exact path="/home" component={LandingPage}>
           {/* <LandingPage/> */}
         </PrivateRoute>
-        <Route exact path="/dashboard">
-          <Dashboard />
-        </Route>
-        <Route exact path="/trainings-dashboard/category/:category_id">
-          <Training/>
-        </Route>
-        <Route exact path="/trainings-dashboard">
-          <Training/>
-        </Route>
-
-        <Route exact path="/trainings-dashboard/category/:category_id/training/:training_id">
-          <TrainingDetails/>
-        </Route>
-        <Route exact path="/trainer/courses">
-          <Trainer/>
-        </Route>
-        <Route exact path="/trainer/courses/create">
-          <CreateCourse/>
-        </Route>
-        <Route exact path="/users">
-          <Users/>
-        </Route>
-        <Route exact path="/users/details/:id">
-          <Users/>
-        </Route>
-        <Route exact path="/users/vendor/create">
-          <Vendors/>
-        </Route>
-        <Route exact path="/users/sme/create">
-          <Smes/>
-        </Route>
-        <Route exact path="/users/sme/edit/:id">
-          <Smes/>
-        </Route>
-        <Route exact path="/users/edit/:id">
-          <EditUser/>
-        </Route>
-        <Route exact path="/users/vendor/edit/:id">
-          <Vendors/>
-        </Route>
-        <Route exact path="/marketplace">
-          <MarketPlace/>
-        </Route>
-        <Route exact path="/marketplace/products/category">
-          <MarketPlace/>
-        </Route>
-        <Route exact path="/marketplace/product/details/:product_id">
-          <MarketPlace/>
-        </Route>
-        <Route exact path="/consultancy">
-          <Consultancy/>
-        </Route>
-        <Route exact path="/consultancy/create">
-          <Consultancy/>
-        </Route>
-        <Route exact path="/users/consultant/edit/:id">
-          <Consultancy/>
-        </Route>
-        <Route exact path="/consultancy/details/:id">
-          <Consultancy/>
-        </Route>
-        <Route exact path="/research">
-          <Researches/>
-        </Route>
-        <Route exact path="/research/category">
-          <Researches/>
-        </Route>
-        <Route exact path="/research/details/category/:category_id/research/:research_id">
-          <Researches/>
-        </Route>
-        <Route exact path="/appointments">
-          <Appointments/>
-        </Route>
-        <Route path="*">
-          <ErrorNotFound/>
-        </Route>
+        <PrivateRoute exact path="/dashboard" component={Dashboard}></PrivateRoute>
+        <PrivateRoute exact path="/trainings-dashboard/category/:category_id" component={Training}></PrivateRoute>
+        <PrivateRoute exact path="/trainings-dashboard" component={Training}></PrivateRoute>
+        <PrivateRoute exact path="/trainings-dashboard/category/:category_id/training/:training_id" component={TrainingDetails}></PrivateRoute>
+        <PrivateRoute exact path="/trainer/courses" component={Trainer}></PrivateRoute>
+        <PrivateRoute exact path="/trainer/courses/create" component={CreateCourse}></PrivateRoute>
+        <PrivateRoute exact path="/users" component={Users}></PrivateRoute>
+        <PrivateRoute exact path="/users/details/:id" component={Users}></PrivateRoute>
+        <PrivateRoute exact path="/users/vendor/create" component={Vendors}></PrivateRoute>
+        <PrivateRoute exact path="/users/sme/create" component={Smes}></PrivateRoute>
+        <PrivateRoute exact path="/users/sme/edit/:id" component={Smes}></PrivateRoute>
+        <PrivateRoute exact path="/users/edit/:id" component={EditUser}></PrivateRoute>
+        <PrivateRoute exact path="/users/vendor/edit/:id" component={Vendors}></PrivateRoute>
+        <PrivateRoute exact path="/marketplace" component={MarketPlace}></PrivateRoute>
+        <PrivateRoute exact path="/marketplace/products/category" component={MarketPlace}></PrivateRoute>
+        <PrivateRoute exact path="/marketplace/product/details/:product_id" component={MarketPlace}></PrivateRoute>
+        <PrivateRoute exact path="/consultancy" component={Consultancy}></PrivateRoute>
+        <PrivateRoute exact path="/consultancy/create" component={Consultancy}></PrivateRoute>
+        <PrivateRoute exact path="/users/consultant/edit/:id" component={Consultancy}></PrivateRoute>
+        <PrivateRoute exact path="/consultancy/details/:id" component={Consultancy}></PrivateRoute>
+        <PrivateRoute exact path="/research" component={Researches}></PrivateRoute>
+        <PrivateRoute exact path="/research/category" component={Researches}></PrivateRoute>
+        <PrivateRoute exact path="/research/details/category/:category_id/research/:research_id" component={Researches}></PrivateRoute>
+        <PrivateRoute exact path="/appointments" component={Appointments}></PrivateRoute>
+        <PrivateRoute path="*" component={ErrorNotFound}></PrivateRoute>
       </Switch>
       {/* <Footer/> */}
     </>

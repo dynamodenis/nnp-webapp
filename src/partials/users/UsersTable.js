@@ -17,7 +17,7 @@ import AddIcon from '@mui/icons-material/Add';
 // Forms
 import DeleteUserModal from './DeleteUserModal';
 import CircularProgressLoader from '../utils/CircularProgressLoader';
-import { canResearchCreate, canResearchEdit, canResearchDelete, canResearchView  } from '../utils/Roles';
+import { canUsersCreate, canUsersEdit, canUsersDelete  } from '../utils/Roles';
 
 // redux
 import {connect} from 'react-redux'
@@ -27,15 +27,6 @@ import EditUserForm from './EditUserForm';
 import NoDataFound from '../utils/NoDataFound';
 
 
-// Test Table Data
-const columns = [
-    { id: 'name', label: 'Name', minWidth: 5 },
-    { id: 'number', label: 'Phone Number', minWidth: 5 },
-    { id: 'email', label: 'Email', minWidth: 10},
-    { id: 'role', label: 'Role', minWidth: 10},
-    { id: 'type', label: 'Type', minWidth: 10},
-    { id: '', label: 'Actions', minWidth: 5},
-];
 // Tables CSS
 const useStyles = makeStyles({
     '@global': {
@@ -57,7 +48,7 @@ const useStyles = makeStyles({
     },
 });
 function UsersTable(props) {
-    let {isLoading, users,loadUsers} = props;
+    let {isLoading, users,loadUsers, user} = props;
     const classes = useStyles();
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -78,6 +69,27 @@ function UsersTable(props) {
       setPage(0);
     };
 
+    // check if user is undefined
+    if (user !== "undefined") {
+        user = JSON.parse(user);
+    } else {
+        user = {};
+    }
+
+    // Test Table Header
+    let columns = [
+        { id: 'name', label: 'Name', minWidth: 5 },
+        { id: 'number', label: 'Phone Number', minWidth: 5 },
+        { id: 'email', label: 'Email', minWidth: 10},
+        { id: 'role', label: 'Role', minWidth: 10},
+        { id: 'type', label: 'Type', minWidth: 10},
+        { id: '', label: 'Actions', minWidth: 5},
+    ];
+
+    if(!canUsersEdit(user)){
+        columns.pop()
+    }
+    
     useEffect(() => {
         loadUsers()
     }, [])
@@ -170,22 +182,22 @@ function UsersTable(props) {
         };
     });
 
-    console.log(usersList)
     return (
         <div className="survey_container">
             <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
                 <div className="">
                     <input type="text" onChange={debouncedResults} className="w-full border-radius-10 py-1 text-sm border-slate-300 text-slate-500" placeholder="Search a user" />
                 </div>
-
-                <div className="w-full md:w-1/2">
-                    <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
-                        <AddIcon style={{ color:"white" }} fontSize="small"/>
-                        <span className='pt-0.5'>
-                            Add User
-                        </span>
-                    </button>
-                </div>
+                {canUsersCreate(user) && 
+                    <div className="w-full md:w-1/2">
+                        <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
+                            <AddIcon style={{ color:"white" }} fontSize="small"/>
+                            <span className='pt-0.5'>
+                                Add User
+                            </span>
+                        </button>
+                    </div>
+                }
             </div>
             {isLoading ? 
                 <CircularProgressLoader/> :    
@@ -218,20 +230,24 @@ function UsersTable(props) {
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row?.mail}</TableCell>
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{getRole(row?.role)}</TableCell>
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{getType(row?.type)}</TableCell>
-                                        <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>
-                                            <Grid container direction="row" alignItems="center" spacing={1}>
-                                                <Grid item >
-                                                    <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => editItem(row)}>
-                                                        <VisibilityIcon fontSize="small"/>
-                                                    </IconButton>
+                                        {canUsersEdit(user) && 
+                                            <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>
+                                                <Grid container direction="row" alignItems="center" spacing={1}>
+                                                    <Grid item >
+                                                        <IconButton style={{ padding: 1, color:"#43D100",zIndex:"0" }} onClick={() => editItem(row)}>
+                                                            <VisibilityIcon fontSize="small"/>
+                                                        </IconButton>
+                                                    </Grid>
+                                                    {canUsersDelete(user) && 
+                                                        <Grid item>
+                                                            <IconButton style={{ padding: 1, color:"#FF5C5C" }} onClick={()=>deleteItem(row)}>
+                                                                <DeleteIcon fontSize="small"/>
+                                                            </IconButton>
+                                                        </Grid>
+                                                    }
                                                 </Grid>
-                                                <Grid item>
-                                                    <IconButton style={{ padding: 1, color:"#FF5C5C" }} onClick={()=>deleteItem(row)}>
-                                                        <DeleteIcon fontSize="small"/>
-                                                    </IconButton>
-                                                </Grid>
-                                            </Grid>
-                                        </TableCell>
+                                            </TableCell>
+                                        }
                                     </TableRow>
                                     );
                                 })}
@@ -262,6 +278,7 @@ function UsersTable(props) {
 const mapStateToProps = state =>({
   users:state.users.users,
   isLoading:state.users.isLoading,
+  user: state.auth.user,
 })
 export default connect(mapStateToProps, {loadUsers})(React.memo(UsersTable))
 

@@ -17,7 +17,7 @@ import AddIcon from "@mui/icons-material/Add";
 // Forms
 // import DeleteUserModal from './DeleteUserModal';
 import CircularProgressLoader from "../../utils/CircularProgressLoader";
-
+import { canUsersCreate, canUsersEdit, canUsersDelete } from "../../utils/Roles";
 // redux
 import { connect } from "react-redux";
 import { loadConsultants } from "../../../redux/actions/consultants";
@@ -25,15 +25,6 @@ import DeleteConsultantModal from "./DeleteConsultantModal";
 import CreateConsultantForm from "./CreateConsultantForm";
 import EditConsultantForm from "./EditConsultantForm";
 import NoDataFound from "../../utils/NoDataFound";
-
-// Test Table Data
-const columns = [
-  { id: "name", label: "Name", minWidth: 5 },
-  { id: "created", label: "Created At", minWidth: 5 },
-  // { id: 'email', label: 'Email', minWidth: 10},
-  // { id: 'role', label: 'Role', minWidth: 10},
-  { id: "", label: "Actions", minWidth: 5 },
-];
 
 // Tables CSS
 const useStyles = makeStyles({
@@ -57,7 +48,8 @@ const useStyles = makeStyles({
 });
 function Consultants(props) {
   const classes = useStyles();
-  const { isLoading, consultants,loadConsultants } = props;
+  const { isLoading, consultants, loadConsultants } = props;
+  let { user } = props;
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -66,6 +58,26 @@ function Consultants(props) {
   const [modalIsEditOpen, setIsEditOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [consultantsList, setConsultantsList] = useState([]);
+
+  // check if user is undefined
+  if (user !== "undefined") {
+    user = JSON.parse(user);
+  } else {
+    user = {};
+  }
+
+  // Test Table Data
+  const columns = [
+    { id: "name", label: "Name", minWidth: 5 },
+    { id: "created", label: "Created At", minWidth: 5 },
+    // { id: 'email', label: 'Email', minWidth: 10},
+    // { id: 'role', label: 'Role', minWidth: 10},
+    { id: "", label: "Actions", minWidth: 5 },
+  ];
+
+  if (!canUsersEdit(user)) {
+    columns.pop();
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -101,8 +113,8 @@ function Consultants(props) {
     setEdit(edit);
   }, [edit]);
   useEffect(() => {
-    loadConsultants()
-  },[])
+    loadConsultants();
+  }, []);
 
   useEffect(() => {
     setConsultantsList(consultants);
@@ -146,15 +158,14 @@ function Consultants(props) {
             placeholder="Search a consultant"
           />
         </div>
-
-        <div className="w-full md:w-1/2">
-          <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
-            <AddIcon style={{ color: "white" }} fontSize="small" />
-            <span className="pt-0.5 pl-1">
-              Add Consultant
-            </span>
-          </button>
-        </div>
+        {canUsersCreate(user) && (
+          <div className="w-full md:w-1/2">
+            <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
+              <AddIcon style={{ color: "white" }} fontSize="small" />
+              <span className="pt-0.5 pl-1">Add Consultant</span>
+            </button>
+          </div>
+        )}
       </div>
       {isLoading ? (
         <CircularProgressLoader />
@@ -211,20 +222,24 @@ function Consultants(props) {
                           </TableCell>
                           {/* <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row.email}</TableCell>
                                         <TableCell style={{fontSize:"10pt", color:"rgb(71 85 105)",fontWeight: "400",letterSpacing: "0.0355rem"}}>{row.role}</TableCell> */}
-                          <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
-                            <Grid container direction="row" alignItems="center" spacing={1}>
-                              <Grid item>
-                                <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
-                                  <VisibilityIcon fontSize="small" />
-                                </IconButton>
+                          {canUsersEdit(user) && (
+                            <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
+                              <Grid container direction="row" alignItems="center" spacing={1}>
+                                <Grid item>
+                                  <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
+                                    <VisibilityIcon fontSize="small" />
+                                  </IconButton>
+                                </Grid>
+                                {canUsersDelete(user) && (
+                                  <Grid item>
+                                    <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
+                                      <DeleteIcon fontSize="small" />
+                                    </IconButton>
+                                  </Grid>
+                                )}
                               </Grid>
-                              <Grid item>
-                                <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
-                                  <DeleteIcon fontSize="small" />
-                                </IconButton>
-                              </Grid>
-                            </Grid>
-                          </TableCell>
+                            </TableCell>
+                          )}
                         </TableRow>
                       );
                     })}
@@ -255,6 +270,7 @@ function Consultants(props) {
 const mapStateToProps = state => ({
   consultants: state.consultants.consultants,
   isLoading: state.consultants.isLoading,
+  user: state.auth.user,
 });
 
-export default connect(mapStateToProps,{loadConsultants})(React.memo(Consultants));
+export default connect(mapStateToProps, { loadConsultants })(React.memo(Consultants));

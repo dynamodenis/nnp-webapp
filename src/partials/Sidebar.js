@@ -1,30 +1,35 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import logo from '../images/logo.jpeg';
+import React, { useState, useEffect, useRef } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import logo from "../images/logo.jpeg";
 
 // import SidebarLinkGroup from './SidebarLinkGroup';
-import HomeIcon from '@mui/icons-material/Home';
-import LocalGroceryStoreIcon from '@mui/icons-material/LocalGroceryStore';
-import UploadIcon from '@mui/icons-material/Upload';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import HelpIcon from '@mui/icons-material/Help';
-import ScienceIcon from '@mui/icons-material/Science';
-import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import HomeIcon from "@mui/icons-material/Home";
+import LocalGroceryStoreIcon from "@mui/icons-material/LocalGroceryStore";
+import UploadIcon from "@mui/icons-material/Upload";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import HelpIcon from "@mui/icons-material/Help";
+import ScienceIcon from "@mui/icons-material/Science";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 
-function Sidebar({
-  sidebarOpen,
-  setSidebarOpen
-}) {
+import { canUsersView, canTrainingView,canTrainingCreate, canMarketplaceView, canResearchView } from "./utils/Roles";
+import { connect } from "react-redux";
 
+function Sidebar({ sidebarOpen, setSidebarOpen, ...props }) {
   const location = useLocation();
   const { pathname } = location;
 
   const trigger = useRef(null);
   const sidebar = useRef(null);
 
-  const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
-  const [sidebarExpanded, setSidebarExpanded] = useState(storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true');
-
+  const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
+  const [sidebarExpanded, setSidebarExpanded] = useState(storedSidebarExpanded === null ? false : storedSidebarExpanded === "true");
+  let { user } = props;
+  // check if user is undefined
+  if (user !== "undefined") {
+    user = JSON.parse(user);
+  } else {
+    user = {};
+  }
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
@@ -32,8 +37,8 @@ function Sidebar({
       if (!sidebarOpen || sidebar.current.contains(target) || trigger.current.contains(target)) return;
       setSidebarOpen(false);
     };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
+    document.addEventListener("click", clickHandler);
+    return () => document.removeEventListener("click", clickHandler);
   });
 
   // close if the esc key is pressed
@@ -42,31 +47,37 @@ function Sidebar({
       if (!sidebarOpen || keyCode !== 27) return;
       setSidebarOpen(false);
     };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
+    document.addEventListener("keydown", keyHandler);
+    return () => document.removeEventListener("keydown", keyHandler);
   });
 
   useEffect(() => {
-    localStorage.setItem('sidebar-expanded', sidebarExpanded);
+    localStorage.setItem("sidebar-expanded", sidebarExpanded);
     if (sidebarExpanded) {
-      document.querySelector('body').classList.add('sidebar-expanded');
+      document.querySelector("body").classList.add("sidebar-expanded");
     } else {
-      document.querySelector('body').classList.remove('sidebar-expanded');
+      document.querySelector("body").classList.remove("sidebar-expanded");
     }
   }, [sidebarExpanded]);
 
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
-      <div className={`fixed inset-0 bg-white bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${sidebarOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`} aria-hidden="true"></div>
+      <div
+        className={`fixed inset-0 bg-white bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
+          sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+        aria-hidden="true"
+      ></div>
 
       {/* Sidebar */}
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-white p-4 transition-all duration-200 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-64'}`}
+        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-white p-4 transition-all duration-200 ease-in-out ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-64"
+        }`}
       >
-
         {/* Sidebar header */}
         <div className="flex justify-between mb-10 pr-3 sm:px-2">
           {/* Close button */}
@@ -84,8 +95,8 @@ function Sidebar({
           </button>
           {/* Logo */}
           <NavLink exact to="/" className="block">
-            <div className='flex flex-row justify-center item-center pt-1'>
-                <img src={logo} alt="" className='w-14 pt-1 pb-1 m-auto'/>
+            <div className="flex flex-row justify-center item-center pt-1">
+              <img src={logo} alt="" className="w-14 pt-1 pb-1 m-auto" />
             </div>
           </NavLink>
         </div>
@@ -95,110 +106,167 @@ function Sidebar({
           {/* Pages group */}
           <div>
             <h3 className="text-xs uppercase text-gray-600 font-semibold pl-3">
-              <span className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6" aria-hidden="true">•••</span>
+              <span className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6" aria-hidden="true">
+                •••
+              </span>
               <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">Menu</span>
             </h3>
             <ul className="mt-3">
               {/* Home */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === '/home' && 'nav-yellow'}`}>
-                <NavLink exact to="/home" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname === '/home' && 'hover:text-gray-900'}`}>
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/home" && "nav-yellow"}`}>
+                <NavLink
+                  exact
+                  to="/home"
+                  className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${
+                    pathname === "/home" && "hover:text-gray-900"
+                  }`}
+                >
                   <div className="flex items-center">
-                    <HomeIcon className={`fill-current text-gray-400 ${pathname === '/home' && '!text-gray-500'}`}/>
-                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Home</span>
+                    <HomeIcon className={`fill-current text-gray-400 ${pathname === "/home" && "!text-gray-500"}`} />
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Home
+                    </span>
                   </div>
                 </NavLink>
               </li>
               {/* training */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('trainings-dashboard') && 'nav-yellow'}`}>
-                <NavLink exact to="/trainings-dashboard" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('trainings-dashboard') && 'hover:text-gray-900'}`}>
-                  <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-600 ${pathname.includes('trainings-dashboard') && 'text-gray-500'}`} d="M0 20h24v2H0z" />
-                      <path className={`fill-current text-gray-400 ${pathname.includes('trainings-dashboard') && 'text-gray-300'}`} d="M4 18h2a1 1 0 001-1V8a1 1 0 00-1-1H4a1 1 0 00-1 1v9a1 1 0 001 1zM11 18h2a1 1 0 001-1V3a1 1 0 00-1-1h-2a1 1 0 00-1 1v14a1 1 0 001 1zM17 12v5a1 1 0 001 1h2a1 1 0 001-1v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1z" />
-                    </svg>
-                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Trainings</span>
-                  </div>
-                </NavLink>
-              </li>
-              
+              {canTrainingView(user) && (
+                <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("trainings-dashboard") && "nav-yellow"}`}>
+                  <NavLink
+                    exact
+                    to="/trainings-dashboard"
+                    className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${
+                      pathname.includes("trainings-dashboard") && "hover:text-gray-900"
+                    }`}
+                  >
+                    <div className="flex items-center">
+                      <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
+                        <path
+                          className={`fill-current text-gray-600 ${pathname.includes("trainings-dashboard") && "text-gray-500"}`}
+                          d="M0 20h24v2H0z"
+                        />
+                        <path
+                          className={`fill-current text-gray-400 ${pathname.includes("trainings-dashboard") && "text-gray-300"}`}
+                          d="M4 18h2a1 1 0 001-1V8a1 1 0 00-1-1H4a1 1 0 00-1 1v9a1 1 0 001 1zM11 18h2a1 1 0 001-1V3a1 1 0 00-1-1h-2a1 1 0 00-1 1v14a1 1 0 001 1zM17 12v5a1 1 0 001 1h2a1 1 0 001-1v-5a1 1 0 00-1-1h-2a1 1 0 00-1 1z"
+                        />
+                      </svg>
+                      <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                        Trainings
+                      </span>
+                    </div>
+                  </NavLink>
+                </li>
+              )}
               {/* Market place */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('marketplace') && 'nav-yellow'}`}>
-                <NavLink exact to="/marketplace" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('marketplace') && 'hover:text-gray-900'}`}>
-                  <div className="flex items-center">
-                    <LocalGroceryStoreIcon className={`fill-current text-gray-500 ${pathname.includes('marketplace') && 'text-gray-600'}`} />
-                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Market Place</span>
-                  </div>
-                </NavLink>
-              </li>
+              {canMarketplaceView(user) && (
+                <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("marketplace") && "nav-yellow"}`}>
+                  <NavLink
+                    exact
+                    to="/marketplace"
+                    className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${
+                      pathname.includes("marketplace") && "hover:text-gray-900"
+                    }`}
+                  >
+                    <div className="flex items-center">
+                      <LocalGroceryStoreIcon
+                        className={`fill-current text-gray-500 ${pathname.includes("marketplace") && "text-gray-600"}`}
+                      />
+                      <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                        Market Place
+                      </span>
+                    </div>
+                  </NavLink>
+                </li>
+              )}
               {/* courses */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('/trainer/courses') && 'nav-yellow'}`}>
-                <NavLink exact to="/trainer/courses" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/trainer/courses') && 'hover:text-gray-900'}`}>
-                  <div className="flex items-center">
-                    <UploadIcon className={`fill-current text-gray-500 ${pathname.includes('/trainer/courses') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Training Upload</span>
-                  </div>
-                </NavLink>
-              </li>
+              {canTrainingCreate(user) && (
+                <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("/trainer/courses") && "nav-yellow"}`}>
+                  <NavLink
+                    exact
+                    to="/trainer/courses"
+                    className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${
+                      pathname.includes("/trainer/courses") && "hover:text-gray-900"
+                    }`}
+                  >
+                    <div className="flex items-center">
+                      <UploadIcon className={`fill-current text-gray-500 ${pathname.includes("/trainer/courses") && "text-gray-600"}`} />
+                      <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                        Training Upload
+                      </span>
+                    </div>
+                  </NavLink>
+                </li>
+              )}
               {/* consultancy */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('/consultancy') && 'nav-yellow'}`}>
-                <NavLink exact to="/consultancy" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/consultancy') && 'hover:text-gray-900'}`}>
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("/consultancy") && "nav-yellow"}`}>
+                <NavLink
+                  exact
+                  to="/consultancy"
+                  className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${
+                    pathname.includes("/consultancy") && "hover:text-gray-900"
+                  }`}
+                >
                   <div className="flex items-center">
-                    <HelpIcon className={`fill-current text-gray-500 ${pathname.includes('/consultancy') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Consultancy</span>
+                    <HelpIcon className={`fill-current text-gray-500 ${pathname.includes("/consultancy") && "text-gray-600"}`} />
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Consultancy
+                    </span>
                   </div>
                 </NavLink>
               </li>
               {/* research */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('/research') && 'nav-yellow'}`}>
-                <NavLink exact to="/research" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/research') && 'hover:text-gray-900'}`}>
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("/research") && "nav-yellow"}`}>
+                <NavLink
+                  exact
+                  to="/research"
+                  className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${
+                    pathname.includes("/research") && "hover:text-gray-900"
+                  }`}
+                >
                   <div className="flex items-center">
-                    <ScienceIcon className={`fill-current text-gray-500 ${pathname.includes('/research') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Research & Innovation</span>
+                    <ScienceIcon className={`fill-current text-gray-500 ${pathname.includes("/research") && "text-gray-600"}`} />
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Research & Innovation
+                    </span>
                   </div>
                 </NavLink>
               </li>
               {/* appointments */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('/appointments') && 'nav-yellow'}`}>
-                <NavLink exact to="/appointments" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('/appointments') && 'hover:text-gray-900'}`}>
+              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("/appointments") && "nav-yellow"}`}>
+                <NavLink
+                  exact
+                  to="/appointments"
+                  className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${
+                    pathname.includes("/appointments") && "hover:text-gray-900"
+                  }`}
+                >
                   <div className="flex items-center">
-                    <EventAvailableIcon className={`fill-current text-gray-500 ${pathname.includes('/appointments') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Appointment</span>
+                    <EventAvailableIcon className={`fill-current text-gray-500 ${pathname.includes("/appointments") && "text-gray-600"}`} />
+                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                      Appointment
+                    </span>
                   </div>
                 </NavLink>
               </li>
               {/* users */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('users') && 'nav-yellow'}`}>
-                <NavLink exact to="/users" className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${pathname.includes('users') && 'hover:text-gray-900'}`}>
-                  <div className="flex items-center">
-                    <PeopleAltIcon className={`fill-current text-gray-500 ${pathname.includes('users') && 'text-gray-600'}`}/>
-                    <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Users</span>
-                  </div>
-                </NavLink>
-              </li>
-              {/* Inbox */}
-              {/* <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('inbox') && 'bg-gray-900'}`}>
-                <NavLink exact to="/" className={`block text-gray-200 hover:text-white truncate transition duration-150 ${pathname.includes('inbox') && 'hover:text-gray-200'}`}>
-                  <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-600 ${pathname.includes('inbox') && 'text-indigo-500'}`} d="M16 13v4H8v-4H0l3-9h18l3 9h-8Z" />
-                      <path className={`fill-current text-gray-400 ${pathname.includes('inbox') && 'text-indigo-300'}`} d="m23.72 12 .229.686A.984.984 0 0 1 24 13v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1v-8c0-.107.017-.213.051-.314L.28 12H8v4h8v-4H23.72ZM13 0v7h3l-4 5-4-5h3V0h2Z" />
-                    </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Inbox</span>
-                  </div>
-                </NavLink>
-              </li> */}
-              {/* Calendar */}
-              {/* <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes('calendar') && 'bg-gray-900'}`}>
-                <NavLink exact to="/" className={`block text-gray-200 hover:text-white truncate transition duration-150 ${pathname.includes('calendar') && 'hover:text-gray-200'}`}>
-                  <div className="flex items-center">
-                    <svg className="shrink-0 h-6 w-6" viewBox="0 0 24 24">
-                      <path className={`fill-current text-gray-600 ${pathname.includes('calendar') && 'text-indigo-500'}`} d="M1 3h22v20H1z" />
-                      <path className={`fill-current text-gray-400 ${pathname.includes('calendar') && 'text-indigo-300'}`} d="M21 3h2v4H1V3h2V1h4v2h10V1h4v2Z" />
-                    </svg>
-                    <span className="text-sm font-medium ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">Calendar</span>
-                  </div>
-                </NavLink>
-              </li> */}
+              {canUsersView(user) && (
+                <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("users") && "nav-yellow"}`}>
+                  <NavLink
+                    exact
+                    to="/users"
+                    className={`block text-gray-600 hover:text-gray-900 truncate transition duration-150 ${
+                      pathname.includes("users") && "hover:text-gray-900"
+                    }`}
+                  >
+                    <div className="flex items-center">
+                      <PeopleAltIcon className={`fill-current text-gray-500 ${pathname.includes("users") && "text-gray-600"}`} />
+                      <span className="text-sm font-semibold ml-3 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                        Users
+                      </span>
+                    </div>
+                  </NavLink>
+                </li>
+              )}
             </ul>
           </div>
         </div>
@@ -215,10 +283,14 @@ function Sidebar({
             </button>
           </div>
         </div>
-
       </div>
     </div>
   );
 }
 
-export default Sidebar;
+// get the state
+const mapStateToProps = state => ({
+  user: state.auth.user,
+});
+
+export default connect(mapStateToProps)(React.memo(Sidebar));

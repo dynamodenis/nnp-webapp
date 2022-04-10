@@ -117,7 +117,7 @@ function Login(props) {
                 </form>
                 <div className='flex flex-row text-center pt-2 text-xs ml-5 md:ml-6'>
                     <div>
-                        <p>Don't have an account yet! <Link to="/register" className='link'>Register as a farmer.</Link></p>
+                        <p>Don't have an account yet! <Link to="/register" className='link'>Register as a user.</Link></p>
                     </div>
                 </div>
             </div>

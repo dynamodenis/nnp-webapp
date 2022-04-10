@@ -64,10 +64,10 @@ function EditCourse(props) {
     // Url
     const selected_picture = [];
     if(edit !== undefined && Object.keys(edit).length){
-        setUrl(edit?.tMaterials[0]?.url)
+        setUrl(edit?.tMaterials?.url)
         // set the select pictures
-        edit?.tMaterials[0]?.tMaterialsData?.map(images => {
-            selected_picture.push(`data:image/png;base64,${images.contentDownload}`)
+        edit?.tMaterials?.tMImages?.map(images => {
+            selected_picture.push(`data:image/png;base64,${images}`)
         })
     } 
     

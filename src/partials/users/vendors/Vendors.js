@@ -15,7 +15,7 @@ import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 // Form
 import CircularProgressLoader from "../../utils/CircularProgressLoader";
-
+import { canUsersCreate, canUsersEdit, canUsersDelete  } from '../../utils/Roles';
 // redux
 import { connect } from "react-redux";
 import { loadVendors } from "../../../redux/actions/vendors";
@@ -23,17 +23,6 @@ import DeleteVendorModal from "./DeleteVendorModal";
 import CreateVendorForm from "./CreateVendorForm";
 import EditVendorsForm from "./EditVendorsForm";
 import NoDataFound from "../../utils/NoDataFound";
-
-// Test Table Data
-const columns = [
-  { id: "name", label: "Name", minWidth: 5 },
-  { id: "number", label: "Phone Number", minWidth: 5 },
-  { id: "email", label: "Email", minWidth: 5 },
-  { id: "role", label: "Town", minWidth: 5 },
-  { id: "address", label: "Address", minWidth: 5 },
-  { id: "contact", label: "Contact Number", minWidth: 5 },
-  { id: "", label: "Actions", minWidth: 5 },
-];
 
 // Tables CSS
 const useStyles = makeStyles({
@@ -57,6 +46,7 @@ const useStyles = makeStyles({
 });
 function Vendors(props) {
   const { isLoading, vendors,loadVendors } = props;
+  let{user} = props;
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -66,6 +56,27 @@ function Vendors(props) {
   const [modalIsEditOpen, setIsEditOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [vendorsList, setVendorsList] = useState([]);
+
+  // check if user is undefined
+  if (user !== "undefined") {
+    user = JSON.parse(user);
+  } else {
+    user = {};
+  }
+  // Test Table Data
+  const columns = [
+    { id: "name", label: "Name", minWidth: 5 },
+    { id: "number", label: "Phone Number", minWidth: 5 },
+    { id: "email", label: "Email", minWidth: 5 },
+    { id: "role", label: "Town", minWidth: 5 },
+    { id: "address", label: "Address", minWidth: 5 },
+    { id: "contact", label: "Contact Number", minWidth: 5 },
+    { id: "", label: "Actions", minWidth: 5 },
+  ];
+
+  if(!canUsersEdit(user)){
+    columns.pop()
+  }
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -148,15 +159,16 @@ function Vendors(props) {
             onChange={debouncedResults}
           />
         </div>
-
-        <div className="w-full md:w-1/2">
-          <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
-            <AddIcon style={{color: "white" }} fontSize="small" />
-              <span className="pt-0.5">
-                Add Vendor
-              </span>
-          </button>
-        </div>
+        {canUsersCreate(user) && 
+          <div className="w-full md:w-1/2">
+            <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
+              <AddIcon style={{color: "white" }} fontSize="small" />
+                <span className="pt-0.5">
+                  Add Vendor
+                </span>
+            </button>
+          </div>
+        }
       </div>
       {isLoading ? (
         <CircularProgressLoader />
@@ -223,6 +235,7 @@ function Vendors(props) {
                           <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
                             {row.contact}
                           </TableCell>
+                          {canUsersEdit(user) &&
                           <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
                             <Grid container direction="row" alignItems="center" spacing={1}>
                               <Grid item>
@@ -230,13 +243,16 @@ function Vendors(props) {
                                   <VisibilityIcon fontSize="small" />
                                 </IconButton>
                               </Grid>
-                              <Grid item>
-                                <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
-                                  <DeleteIcon fontSize="small" />
-                                </IconButton>
-                              </Grid>
+                              {canUsersDelete(user) && 
+                                <Grid item>
+                                  <IconButton style={{ padding: 1, color: "#FF5C5C" }} onClick={() => deleteItem(row)}>
+                                    <DeleteIcon fontSize="small" />
+                                  </IconButton>
+                                </Grid>
+                              }
                             </Grid>
                           </TableCell>
+                          }
                         </TableRow>
                       );
                     })}
@@ -267,6 +283,7 @@ function Vendors(props) {
 const mapStateToProps = state => ({
   vendors: state.vendors.vendors,
   isLoading: state.vendors.isLoading,
+  user: state.auth.user,
 });
 
 export default connect(mapStateToProps,{loadVendors})(React.memo(Vendors));

@@ -104,8 +104,7 @@ function Research(props) {
       return "";
     }
   }
-  // console.log("trainings", trainings);
-  // console.log("category", t_category);
+ 
   return (
     <div>
       <div className="flex flex-col sm:flex-row justify-between gap-2">
