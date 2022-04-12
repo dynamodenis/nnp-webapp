@@ -7,9 +7,10 @@ import { Link, Redirect } from "react-router-dom";
 // Redux
 import { connect } from "react-redux";
 import { verifyUser } from "../redux/actions/auth";
+import { resendOtp } from "../redux/actions/users";
 
 function OTP(props) {
-  let { registration } = props;
+  let { registration,resendingOtp,resendOtp } = props;
   const [otp, setOtp] = useState("");
   const [user, setUser] = useState({});
   const [sendTo, setSendTo] = useState("");
@@ -48,9 +49,10 @@ function OTP(props) {
     }
   };
 
+  console.log("registration", registration)
   const resendCode = e => {
     e.preventDefault()
-    console.log("send")
+    resendOtp(registration?.user)
   }
 
   if (props.isAuthenticated) {
@@ -104,7 +106,7 @@ function OTP(props) {
                   <div>
                       <div className="w-36 pt-4 md:float-right p6-6 md:pr-5">
                         <div className="grid grid-cols-1">
-                            {/* {isLoading ? (
+                            {/* {resendingOtp ? (
                             <button className="bg-green success-btn rounded-md text-white m-auto disabled:opacity-25" disabled>
                                 Loading...
                             </button>
@@ -151,6 +153,7 @@ const mapStateToProps = state => ({
   messages: state.messages,
   isLoading: state.auth.isLoading,
   registration: state.auth.registration,
+  resendingOtp: state.users.isLoading,
 });
 
-export default connect(mapStateToProps, { verifyUser })(OTP);
+export default connect(mapStateToProps, { verifyUser, resendOtp })(OTP);

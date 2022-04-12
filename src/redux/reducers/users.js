@@ -20,6 +20,11 @@ const users  = (state=initialState, action)=>{
                 ...state,
                 isAdding: true
             }
+        case actions_types.ADDING_OTP:
+            return {
+                ...state,
+                isAdding: true
+            }
         case actions_types.ADDING_CONTACT:
             return {
                 ...state,
@@ -56,6 +61,12 @@ const users  = (state=initialState, action)=>{
             return{
                 ...state,
                 isAdding:false
+            }
+        case actions_types.ADD_OTP:
+            console.log("otp",action.payload.data)
+            return {
+                ...state,
+                isLoading:false
             }
         case actions_types.UPDATE_USER:
             const index = state.users.findIndex(el => el.id === action.payload.data.user.id);

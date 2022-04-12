@@ -111,3 +111,22 @@ export const contactUser = (body) => (dispatch,getState) =>{
             })
         })
 }
+
+export const resendOtp = (body) => (dispatch,getState) =>{
+    dispatch({type: actions_types.ADDING_OTP});
+    return apiClient.post('/api/v1/user/resendCode', body,configHeader(getState))
+        .then(res=>{
+            dispatch(createMessage({itemAdded:'Otp sent successfully'}))
+            dispatch({
+                type:actions_types.ADD_OTP,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}

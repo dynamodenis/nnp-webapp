@@ -579,8 +579,8 @@ function Website(props) {
                           <input name="subject" type="text" className="form-control" id="phone" placeholder="Subject" value={subject} onChange={handleSubject}/>
                           <textarea name="message" rows="5" cols={3} type="text" className="form-control" id="message" placeholder="Your Message" value={description} onChange={handleDescription} required></textarea>
                           {/* <input name="send" type="submit" className="form-control" id="send" value="Send Message" /> */}
-                          {props.isLoading ? <button className='form-control bg-green color-white success-border m-auto disabled:opacity-50' disabled>Loading...</button>:
-                              <button type="submit" className="form-control bg-green color-white success-border m-auto cursor-pointer">Send Message</button>
+                          {props.isLoading ? <button className='form-control bg-green color-white success-border font-bold m-auto disabled:opacity-50' disabled>Loading...</button>:
+                              <button type="submit" className="form-control bg-green color-white success-border font-bold m-auto cursor-pointer">Send Message</button>
                           }
                         </form>
                     </div>

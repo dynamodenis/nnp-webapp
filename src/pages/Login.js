@@ -109,8 +109,8 @@ function Login(props) {
                     </div>
                     <div>
                         <div className='btn-container flex flex-row m-auto pt-6'>
-                            {props.isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
-                                <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto" title="Login"/>
+                            {props.isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25 font-bold' disabled>Loading...</button> :
+                                <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto font-bold" title="Login"/>
                             }
                         </div>
                     </div>

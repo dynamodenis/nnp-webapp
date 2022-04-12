@@ -149,6 +149,12 @@ input:focus, textarea:focus{
 .green{
     color: $green;
 }
+.primary-green{
+    color: $primary-green;
+}
+.light-green{
+    color: $light-green;
+}
 .dark-blue{
     color: $dark-blue;
 }
@@ -169,6 +175,12 @@ input:focus, textarea:focus{
 .bg-green{
     background-color: $green !important;
 }
+.bg-primary-green{
+    background-color: $primary-green !important;
+}
+.bg-light-green{
+    background-color: $light-green !important;
+}
 .bg-blue{
     background-color: $blue;
 }
@@ -188,8 +200,8 @@ input:focus, textarea:focus{
     font-weight: 500;
 }
 .nav-yellow{
-    background-color: $nav-yellow;
-    // background-color: $primary-green;
+    // background-color: $nav-yellow;
+    background-color: $primary-green;
 }
 
 .bg-body{
@@ -215,8 +227,8 @@ input:focus, textarea:focus{
 
 .edit-button{
     border-radius: 10px !important;
-    border-color: 1px solid $success !important;
-    border: 1px solid $success !important;
+    border-color: 1px solid $primary-green !important;
+    border: 1px solid $primary-green !important;
     cursor: pointer;
 }
 .edit-button:focus{
@@ -374,6 +386,12 @@ input:focus, textarea:focus{
 .badge_light_primary {
     color: $primary-blue;
     background-color: $light-blue;
+    font-weight: 600;
+}
+
+.badge_light_green {
+    color: $primary-green;
+    background-color: $light-green;
     font-weight: 600;
 }
 

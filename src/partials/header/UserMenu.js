@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Transition from '../../utils/Transition';
 
-import UserAvatar from '../../images/user-avatar-32.png';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import LogoutModal from './LogoutModal';
 
 function UserMenu(props) {
@@ -51,9 +51,11 @@ function UserMenu(props) {
         onClick={() => setDropdownOpen(!dropdownOpen)}
         aria-expanded={dropdownOpen}
       >
-        <img className="w-8 h-8 rounded-full" src={UserAvatar} width="32" height="32" alt="User" />
+        <div>
+          <div className="w-8 h-8 rounded-full primary-green bg-light-green"><ManageAccountsIcon/></div>
+        </div>
         <div className="flex items-center truncate">
-          <span className="badge badge_light_primary truncate ml-2 text-sm font-semibold group-hover:badge_light_primary_hover">{user?.name || ""}</span>
+          <span className="badge badge_light_green truncate ml-2 text-sm font-semibold">{user?.name || ""}</span>
           <svg className="w-3 h-3 shrink-0 ml-1 fill-current text-gray-400" viewBox="0 0 12 12">
             <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
           </svg>

@@ -190,7 +190,7 @@ function Register(props) {
                     <div>
                         <div className='btn-container flex flex-row m-auto pt-2 width-17rem'>
                             {isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-75 w-full' disabled>Loading...</button> :
-                                <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto" title="Register"/>
+                                <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto w-full" title="Register"/>
                             }
                             
                         </div>
