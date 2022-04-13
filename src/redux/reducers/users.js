@@ -66,7 +66,7 @@ const users  = (state=initialState, action)=>{
             console.log("otp",action.payload.data)
             return {
                 ...state,
-                isLoading:false
+                isAdding:false
             }
         case actions_types.UPDATE_USER:
             const index = state.users.findIndex(el => el.id === action.payload.data.user.id);

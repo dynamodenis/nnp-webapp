@@ -274,6 +274,7 @@ h5 {
   font-size: 1.5rem;
   transition: all 0.3s;
   font-weight: 600;
+  height: 30px;
 }
 .btn--form {
   background-color: #0c450a;
@@ -299,10 +300,17 @@ h5 {
 .btn--mobile-nav{
     display: none;
 }
+.btn--mobile-login{
+  display: none;
+}
 
 @media only screen and (max-width: 56.25em) {
   .btn--mobile-nav {
-    margin-left: 80%;
+    margin-left: 5%;
+  }
+  .btn--mobile-login{
+    display: block;
+    margin-left: 60%;
   }
   .open_menu{
     display: block;

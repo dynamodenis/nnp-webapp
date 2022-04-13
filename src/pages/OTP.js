@@ -106,15 +106,15 @@ function OTP(props) {
                   <div>
                       <div className="w-36 pt-4 md:float-right p6-6 md:pr-5">
                         <div className="grid grid-cols-1">
-                            {/* {resendingOtp ? (
-                            <button className="bg-green success-btn rounded-md text-white m-auto disabled:opacity-25" disabled>
-                                Loading...
-                            </button>
-                            ) : ( */}
-                            <button type="button" className="bg-green success-btn rounded-md text-white m-auto text-sm disabled:opacity-50" disabled={!sendTo} onClick={resendCode}>
-                              Resend
-                            </button>
-                            {/* )} */}
+                            {resendingOtp ? (
+                              <button className="bg-green success-btn font-bold  rounded-md text-white m-auto disabled:opacity-25" disabled>
+                                  Loading...
+                              </button>
+                              ) : (
+                              <button type="button" className="bg-green success-btn font-bold rounded-md text-white m-auto text-sm disabled:opacity-50" disabled={!sendTo} onClick={resendCode}>
+                                Resend
+                              </button>
+                            )}
                         </div>
                     </div>
                   </div>
@@ -122,11 +122,11 @@ function OTP(props) {
               <div>
                 <div className="btn-container flex flex-row m-auto pt-4">
                   {props.isLoading ? (
-                    <button className="bg-green success-btn rounded-md text-white m-auto disabled:opacity-75" disabled>
+                    <button className="bg-green success-btn rounded-md text-white m-auto disabled:opacity-75 font-bold " disabled>
                       Loading...
                     </button>
                   ) : (
-                    <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto" title="Confirm OTP" />
+                    <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto font-bold " disabled={!otp} title="Confirm OTP" />
                   )}
                 </div>
               </div>
@@ -153,7 +153,7 @@ const mapStateToProps = state => ({
   messages: state.messages,
   isLoading: state.auth.isLoading,
   registration: state.auth.registration,
-  resendingOtp: state.users.isLoading,
+  resendingOtp: state.users.isAdding,
 });
 
 export default connect(mapStateToProps, { verifyUser, resendOtp })(OTP);
