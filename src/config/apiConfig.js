@@ -1,6 +1,6 @@
 import axios from "axios";
 const apiClient = axios.create({
-  baseURL: "http://178.62.41.139:3505",
+  baseURL: "https://nyeripolydigidairy.com/backend",
   withCredentials: false,
   headers: {
     Accept: "application/json",

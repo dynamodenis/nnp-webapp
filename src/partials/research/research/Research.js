@@ -160,7 +160,7 @@ function Research(props) {
       ) : (
         <>
         <div className="pt-8">
-          {researchesList.length === 0 && <NoDataFound/>  }
+          {researchesList.length === 0 && <NoDataFound header="No Research Found" body="Research are currently not available" />  }
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
           {researchesList.map((research, index) => (

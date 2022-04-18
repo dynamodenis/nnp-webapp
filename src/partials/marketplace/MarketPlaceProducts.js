@@ -177,7 +177,7 @@ function MarketPlaceProducts(props) {
         <>
           {productsList.length === 0 ? (
             <div className="pt-8">
-              <NoDataFound />
+              <NoDataFound header="No Products Found" body="Products are currently not available" />
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-8">

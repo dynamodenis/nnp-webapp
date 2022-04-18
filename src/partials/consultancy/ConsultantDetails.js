@@ -62,7 +62,7 @@ function ConsultantDetails(props) {
                     <div className="flex flex-col gap-8 my-auto ml-4">
                         {checkImage(consultant) ? <img src={`data:image/png;base64,${consultant?.imageDownloads}`} alt="" className="w-60 h-60 border-radius-50 m-auto" /> : <img src={trainer_image} alt="" className="w-20 h-20 border-radius-50" />}
                         <div className="text-sm font-semibold ">
-                            <div className='badge badge_light_primary text-2xl'>{consultant?.name}</div>
+                            <div className='badge badge_light_green text-2xl'>{consultant?.name}</div>
                             <div className="text-xs font-normal flex flex-row hover:text-gray-600 gap-4 pt-2">
                                 <div><WorkIcon style={{ fontSize:"1rem"}} /></div>
                                 <div>{consultant?.title || "No title"}</div>

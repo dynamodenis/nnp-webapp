@@ -1,6 +1,7 @@
-import React,{useState, useEffect} from 'react'
+import React,{useEffect} from 'react'
 import { withRouter } from "react-router";
 import { useHistory } from "react-router-dom";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 // redux
 import { connect } from "react-redux";
@@ -122,19 +123,22 @@ function ProductDetails(props) {
           <div className="grid grid-cols-2 pt-2 pb-2">
             <div></div>
             <div className="float-right">
-                <button type="button" className="w-1/2 float-right bg-error back-btn rounded-md text-white text-sm" onClick={goToPreviousPath} >
-                Back
-                </button>
+              <button type="button" className="bg-error back-btn rounded-lg text-white text-sm" onClick={goToPreviousPath}>
+                <ArrowBackIcon fontSize="small" style={{ color:"white" }}/>
+                <span className="pt-0.5">
+                  Back
+                </span>
+              </button>
             </div>
           </div>
             <div className="grid md:grid-cols-2 grid-cols-1 justify-between bg-white gap-4 h-screen md:min-height-60vh p-2">
                 <div className="flex flex-col">
-                    <div className="bg-contain bg-center h-5/6 w-full bg-no-repeat rounded-md m-auto" style={{backgroundImage: `url(${getImage(product)})`}}></div>
+                    <div className="bg-contain bg-center h-5/6 w-full bg-no-repeat rounded-md" style={{backgroundImage: `url(${getImage(product)})`}}></div>
                 </div>
 
                 <div className="flex flex-col pt-4">
                     <div className="font-semibold text-lg">{product.name}</div>
-                    <div className='h-0.5 bg-error w-8'></div>
+                    <div className='h-0.5 bg-primary-green w-8'></div>
                     <div className="text-sm font-medium pt-2">Ksh {product.price_1}</div>
                     <div className="text-xs"><span className="font-semibold">Category:</span> <span className="font-normal">{getCategory(product.category)}</span></div>
                     <div className='grid grid-cols-2 justify-start pt-2'>

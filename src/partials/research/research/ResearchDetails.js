@@ -125,7 +125,7 @@ function ResearchDetails(props) {
               {/* </div> */}
             </div>
           ) : (
-            <div className="player-wrapper">
+            <div className="pt-8">
               <NoDataFound
                 header="Sorry! This research has no video."
                 body="Good news you can still get the content of the research below."

@@ -2,6 +2,7 @@ import React,{useState, useEffect} from "react";
 import {withRouter} from 'react-router';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
 import CategoryIcon from '@mui/icons-material/Category';
@@ -76,7 +77,12 @@ function CoursesDashboard(props) {
             </div>
         </div>
         <div className="w-20 float-right ">
-          <button type="button" className="bg-blue success-btn rounded-md text-white text-sm" onClick={goToPreviousPath}>Back</button>
+          <button type="button" className="bg-error back-btn rounded-lg text-white text-sm" onClick={goToPreviousPath}>
+            <ArrowBackIcon fontSize="small" style={{ color:"white" }}/>
+            <span className="pt-0.5 pl-0.5">
+                Back
+            </span>
+          </button>
         </div>
       </div>
 
@@ -89,7 +95,7 @@ function CoursesDashboard(props) {
           <CircularProgressLoader/>
         ) : (
       <div className="flex flex-col gap-4 pt-8">
-        {trainingsList.length === 0 && <NoDataFound header="No Training Categories Found" body="Training categories are currently not available"/> }
+        {trainingsList.length === 0 && <NoDataFound header="No Trainings Found" body="Trainings with this category are currently not available"/> }
         {trainingsList?.map((training,index) => (
           <Link to={`/trainings-dashboard/category/${category_id}/training/${training.id}`}>
             <div className="bg-white border-radius-10 min-height-20vh border-training-card" key={index}>
@@ -115,7 +121,7 @@ function CoursesDashboard(props) {
                       ))}
                     </div>
                   </div>
-                  <div><button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold ease-in-out duration-300">Visit training</button></div>
+                  <div><button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:font-semibold hover:bg-primary-green ease-in-out duration-300">Visit training</button></div>
                 </div>
                 <div>
                   <div className="text-sm text-slate-500">

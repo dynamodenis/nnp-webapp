@@ -118,7 +118,7 @@ function Consultancy(props) {
         <>
           {consultantList.length === 0 ? (
             <div className="pt-8">
-              <NoDataFound />
+              <NoDataFound header="No consultants found." body="Sorry! No consultants found." />
             </div>
           ) : (
             <div className="flex flex-col gap-4 pt-8">
@@ -144,13 +144,17 @@ function Consultancy(props) {
                         ) : (
                           <img src={trainer} alt="" className="w-20 h-20 border-radius-50" />
                         )}
-                        <div className="text-sm pl-1 pt-3 font-semibold green">{consultant.name}</div>
+                        <div>
+                          <div className="text-sm pl-1 pt-3 font-semibold primary-green">{consultant.name}</div>
+                          <div className="text-sm pl-1 pt-1 font-normal">{consultant.title}</div>
+                        </div>
+                        
                       </div>
                       <div></div>
                       <div>
                         <Link to={`/consultancy/details/${consultant.id}`}>
                           {" "}
-                          <button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:text-white ease-in-out duration-300 hover:bg-slate-800">
+                          <button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:text-white ease-in-out duration-300 hover:bg-primary-green">
                             Visit Consultant
                           </button>
                         </Link>

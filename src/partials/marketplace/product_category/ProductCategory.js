@@ -133,7 +133,7 @@ function ProductCategory(props) {
         <>
           {categories.length === 0 ? (
             <div className="pt-8">
-              <NoDataFound />
+              <NoDataFound header="No Product Categories Found" body="Product categories are currently not available" />
             </div>
           ) : (
             <div className="survey_table pt-2">
