@@ -336,7 +336,7 @@ function Appointment(props) {
                             {ifUserLoggedIn(row?.appuser) && 
                               <Grid container direction="row" alignItems="center" spacing={1}>
                                 <Grid item>
-                                  <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
+                                  <IconButton style={{ padding: 1, color: "#50cd89", zIndex: "0" }} onClick={() => editItem(row)}>
                                     <VisibilityIcon fontSize="small" />
                                   </IconButton>
                                 </Grid>

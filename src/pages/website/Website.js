@@ -188,11 +188,11 @@ function Website(props) {
                 <img src={logo} className="logo" alt="Theree cousins energy company logo" />
               </a>
               
-                <button className="login_button btn--mobile-login">
-                  <a href="http://178.62.41.139:3000/home" className="login_button--link" target="_blank" onClick={openWebapp}>
-                    Login
-                  </a>
-                </button>
+              <button className="login_button btn--mobile-login">
+                <a href="/home" className="login_button--link" target="_blank" onClick={openWebapp}>
+                  Login
+                </a>
+              </button>
               
               <nav className="main-nav">
                 <ul className="main-nav__list gap-4 ">
@@ -218,7 +218,7 @@ function Website(props) {
                   </li>
                   <li className="main-nav__item">
                     <button className="login_button">
-                      <a href="http://178.62.41.139:3000/home" className="login_button--link" target="_blank" onClick={openWebapp}>
+                      <a href="/home" className="login_button--link" target="_blank" onClick={openWebapp}>
                         Login
                       </a>
                     </button>

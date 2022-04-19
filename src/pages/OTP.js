@@ -96,7 +96,7 @@ function OTP(props) {
                             onChange={changeSendTo}
                             required
                             >
-                              <option value="">Select send to</option>
+                              <option value="">Resend to</option>
                               <option value="hrs">Mobile sms</option>
                               <option value="mins">Email</option>
                             </select>
@@ -104,7 +104,7 @@ function OTP(props) {
                         </div>
                   </div>
                   <div>
-                      <div className="w-36 pt-4 md:float-right p6-6 md:pr-5">
+                      <div className="w-36 pt-4 md:float-right pr-2 md:pr-5">
                         <div className="grid grid-cols-1">
                             {resendingOtp ? (
                               <button className="bg-green success-btn font-bold  rounded-md text-white m-auto disabled:opacity-25" disabled>
@@ -118,6 +118,10 @@ function OTP(props) {
                         </div>
                     </div>
                   </div>
+              </div>
+              <div className="grid grid-cols-1 justify-between grid-4 w-full">
+                <p className="pt-2 pl-6 md:pl-8 pr-4 md:pr-5 text-xs"><span className="error">Note</span>: Incase you blocked promotional messages on your phone or don't receive the OTP, resend using the 
+                email option to receive OTP on your email.</p>
               </div>
               <div>
                 <div className="btn-container flex flex-row m-auto pt-4">

@@ -12,7 +12,7 @@
 .login-form-container{
     border: none;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-    height: 25rem;
+    height: 20rem;
     width: 100%;
 
     @media screen and (max-width: 1050px) and (min-width: 700px) {
@@ -61,7 +61,7 @@
     width: 81%;
 }
 .otp_height{
-    height: 16rem;
+    height: 21rem;
 }
 @media only screen and (max-width: 650px) {
     .login-fields{

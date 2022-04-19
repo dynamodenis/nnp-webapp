@@ -132,7 +132,7 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
   },
   indicator: {
-      backgroundColor: '#2BBF3A',
+      backgroundColor: '#50cd89',
   },
   tabRoot: {
       flexGrow: 1,

@@ -226,7 +226,7 @@ function Consultants(props) {
                             <TableCell style={{ fontSize: "10pt", color: "rgb(71 85 105)", fontWeight: "400", letterSpacing: "0.0355rem" }}>
                               <Grid container direction="row" alignItems="center" spacing={1}>
                                 <Grid item>
-                                  <IconButton style={{ padding: 1, color: "#43D100", zIndex: "0" }} onClick={() => editItem(row)}>
+                                  <IconButton style={{ padding: 1, color: "#50cd89", zIndex: "0" }} onClick={() => editItem(row)}>
                                     <VisibilityIcon fontSize="small" />
                                   </IconButton>
                                 </Grid>
