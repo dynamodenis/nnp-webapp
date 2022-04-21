@@ -105,12 +105,12 @@ function ResearchDetails(props) {
           <div className="flex flex-row justify-between gap-2 pb-2">
             <div>
               <div className="text-sm md:text-xl font-medium">
-                Welcome to {getName(research)} by <span className="link">{getTrainer(research.trainers?.trainers)}</span>
+                Welcome to {getName(research)} by <span className="primary-green">{getTrainer(research.trainers?.trainers)}</span>
               </div>
             </div>
             <div className="w-1/2 md:w-20 md:float-right ">
               <div className="">
-                <button type="button" className="bg-error back-btn rounded-lg text-white text-sm" onClick={goToPreviousPath}>
+                <button type="button" className="bg-primary-gray cancel-btn rounded-md text-white text-sm" onClick={goToPreviousPath}>
                   <ArrowBackIcon fontSize="small" style={{ color: "white" }} />
                   <span className="pt-0.5">Back</span>
                 </button>
@@ -144,7 +144,7 @@ function ResearchDetails(props) {
                   <span key={index}>
                     <div className="flex flex-row gap-8 pt-2 pb-3">
                       <img src={trainer_image} alt="" className="w-10 h-10 border-radius-50" />
-                      <div className="text-sm pl-2 pt-4 font-semibold green">{getTrainerName(trainer)}</div>
+                      <div className="text-sm pl-2 pt-4 font-semibold badge badge_light_green">{getTrainerName(trainer)}</div>
                     </div>
                   </span>
                 ))}

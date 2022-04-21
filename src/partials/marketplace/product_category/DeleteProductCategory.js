@@ -75,7 +75,7 @@ function DeleteProductCategory(props) {
                     <div className="md:w-36 pt-8 md:float-right ">
                         <div className="grid grid-cols-2">
                             {/* <Link to="/users"> */}
-                            <button type="button" className="bg-white cancel-btn shadow-slate-500 rounded-md text-gray-600 text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>Cancel</button>
+                            <button type="button" className="bg-primary-gray cancel-btn shadow-slate-500 rounded-md text-white text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>Cancel</button>
                             {/* </Link> */}
                             {props.isLoading ? 
                                 <button className='bg-dark-red delete-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :

@@ -181,6 +181,9 @@ input:focus, textarea:focus{
 .bg-light-green{
     background-color: $light-green !important;
 }
+.bg-primary-gray {
+    background-color: $primary-gray !important;
+}
 .bg-blue{
     background-color: $blue;
 }
@@ -189,7 +192,7 @@ input:focus, textarea:focus{
 }
 
 .success-border{
-    border: 2px solid $green !important;
+    border: 2px solid $primary-green !important;
 }
 
 

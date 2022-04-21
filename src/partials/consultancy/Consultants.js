@@ -99,7 +99,7 @@ function Consultancy(props) {
         <div>
           <div className="text-2xl font-medium">
             Consulants List
-            <div className="text-sm link">These are all available consultants.</div>
+            <div className="text-sm font-bold primary-green">These are all available consultants.</div>
           </div>
         </div>
         <div>
@@ -154,8 +154,8 @@ function Consultancy(props) {
                       <div>
                         <Link to={`/consultancy/details/${consultant.id}`}>
                           {" "}
-                          <button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:text-white ease-in-out duration-300 hover:bg-primary-green">
-                            Visit Consultant
+                          <button className="text-xs check-progress-button pl-4 pr-4 pt-0.5 pb-0.5 hover:text-white hover:font-bold ease-in-out duration-300 hover:bg-primary-green">
+                            View Consultant
                           </button>
                         </Link>
                       </div>

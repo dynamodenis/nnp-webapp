@@ -87,7 +87,12 @@ function Website(props) {
       })
     }
 
-    
+    function getYear(){
+        const d = new Date();
+        let year = d.getFullYear();
+        return year
+    }
+
     var slideIndex = 1;
     useEffect(() => {
         showSlides(slideIndex);
@@ -168,11 +173,11 @@ function Website(props) {
         slides[slideIndex - 1].style.display = "block";
     }
 
-    function openWebapp(){
-      const link = document.querySelector(".login_button--link");
-      const href = link.getAttribute("href");
-      window.open(href, "_blank");
-    }
+    // function openWebapp(){
+    //   const link = document.querySelector(".login_button--link");
+    //   const href = link.getAttribute("href");
+    //   window.open(href, "_blank");
+    // }
 
   return (
     <>
@@ -189,7 +194,7 @@ function Website(props) {
               </a>
               
               <button className="login_button btn--mobile-login">
-                <a href="/home" className="login_button--link" target="_blank" onClick={openWebapp}>
+                <a href="/home" className="login_button--link">
                   Login
                 </a>
               </button>
@@ -218,7 +223,7 @@ function Website(props) {
                   </li>
                   <li className="main-nav__item">
                     <button className="login_button">
-                      <a href="/home" className="login_button--link" target="_blank" onClick={openWebapp}>
+                      <a href="/home" className="login_button--link">
                         Login
                       </a>
                     </button>
@@ -586,8 +591,8 @@ function Website(props) {
                           <input name="subject" type="text" className="form-control" id="phone" placeholder="Subject" value={subject} onChange={handleSubject}/>
                           <textarea name="message" rows="5" cols={3} type="text" className="form-control" id="message" placeholder="Your Message" value={description} onChange={handleDescription} required></textarea>
                           {/* <input name="send" type="submit" className="form-control" id="send" value="Send Message" /> */}
-                          {props.isLoading ? <button className='form-control bg-green color-white success-border font-bold m-auto disabled:opacity-50' disabled>Loading...</button>:
-                              <button type="submit" className="form-control bg-green color-white success-border font-bold m-auto cursor-pointer">Send Message</button>
+                          {props.isLoading ? <button className='form-control bg-primary-green color-white success-border font-bold m-auto disabled:opacity-50' disabled>Loading...</button>:
+                              <button type="submit" className="form-control bg-primary-green color-white success-border font-bold m-auto cursor-pointer">Send Message</button>
                           }
                         </form>
                     </div>
@@ -604,11 +609,11 @@ function Website(props) {
               <div className="row">
                 <div className="col-md-12 wow fadeIn" data-wow-delay="0.4s">
                   <p>
-                    Copyright &copy; 2022 Nyeri National Polytechnic Dairy Platform . 
+                    Copyright &copy; 2022 - {getYear()} Nyeri National Polytechnic Dairy Platform . 
                   </p>
                   <p>
                   Powered by <a rel="nofollow noopener" target="_blank" href="https://www.linkedin.com/in/dynamo-denis-mbugua-53304b197/">
-                        Nyeri National Polytechinic
+                        Mabawa Innovations Limited
                     </a>
                   </p>
                   <hr />

@@ -92,7 +92,7 @@ function LandingPage() {
                               <li>Cheese making</li>
                             </ul>
                           </div>
-                          <div><Link to="/trainings-dashboard" className='explore-btn text-center'>Explore</Link></div>
+                          <div><Link to="/trainings-dashboard" className='explore-btn text-center hover:bg-primary-green hover:text-white rounded-md'>Explore</Link></div>
                         </div>
                       </div>
                     </div>
@@ -110,7 +110,7 @@ function LandingPage() {
                               <li>Dairy waste management</li>
                             </ul>
                           </div>
-                          <div><Link to="/research" className='explore-btn text-center'>Explore</Link></div>
+                          <div><Link to="/research" className='explore-btn text-center hover:bg-primary-green hover:text-white rounded-md'>Explore</Link></div>
                         </div>
                         <div className='md:w-1/2'>
                           <div><img src={consultants} alt="" className='object-cover w-full'/></div>
@@ -135,7 +135,7 @@ function LandingPage() {
                               <li>Livestock feeds</li>
                             </ul>
                           </div>
-                          <div><Link to="/marketplace" className='explore-btn text-center'>Explore</Link></div>
+                          <div><Link to="/marketplace" className='explore-btn text-center hover:bg-primary-green hover:text-white rounded-md'>Explore</Link></div>
                         </div>
                       </div>
                     </div>

@@ -121,13 +121,13 @@ function MarketPlaceProducts(props) {
         <div>
           <div className="text-2xl font-medium">
             Welcome, {user?.name}.
-            <div className="text-sm link">Below is a list of available goods and services by our vendors and smes.</div>
+            <div className="text-sm primary-green font-bold">Below is a list of available goods and services by our vendors and smes.</div>
           </div>
         </div>
         {canMarketplaceCreate(user) === true && 
           <div className="flex flex-col md:flex-row justify-between gap-2 md:justify-end md:w-1/2">
             <div className="">
-              <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
+              <button type="button" className="bg-primary-green add-user-btn  rounded-md font-bold text-white text-sm" onClick={openModal}>
                 <LocalGroceryStoreIcon fontSize="small" style={{ color:"white" }}/>
                 <span className="pt-0.5">
                   Add Product
@@ -136,7 +136,7 @@ function MarketPlaceProducts(props) {
             </div>
             <div className="">
               <Link to="/marketplace/products/category">
-                <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm">
+                <button type="button" className="bg-primary-green add-user-btn rounded-md font-bold text-white text-sm">
                   <AddIcon fontSize="small" style={{ color:"white" }}/>
                   <span className="pt-0.5">
                     Add Product Category
@@ -150,7 +150,7 @@ function MarketPlaceProducts(props) {
 
       <div className="flex sm:flex-row justify-between gap-2 pt-2">
         <div className="font-semibold text-xs">
-          <label htmlFor="" className="font-semibold text-sm">
+          <label htmlFor="" className="font-bold text-sm">
             Filter by category
           </label>
           <div>
@@ -195,7 +195,7 @@ function MarketPlaceProducts(props) {
                       ></div>
                     </div>
                     <div className="p-2">
-                      <div className="text-md font-medium">{product.name}</div>
+                      <div className="text-md font-bold">{product.name}</div>
                       <div className="text-sm font-medium">Ksh {product.price_1}</div>
                       <div className="text-xs">
                         <span className="font-semibold">Category:</span>{" "}

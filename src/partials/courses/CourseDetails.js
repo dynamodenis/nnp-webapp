@@ -83,7 +83,7 @@ function CourseDetails(props) {
         </div>
         <div className="w-1/2 md:w-20 md:float-right ">
           <div className="">
-            <button type="button" className="bg-error back-btn rounded-lg text-white text-sm" onClick={goToPreviousPath}>
+            <button type="button" className="bg-primary-gray cancel-btn rounded-md text-white text-sm" onClick={goToPreviousPath}>
               <ArrowBackIcon fontSize="small" style={{ color: "white" }} />
               <span className="pt-0.5">Back</span>
             </button>

@@ -104,11 +104,11 @@ function ResearchCategory(props) {
     <div className="survey_container">
       <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
         <div className="">
-          <div className="w-full py-1 text-xl font-semibold text-gray-500">Research Categories</div>
+          <div className="w-full py-1 text-xl font-bold">Research Categories</div>
         </div>
         <div className="flex flex-row gap-4 justify-between md:justify-end md:w-1/2">
           <div className="">
-            <button type="button" className="bg-error back-btn rounded-lg text-white text-sm" onClick={goToPreviousPath}>
+            <button type="button" className="bg-primary-gray cancel-btn rounded-md text-white text-sm" onClick={goToPreviousPath}>
               <ArrowBackIcon fontSize="small" style={{ color:"white" }}/>
               <span className="pt-0.5">
                 Back
@@ -116,7 +116,7 @@ function ResearchCategory(props) {
             </button>
           </div>
           <div className="">
-            <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm" onClick={openModal}>
+            <button type="button" className="bg-primary-green add-user-btn rounded-md font-bold text-white text-sm" onClick={openModal}>
                 <AddIcon fontSize="small" style={{ color:"white" }}/>
                 <span className="pt-0.5">
                   Add Research Category

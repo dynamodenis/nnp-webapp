@@ -214,12 +214,12 @@ function Appointment(props) {
     <div className="survey_container">
       <div className="flex flex-col-reverse md:flex-row justify-between gap-2">
         <div className="">
-          <div className="w-full py-1 text-xl font-semibold text-gray-500">Consultants Appointments</div>
+          <div className="w-full py-1 text-xl font-bold">Consultants Appointments</div>
         </div>
 
         <div className="flex flex-row gap-4 justify-between md:justify-end md:w-1/2">
           <div className="">
-            <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm" onClick={openModal}>
+            <button type="button" className="bg-primary-green add-user-btn rounded-md text-white text-sm" onClick={openModal}>
                 <EventAvailableIcon fontSize="small" style={{ color:"white" }}/>
                 <span className="pt-0.5 pl-0.5">
                   Create Appointment
@@ -231,7 +231,7 @@ function Appointment(props) {
 
       <div className="flex sm:flex-row justify-between gap-2 pt-2">
         <div className="font-semibold text-xs">
-          <label htmlFor="" className="font-semibold text-sm">
+          <label htmlFor="" className="font-bold text-sm">
             Filter by category
           </label>
           <div>

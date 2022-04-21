@@ -89,7 +89,7 @@ function CoursesHomePage(props) {
         {canTrainingCreate(user) ===  true &&
           <div className="flex flex-col-reverse md:flex-row justify-end">
               <div className="w-full md:w-1/2">
-                  <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm" onClick={openModal}>
+                  <button type="button" className="bg-primary-green add-user-btn rounded-md text-white text-sm font-bold" onClick={openModal}>
                     <AddIcon fontSize="small" style={{ color:"white" }}/>
                     <span className="pt-0.5">
                       Add Training Category

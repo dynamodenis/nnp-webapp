@@ -215,12 +215,12 @@ function EditVendorsForm(props) {
 
             <div className="md:w-36 pt-8 md:float-right ">
               <div className="grid grid-cols-2">
-                <button type="button" className="bg-blue success-btn rounded-md text-white text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>
+                <button type="button" className="bg-primary-gray cancel-btn rounded-md text-white text-sm" onClick={() => props.setIsOpen(!props.modalIsOpen)}>
                   Back
                 </button>
                 {isLoading ? 
-                  <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
-                  <button type="submit" className="bg-green success-btn rounded-md text-white m-auto text-sm" title="Save">Update</button>
+                  <button className='bg-primary-green success-btn rounded-md text-white m-auto disabled:opacity-25' disabled>Loading...</button> :
+                  <button type="submit" className="bg-primary-green success-btn rounded-md text-white m-auto text-sm" title="Save">Update</button>
                 }
               </div>
             </div>

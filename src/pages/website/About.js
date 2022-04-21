@@ -30,10 +30,15 @@ function About() {
     function closeMenu(){
         console.log("close")
     }
-    function openWebapp(){
-      const link = document.querySelector(".login_button--link");
-      const href = link.getAttribute("href");
-      window.open(href, "_blank");
+    // function openWebapp(){
+    //   const link = document.querySelector(".login_button--link");
+    //   const href = link.getAttribute("href");
+    //   window.open(href, "_blank");
+    // }
+    function getYear(){
+        const d = new Date();
+        let year = d.getFullYear();
+        return year
     }
 
   return (
@@ -47,7 +52,7 @@ function About() {
                 <img src={logo} className="logo" alt="Theree cousins energy company logo" />
               </a>
               <button className="login_button btn--mobile-login">
-                <a href="/home" className="login_button--link" target="_blank" onClick={openWebapp}>
+                <a href="/home" className="login_button--link">
                   Login
                 </a>
               </button>
@@ -75,7 +80,7 @@ function About() {
                   </li>
                   <li className="main-nav__item">
                     <button className="login_button">
-                      <a href="/home" className="login_button--link" target="_blank" onClick={openWebapp}>
+                      <a href="/home" className="login_button--link">
                         Login
                       </a>
                     </button>
@@ -153,11 +158,11 @@ function About() {
               <div className="row">
                 <div className="col-md-12 wow fadeIn" data-wow-delay="0.4s">
                   <p>
-                    Copyright &copy; 2022 Nyeri National Polytechnic Dairy Platform . 
+                    Copyright &copy; 2022 - {getYear()} Nyeri National Polytechnic Dairy Platform . 
                   </p>
                   <p>
                   Powered by <a rel="nofollow noopener" target="_blank" href="https://www.linkedin.com/in/dynamo-denis-mbugua-53304b197/">
-                        Nyeri National Polytechinic
+                      Mabawa Innovations Limited
                     </a>
                   </p>
                   <hr />

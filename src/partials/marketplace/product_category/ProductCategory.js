@@ -110,7 +110,7 @@ function ProductCategory(props) {
 
         <div className="flex flex-row gap-4 justify-between md:justify-end md:w-1/2">
           <div className="">
-            <button type="button" className="bg-error back-btn rounded-lg text-white text-sm" onClick={goToPreviousPath}>
+            <button type="button" className="bg-primary-gray cancel-btn rounded-md text-white text-sm font-bold" onClick={goToPreviousPath}>
               <ArrowBackIcon fontSize="small" style={{ color:"white" }}/>
               <span className="pt-0.5">
                 Back
@@ -118,7 +118,7 @@ function ProductCategory(props) {
             </button>
           </div>
           <div className="">
-            <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm" onClick={openModal}>
+            <button type="button" className="bg-primary-green add-user-btn rounded-md font-bold text-white text-sm" onClick={openModal}>
                 <AddIcon fontSize="small" style={{ color:"white" }}/>
                 <span className="pt-0.5">
                   Add Product Category

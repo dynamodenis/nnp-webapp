@@ -71,13 +71,13 @@ function CoursesDashboard(props) {
         <div>
             <div className="text-2xl font-medium">
                 Welcome to {category_name}.
-                <div className="text-sm link">
+                <div className="text-sm primary-green font-bold">
                   Available trainings
                 </div>
             </div>
         </div>
         <div className="w-20 float-right ">
-          <button type="button" className="bg-error back-btn rounded-lg text-white text-sm" onClick={goToPreviousPath}>
+          <button type="button" className="bg-primary-gray cancel-btn rounded-lg text-white text-sm" onClick={goToPreviousPath}>
             <ArrowBackIcon fontSize="small" style={{ color:"white" }}/>
             <span className="pt-0.5 pl-0.5">
                 Back

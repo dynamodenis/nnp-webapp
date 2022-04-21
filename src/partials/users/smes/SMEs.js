@@ -165,7 +165,7 @@ function SMEs(props) {
         </div>
         {canUsersCreate(user) && (
           <div className="w-full md:w-1/2">
-            <button type="button" className="bg-blue add-user-btn rounded-md text-white text-sm" onClick={openModal}>
+            <button type="button" className="bg-primary-green add-user-btn rounded-md text-white text-sm" onClick={openModal}>
               <AddIcon style={{ color: "white" }} fontSize="small" />
               <span className="pt-0.5">Add Smes</span>
             </button>

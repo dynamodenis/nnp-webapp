@@ -97,13 +97,14 @@ function TrainerCourses(props) {
     <div>
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
-          <div className="text-2xl font-semibold">
-            Welcome, {user?.name}.<div className="text-sm link">This are the current uploaded trainings below.</div>
+          <div className="text-2xl">
+            Welcome, {user?.name}.
+            <div className="text-sm font-bold primary-green">This are the current uploaded trainings below.</div>
           </div>
         </div>
         {canTrainingCreate(user) === true && 
           <div className="">
-              <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
+              <button type="button" className="bg-primary-green add-user-btn font-bold rounded-md text-white text-sm" onClick={openModal}>
                 <UploadIcon fontSize="small" style={{ color:"white" }}/>
                 <span className="pt-0.5 pl-0.5">
                   Add Training
@@ -115,7 +116,7 @@ function TrainerCourses(props) {
 
       <div className="flex sm:flex-row justify-between gap-2 pt-2">
         <div className="font-semibold text-xs">
-          <label htmlFor="" className="font-semibold text-sm">
+          <label htmlFor="" className="font-bold text-sm">
             Filter by category
           </label>
           <div>

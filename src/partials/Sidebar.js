@@ -113,7 +113,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, ...props }) {
             </h3>
             <ul className="mt-3">
               {/* Home */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname === "/home" && "nav-yellow"}`}>
+              <li className={`px-3 py-2 rounded-md mb-0.5 last:mb-0 ${pathname === "/home" && "nav-yellow"}`}>
                 <NavLink
                   exact
                   to="/home"
@@ -131,7 +131,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, ...props }) {
               </li>
               {/* training */}
               {canTrainingView(user) && (
-                <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("trainings-dashboard") && "nav-yellow"}`}>
+                <li className={`px-3 py-2 rounded-md mb-0.5 last:mb-0 ${pathname.includes("trainings-dashboard") && "nav-yellow"}`}>
                   <NavLink
                     exact
                     to="/trainings-dashboard"
@@ -159,7 +159,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, ...props }) {
               )}
               {/* Market place */}
               {canMarketplaceView(user) && (
-                <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("marketplace") && "nav-yellow"}`}>
+                <li className={`px-3 py-2 rounded-md mb-0.5 last:mb-0 ${pathname.includes("marketplace") && "nav-yellow"}`}>
                   <NavLink
                     exact
                     to="/marketplace"
@@ -180,7 +180,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, ...props }) {
               )}
               {/* courses */}
               {canTrainingCreate(user) && (
-                <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("/trainer/courses") && "nav-yellow"}`}>
+                <li className={`px-3 py-2 rounded-md mb-0.5 last:mb-0 ${pathname.includes("/trainer/courses") && "nav-yellow"}`}>
                   <NavLink
                     exact
                     to="/trainer/courses"
@@ -198,7 +198,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, ...props }) {
                 </li>
               )}
               {/* consultancy */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("/consultancy") && "nav-yellow"}`}>
+              <li className={`px-3 py-2 rounded-md mb-0.5 last:mb-0 ${pathname.includes("/consultancy") && "nav-yellow"}`}>
                 <NavLink
                   exact
                   to="/consultancy"
@@ -215,7 +215,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, ...props }) {
                 </NavLink>
               </li>
               {/* research */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("/research") && "nav-yellow"}`}>
+              <li className={`px-3 py-2 rounded-md mb-0.5 last:mb-0 ${pathname.includes("/research") && "nav-yellow"}`}>
                 <NavLink
                   exact
                   to="/research"
@@ -232,7 +232,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, ...props }) {
                 </NavLink>
               </li>
               {/* appointments */}
-              <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("/appointments") && "nav-yellow"}`}>
+              <li className={`px-3 py-2 rounded-md mb-0.5 last:mb-0 ${pathname.includes("/appointments") && "nav-yellow"}`}>
                 <NavLink
                   exact
                   to="/appointments"
@@ -250,7 +250,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, ...props }) {
               </li>
               {/* users */}
               {canUsersView(user) && (
-                <li className={`px-3 py-2 rounded-sm mb-0.5 last:mb-0 ${pathname.includes("users") && "nav-yellow"}`}>
+                <li className={`px-3 py-2 rounded-md mb-0.5 last:mb-0 ${pathname.includes("users") && "nav-yellow"}`}>
                   <NavLink
                     exact
                     to="/users"

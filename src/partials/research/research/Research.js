@@ -110,13 +110,14 @@ function Research(props) {
       <div className="flex flex-col sm:flex-row justify-between gap-2">
         <div>
           <div className="text-2xl font-medium">
-            Welcome, {user?.name}.<div className="text-sm link">This are the current uploaded researches done below.</div>
+            Welcome, {user?.name}.
+            <div className="text-sm font-bold primary-green">This are the current uploaded researches, innovations and developments done below.</div>
           </div>
         </div>
         {canResearchCreate(user) === true && 
           <div className="flex flex-row gap-4 justify-between md:justify-end md:w-1/2">
             <div className="">
-              <button type="button" className="bg-blue add-user-btn  rounded-lg text-white text-sm" onClick={openModal}>
+              <button type="button" className="bg-primary-green add-user-btn font-bold rounded-md text-white text-sm" onClick={openModal}>
                 <ScienceIcon fontSize="small" style={{ color:"white" }}/>
                 <span className="pt-0.5">
                   Add Research
@@ -125,7 +126,7 @@ function Research(props) {
             </div>
             <div className="">
               <Link to="/research/category">
-                <button type="button" className="bg-blue add-user-btn rounded-lg text-white text-sm">
+                <button type="button" className="bg-primary-green add-user-btn font-bold rounded-md text-white text-sm">
                   <AddIcon fontSize="small" style={{ color:"white" }}/>
                   <span className="pt-0.5">
                     Research categories
@@ -178,7 +179,7 @@ function Research(props) {
                   <AccountBoxIcon className="text-xs text-slate-500" />
                   <div>
                     {research.trainers?.trainers?.map((trainer, index) => (
-                      <span className="text-xs pl-2" key={index}>{getTrainer(trainer)}{(research.trainers?.trainers?.length > 1) ? "," :""}</span>
+                      <span className="text-xs pl-2" key={index}><span className="font-bold">Researched By: </span>{getTrainer(trainer)}{(research.trainers?.trainers?.length > 1) ? "," :""}</span>
                     ))}
                   </div>
                 </div>
