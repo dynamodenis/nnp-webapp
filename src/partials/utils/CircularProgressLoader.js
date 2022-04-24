@@ -5,7 +5,7 @@ function CircularProgressLoader() {
     return (
         <div className="circular_progress">
             <div className="progress_container">
-                <CircularProgress/>
+                <CircularProgress color="inherit" />
             </div>   
         </div>
     )

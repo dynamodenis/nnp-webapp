@@ -10,14 +10,13 @@ import CategoryIcon from '@mui/icons-material/Category';
 // redux
 import { connect } from "react-redux";
 import { loadTrainingCategory } from "../../redux/actions/training_category";
-import { loadTrainings,loadTrainingTrainers } from "../../redux/actions/training";
+import { loadTrainingsByCategory,loadTrainingTrainers } from "../../redux/actions/training";
 import CircularProgressLoader from "../utils/CircularProgressLoader";
 import NoDataFound from '../utils/NoDataFound';
 function CoursesDashboard(props) {
-  let {categories, loadTrainingCategory, loadTrainings,trainings,loadTrainingTrainers,isLoadingCategories,trainers,isLoading} = props;
+  let {categories, loadTrainingCategory, loadTrainingsByCategory,filtered_trainings,loadTrainingTrainers,isLoadingCategories,trainers,isLoading} = props;
   const category_id = props.match.params.category_id
   const [category_name, setCategoryName] = useState("")
-  const [trainingsList, setTrainingsList] = useState([]);
 
   let history = useHistory();
   const goToPreviousPath = () => {
@@ -25,7 +24,7 @@ function CoursesDashboard(props) {
   }
   useEffect(() => {
     loadTrainingCategory()
-    loadTrainings()
+    loadTrainingsByCategory(category_id)
     loadTrainingTrainers()
   },[])
 
@@ -33,17 +32,6 @@ function CoursesDashboard(props) {
     const category = categories?.filter(cat => cat.id === category_id)
     setCategoryName(category[0]?.name)
   },[category_id])
-
-  // Filter trainings
-  useEffect(() => {
-    const trainings_filtered = trainings?.filter(train => train.category === category_id)
-    console.log("trainings filtered", trainings_filtered)
-    setTrainingsList(trainings_filtered)
-  },[category_id])
-
-  // console.log("categories ", categories)
-  console.log("trainings aftr filter", trainingsList)
-  // console.log("trainers", trainers)
 
   // Get training category
   function getCategory(cat){
@@ -95,10 +83,10 @@ function CoursesDashboard(props) {
           <CircularProgressLoader/>
         ) : (
       <div className="flex flex-col gap-4 pt-8">
-        {trainingsList.length === 0 && <NoDataFound header="No Trainings Found" body="Trainings with this category are currently not available"/> }
-        {trainingsList?.map((training,index) => (
-          <Link to={`/trainings-dashboard/category/${category_id}/training/${training.id}`}>
-            <div className="bg-white border-radius-10 min-height-20vh border-training-card" key={index}>
+        {filtered_trainings.length === 0 && <NoDataFound header="No Trainings Found" body="Trainings with this category are currently not available"/> }
+        {filtered_trainings?.map((training,index) => (
+          <Link to={`/trainings-dashboard/category/${category_id}/training/${training.id}`} key={index}>
+            <div key={index} className="bg-white border-radius-10 min-height-20vh border-training-card" >
               <div className="flex flex-col md:grid md:grid-cols-2 justify-start px-4 py-4 gap-8">
                 <div className="flex flex-col gap-2">
                   <div className="grid grid-cols-2 justify-between">
@@ -117,7 +105,7 @@ function CoursesDashboard(props) {
                     <AccountBoxIcon className="text-xs text-slate-500" />
                     <div>
                       {training.trainers?.trainers?.map((trainer, index) => (
-                        <span className="text-xs pl-2 link" key={index}>{getTrainer(trainer)}{(training.trainers?.trainers?.length > 1) ? "," :""}</span>
+                        <span className="text-xs pl-2 primary-green font-semibold" key={index}>{getTrainer(trainer)}{(training.trainers?.trainers?.length > 1) ? "," :""}</span>
                       ))}
                     </div>
                   </div>
@@ -140,9 +128,9 @@ function CoursesDashboard(props) {
 // get the state
 const mapStateToProps = state =>({
   categories:state.training_category.training_categories,
-  trainings: state.trainings.trainings,
+  filtered_trainings: state.trainings.filtered_trainings,
   isLoading: state.trainings.isLoading,
   trainers: state.trainings.trainers,
   isLoadingCategories:state.training_category.isLoading,
 })
-export default connect(mapStateToProps,{loadTrainingCategory,loadTrainings,loadTrainingTrainers})(withRouter(React.memo(CoursesDashboard)));
+export default connect(mapStateToProps,{loadTrainingCategory,loadTrainingsByCategory,loadTrainingTrainers})(withRouter(React.memo(CoursesDashboard)));

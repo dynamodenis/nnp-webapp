@@ -8,6 +8,7 @@ const initialState = {
     isAdding: false,
     training_category:[],
     trainers:[],
+    filtered_trainings:[],
     training:{}
 }
 
@@ -37,6 +38,12 @@ const trainings  = (state=initialState, action)=>{
             return {
                 ...state,
                 trainings:action.payload.data.trainings || [],
+                isLoading:false
+            }
+        case actions_types.GET_FILTERED_TRAINING_CATEGORY:
+            return {
+                ...state,
+                filtered_trainings:action.payload.data.training || [],
                 isLoading:false
             }
         case actions_types.GET_SINGLE_TRAINING:
@@ -85,6 +92,7 @@ const trainings  = (state=initialState, action)=>{
                 isAdding:false,
                 isUpdating:false,
                 isDeleting:false,
+                filtered_trainings:[]
             }
         default:
             return state

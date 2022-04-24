@@ -81,6 +81,25 @@ export const loadTrainings = () => (dispatch,getState) =>{
         })
 }
 
+// get training action by category
+export const loadTrainingsByCategory = (id) => (dispatch,getState) =>{
+    dispatch({type: actions_types.GETTING_TRAINING});
+    return apiClient.get(`/api/v1/training/filter-by-category/${id}`,configHeader(getState))
+        .then(res=>{
+            dispatch({
+                type:actions_types.GET_FILTERED_TRAINING_CATEGORY,
+                payload:res?.data || []
+            })
+            return "success";
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response?.data, err.response?.status))
+            dispatch({
+                type:actions_types.ACTION_FAIL,
+            })
+        })
+}
+
 // get single trainig action
 export const loadTraining = (id) => (dispatch,getState) =>{
     dispatch({type: actions_types.GETTING_TRAINING});
