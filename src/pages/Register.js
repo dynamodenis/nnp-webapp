@@ -26,6 +26,7 @@ function Register(props) {
     const [confirmPassword, setConfirmPassword] = useState("")
     const [match, setMatch] = useState(true)
     const [type, setType] = useState("")
+    const [otpTo, setOtpTo] = useState("")
 
     const changePhone = event => {
         
@@ -39,6 +40,9 @@ function Register(props) {
     }
     const changeType = event => {
         setType(event.target.value)
+    }
+    const changeOtpTo = event => {
+        setOtpTo(event.target.value)
     }
     const changePassword = event => {
         setPassword(event.target.value)
@@ -88,7 +92,7 @@ function Register(props) {
         e.preventDefault()
         const slice_number = phone.slice(-9);
         const form = {phone:`254${slice_number}`, mail,password, name,"sel": 0,"admin": 0,"status": 1,"type": parseInt(type)}
-        registerUser(form).then( res => {
+        registerUser(form, otpTo).then( res => {
             if(res === "success"){
                 history.push("/verify-user");
             }     
@@ -109,7 +113,7 @@ function Register(props) {
                     <img src={logo} alt="" className='w-20 pt-1 pb-1'/>
                 </div>
                 <ValidatorForm ref={form}  onSubmit={register} autoComplete='off'>
-                    <div className='flex flex-col gap-3 items-center login-fields'>
+                    <div className='flex flex-col gap-1 items-center login-fields'>
                         <div>
                             <label htmlFor="phone" className='text-sm'>Register As</label>
                                 <label className="relative block text-sm md:text-base">
@@ -186,11 +190,25 @@ function Register(props) {
                             </label>
                             { !match && <span className='text-xs error font-bold'>Passwords do not match</span>}
                         </div>
+
+                        <div>
+                            <label htmlFor="phone" className='text-sm'>Send OTP To</label>
+                                <label className="relative block text-sm md:text-base">
+                                <div className="">
+                                    <select name="" id="" value={otpTo} onChange={changeOtpTo} className="text_inputs--pl block bg-white width-17rem border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3" required>
+                                        <option value="" className="text-slate-400">Select option</option>
+                                        <option value="1" className="text-slate-400">Phone Number</option>
+                                        <option value="2" className="text-slate-400">Email Adress</option>
+                                    </select>
+                                </div>
+                            </label>
+                        </div>
+
                     </div>
                     <div>
                         <div className='btn-container flex flex-row m-auto pt-2 width-17rem'>
-                            {isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-75 w-full' disabled>Loading...</button> :
-                                <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto w-full" title="Register"/>
+                            {isLoading ? <button className='bg-primary-green success-btn rounded-md text-white m-auto disabled:opacity-75 w-full' disabled>Loading...</button> :
+                                <Button type="submit" class="bg-primary-green success-btn rounded-md text-white m-auto w-full" title="Register"/>
                             }
                             
                         </div>

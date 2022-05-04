@@ -37,6 +37,8 @@ import { connect } from 'react-redux';
 import Appointments from './pages/appointment/Appointments';
 import Website from './pages/website/Website';
 import About from './pages/website/About';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 function App(props) {
   const location = useLocation();
@@ -67,6 +69,12 @@ function App(props) {
         </Route>
         <Route exact path="/register">
           <Register/>
+        </Route>
+        <Route exact path="/forgot-password">
+          <ForgotPassword/>
+        </Route>
+        <Route exact path="/reset-password">
+          <ResetPassword/>
         </Route>
         <PrivateRoute exact path="/home" component={LandingPage}>
           {/* <LandingPage/> */}

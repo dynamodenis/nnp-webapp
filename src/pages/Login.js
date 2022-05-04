@@ -12,6 +12,7 @@ import {connect} from 'react-redux'
 import {login} from '../redux/actions/auth'
 
 function Login(props) {
+    let {user} = props
     const [id] = useState("");
     const [prm] = useState(2);
     const [name] = useState("")
@@ -63,7 +64,19 @@ function Login(props) {
     }
 
     if (props.isAuthenticated){
-        return <Redirect to="/home" />
+        // check if user is undefined
+        if (user !== 'undefined') {
+            user = JSON.parse(user);
+        } else {
+            user = {}
+        }
+        console.log("login ",user)
+        // check if the have updated their password or not
+        if(user.isFirstLogin === 1){
+            return <Redirect to="/reset-password" />
+        }else {
+            return <Redirect to="/home" />
+        }
     }
 
     return <>
@@ -77,7 +90,7 @@ function Login(props) {
                     <div className='flex flex-col gap-3 items-center login-fields'>
                         <div className='login-fields__div'>
                             <label htmlFor="phone" className='text-sm'>Phone Number</label>
-                                <label className="relative block text-sm md:text-base">
+                            <label className="relative block text-sm md:text-base">
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-2">
                                     <i className="fa fa-phone h-5 w-5 fill-slate-100"></i>
                                 </span>
@@ -98,20 +111,18 @@ function Login(props) {
                                 </span>
                             </label>
                         </div>
-                        {/* <div className='flex flex-row margin-left--6rem  gap-4'>
-                            <div className='space-x-4'>
-                                <input type="checkbox" name='check' className='appearance-none checked:green '/>
-                            </div>
-                            <div>
-                                <label htmlFor="check" className='text-sm'>Keep me logged in</label>
-                            </div>
-                        </div> */}
                     </div>
+                    
                     <div>
                         <div className='btn-container flex flex-row m-auto pt-6'>
-                            {props.isLoading ? <button className='bg-green success-btn rounded-md text-white m-auto disabled:opacity-25 font-bold' disabled>Loading...</button> :
-                                <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto font-bold" title="Login"/>
+                            {props.isLoading ? <button className='bg-primary-green success-btn rounded-md text-white m-auto disabled:opacity-25 font-bold' disabled>Loading...</button> :
+                                <Button type="submit" class="bg-primary-green success-btn rounded-md text-white m-auto font-bold" title="Login"/>
                             }
+                        </div>
+                    </div>
+                    <div className='flex flex-row justify-end gap-4 pt-2 mr-30px'>
+                        <div>
+                            <div htmlFor="check" className='text-xs link'><Link to='/forgot-password'>Forgot Password?</Link></div>
                         </div>
                     </div>
                 </form>
@@ -134,7 +145,8 @@ const mapStateToProps = state =>({
     isAuthenticated:state.auth.isAuthenticated,
     errors:state.errors,
     messages: state.messages,
-    isLoading:state.auth.isLoading
+    isLoading:state.auth.isLoading,
+    user: state.auth.user
 })
 
 export default connect(mapStateToProps,{login})(Login)

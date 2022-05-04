@@ -14,6 +14,7 @@ const auth  = (state=initalState, action)=>{
                 ...state,
                 isLoading:true
             }
+        
         case actions_types.USER_LOADED:
             return{
                 ...state,
@@ -23,6 +24,7 @@ const auth  = (state=initalState, action)=>{
             }
         case actions_types.LOGIN_SUCCESS:
         case actions_types.USER_VERIFICATION:
+            console.log(action.payload)
             localStorage.setItem('Token',action.payload?.token)
             localStorage.setItem('isAuthenticated', true)
             localStorage.setItem('user', JSON.stringify(action.payload))

@@ -40,8 +40,6 @@ export const login = (credentials) => (dispatch)=>{
 
     //User Loading
     dispatch({type: actions_types.USER_LOADING});
-    // console.log(process.env.NODE_TLS_REJECT_UNAUTHORIZED="0");
-      // "proxy": "http://165.232.34.95:3005",
       apiClient.post('/api/v1/user/login',body,config)
     .then(res =>{
         dispatch(createMessage({loginSuccess:'Logged in successfully'}))
@@ -61,7 +59,7 @@ export const login = (credentials) => (dispatch)=>{
 }
 
 // register user
-export const registerUser = (credentials) => (dispatch)=>{
+export const registerUser = (credentials,otpTo) => (dispatch)=>{
     // Set Headers
     const config = {
         headers:{
@@ -72,7 +70,7 @@ export const registerUser = (credentials) => (dispatch)=>{
     const body =JSON.stringify(credentials)
     //User Loading
     dispatch({type: actions_types.USER_LOADING});
-    return apiClient.post('/api/v1/user/user-registration',body,config)
+    return apiClient.post(`/api/v1/user/user-registration/${otpTo}`,body,config)
     .then(res =>{
         dispatch(createMessage({loginSuccess:'Registration successful.'}))
         dispatch({

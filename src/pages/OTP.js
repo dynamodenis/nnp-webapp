@@ -94,7 +94,6 @@ function OTP(props) {
                             className="text_inputs--pl placeholder:text-slate-400 block bg-white w-full border login-inputs border-slate-300 rounded-md py-2 pr-3 text-sm"
                             value={sendTo}
                             onChange={changeSendTo}
-                            required
                             >
                               <option value="">Resend to</option>
                               <option value="hrs">Mobile sms</option>
@@ -107,11 +106,11 @@ function OTP(props) {
                       <div className="w-36 pt-4 md:float-right pr-2 md:pr-5">
                         <div className="grid grid-cols-1">
                             {resendingOtp ? (
-                              <button className="bg-green success-btn font-bold  rounded-md text-white m-auto disabled:opacity-25" disabled>
+                              <button className="bg-primary-green success-btn font-bold  rounded-md text-white m-auto disabled:opacity-25" disabled>
                                   Loading...
                               </button>
                               ) : (
-                              <button type="button" className="bg-green success-btn font-bold rounded-md text-white m-auto text-sm disabled:opacity-50" disabled={!sendTo} onClick={resendCode}>
+                              <button type="button" className="bg-primary-green success-btn font-bold rounded-md text-white m-auto text-sm disabled:opacity-50" disabled={!sendTo} onClick={resendCode}>
                                 Resend
                               </button>
                             )}
@@ -126,11 +125,11 @@ function OTP(props) {
               <div>
                 <div className="btn-container flex flex-row m-auto pt-4">
                   {props.isLoading ? (
-                    <button className="bg-green success-btn rounded-md text-white m-auto disabled:opacity-75 font-bold " disabled>
+                    <button className="bg-primary-green success-btn rounded-md text-white m-auto disabled:opacity-75 font-bold " disabled>
                       Loading...
                     </button>
                   ) : (
-                    <Button type="submit" class="bg-green success-btn rounded-md text-white m-auto font-bold " disabled={!otp} title="Confirm OTP" />
+                    <Button type="submit" class="bg-primary-green success-btn rounded-md text-white m-auto font-bold " disabled={!otp} title="Confirm OTP" />
                   )}
                 </div>
               </div>
