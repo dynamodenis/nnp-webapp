@@ -70,7 +70,6 @@ function Login(props) {
         } else {
             user = {}
         }
-        console.log("login ",user)
         // check if the have updated their password or not
         if(user.isFirstLogin === 1){
             return <Redirect to="/reset-password" />

@@ -171,8 +171,7 @@ export const updatePassword = data => (dispatch, getState) => {
     .then(res => {
       dispatch(createMessage({ itemAdded: "Password successfully updated." }));
       dispatch({
-        type: actions_types.UPDATE_PASSWORD,
-        payload: res?.data,
+        type: actions_types.UPDATE_PASSWORD
       });
       nprogress.done();
       return "success";

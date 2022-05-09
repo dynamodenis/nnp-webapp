@@ -120,7 +120,7 @@ const mapStateToProps = state => ({
   messages: state.messages,
   isLoading: state.auth.isLoading,
   registration: state.auth.registration,
-  resetingPassword: state.users.isAdding,
+  resetingPassword: state.users.isResetting,
 });
 
 export default connect(mapStateToProps, { resetPassword })(ForgotPassword);

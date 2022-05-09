@@ -39,6 +39,7 @@ const auth  = (state=initalState, action)=>{
         case actions_types.AUTH_ERROR:
         case actions_types.LOGIN_FAIL:
         case actions_types.REGISTRATION_FAIL:
+        case actions_types.UPDATE_PASSWORD:
             localStorage.removeItem('Token')
             localStorage.removeItem('isAuthenticated')
             localStorage.removeItem('user')

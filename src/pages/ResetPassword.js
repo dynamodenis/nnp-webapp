@@ -48,24 +48,15 @@ function ResetPassword(props) {
         const body = {
             "id": user?.id,
             "name": user?.name,
-            // "sel": 0,
-            // "admin": 99,
             "mail": user?.email,
-            // "role": "0d85902c-fba3-46fe-97a7-24e7d0d72dec",
-            // "status": 1,
             "password": password,
-            // "created": "2022-02-02 18:47:15",
             "phone": user?.phone,
-            // "otpNumber": 0,
-            // "otpExpiration": 0,
             "firstTimeLogin": 1,
-            // "type": 1,
-            // "roles": null,
-            // "verified": true
         }
-        console.log("data", body)
+       
         try{
             await updatePassword(body).then( res => {
+                console.log("response from reset password ", res)
                 if(res === "success"){
                     history.push("/login");
                 } 
