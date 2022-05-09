@@ -169,7 +169,7 @@ export const updatePassword = data => (dispatch, getState) => {
   return apiClient
     .put("/api/v1/user/updatepassword", data, configHeader(getState))
     .then(res => {
-      dispatch(createMessage({ itemAdded: "Password successfully updated." }));
+      dispatch(createMessage({ itemAdded: "Password successfully updated. Login using your new password." }));
       dispatch({
         type: actions_types.UPDATE_PASSWORD
       });
