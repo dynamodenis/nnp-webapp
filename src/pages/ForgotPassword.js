@@ -55,7 +55,7 @@ function ForgotPassword(props) {
             <ValidatorForm ref={form} onSubmit={reset_Password} autoComplete="off">
               <div className="flex flex-col gap-3 items-center login-fields">
                 <div>
-                  <label htmlFor="phone" className='text-sm'>Send OTP To</label>
+                  <label htmlFor="phone" className='text-sm'>Send Temporary Password To</label>
                       <label className="relative block text-sm md:text-base">
                       <div className="">
                           <select name="" id="" value={otpTo} onChange={changeOtpTo} className="text_inputs--pl block bg-white width-17rem border login-inputs border-slate-300 rounded-md py-2 pl-40 pr-3" required>

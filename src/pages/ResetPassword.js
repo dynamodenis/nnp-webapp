@@ -56,7 +56,6 @@ function ResetPassword(props) {
        
         try{
             await updatePassword(body).then( res => {
-                console.log("response from reset password ", res)
                 if(res === "success"){
                     history.push("/login");
                 } 
@@ -101,7 +100,6 @@ function ResetPassword(props) {
 
     if (props.isAuthenticated){
         // check if the have updated their password or not
-        console.log("update password ", user)
         if(user?.isFirstLogin === 0){
             return <Redirect to="/home" />
         }

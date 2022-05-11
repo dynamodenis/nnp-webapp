@@ -108,6 +108,7 @@ const users  = (state=initialState, action)=>{
                 isAdding:false,
                 isUpdating:false,
                 isDeleting:false,
+                isResetting: false,
             }
         default:
             return state
